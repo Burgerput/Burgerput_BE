@@ -1,0 +1,24 @@
+.footer {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 1rem;
+  z-index: -1;
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact {
+  display: flex;
+  margin-bottom: 0.5rem;
+  gap: 1rem;
+}
+
+.copyright {
+  font-size: 0.9rem;
+  /* color: var(--navbar-background-color); */
+  color: gray;
+  font-weight: bold;
+}

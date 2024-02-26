@@ -1,0 +1,650 @@
+/**
+ * Zenput Cache 2.0
+ *
+ * This implements a caching system into our Backbone objects for use in mobile. To use,
+ * the collection must have a 'cache_key' and must be instantiated with { cache_enabled: true }.
+ *
+ * Normally, fetch() will return local results first, then update the collection with a normal server fetch
+ * (and an update to the cache) after that. However, if fetch is called with { force: true } or one of the attributes
+ * in cache_disable_url_params (or 'search_query') has a truthy value in the paginator, the fetch will bypass the cache
+ * and return results directly from the server without updating the cache (unless the device is offline or the server
+ * call fails).
+ *
+ * For an illustration of this mechanism, see:
+ * https://cloud.githubusercontent.com/assets/960744/12154884/0bdda3ba-b477-11e5-997d-f8f6f44e4894.jpg
+ *
+ * For more information about how we are replacing Backbone.Collection, see here:
+ * https://lostechies.com/derickbailey/2013/07/29/prototypes-constructor-functions-and-taxidermy/
+ */
+
+var patch_backbone = function (Backbone) {
+    var OriginalCollection = Backbone.Collection;
+    var CacheableCollection = OriginalCollection.extend({
+        cache_enabled: false, // must set to true when instantiating cache-able collections. Othwerwise, cache not used
+        cache_key: null, // the key we will store this cache under in local storage
+        cache_fetch_limit: 100, // how many results we should fetch from the server when we update our cache
+        cache_merge_on_fetch: false, // if true, use the specified fetch's limit (instead of cache_fetch_limit
+        // - unless filling cache for first time) when fetching from server
+        cache_max: 0, // set to null or zero for infinite
+        cache_ttl: 3600000, // do not refill the cache if fetching before this time (default 1 hour)
+        // (@see $f.mobile.cache.metadata_for(this_.cache_key).last_cache_refill)
+        cache_disable_url_params: [], // We will avoid the cache if any of these are specified in our paginator
+        // By deafult, we include 'search_query' here.
+
+        constructor: function (models, options) {
+            options = options || {};
+            if (options.cache_enabled) {
+                this.cache_enabled = options.cache_enabled;
+            }
+            if (options.cache_key) {
+                this.cache_key = options.cache_key;
+            }
+            if (options.cache_max) {
+                this.cache_max = options.cache_max;
+            }
+
+            // By default, we'll also ignore 'search_query' requests
+            if (!_.contains(this.cache_disable_url_params, 'search_query')) {
+                this.cache_disable_url_params.push('search_query');
+            }
+
+            return OriginalCollection.apply(this, arguments);
+        },
+
+        /**
+         * Even if this.cache_merge_on_fetch is not true, we may want to adopt the same behavior if we're paginating.
+         * This means the cache will be replaced the next time have a start=0, but additional results will be merged in
+         * as we paginate.
+         */
+        _is_cache_merge_on_fetch: function () {
+            if (this.paginator && this.paginator.get('start') > 0) {
+                return true;
+            }
+
+            return this.cache_merge_on_fetch;
+        },
+
+        _fetch_local: function (options, success, error) {
+            var this_ = this;
+            success || (success = function () {});
+            error || (error = function () {});
+
+            $f.mobile.cache.get(
+                this.cache_key,
+                function (results) {
+                    if (!results) {
+                        return error();
+                    }
+                    results = this_.parse_cached_json(results);
+
+                    // If there's a search query set, filter results using filter_results_for_local_search():
+                    if (this_.paginator.get('search_query')) {
+                        results = this_.filter_results_for_local_search(results, this_.paginator.get('search_query'));
+                    }
+
+                    results = this_.filter_cache_fetch(results);
+
+                    var start = this_.paginator.get('start');
+                    var limit = this_.paginator.get('limit');
+                    var results_set = results.slice(start, start + limit);
+
+                    // @author:david this should probably respect Backbone's add:true/remove:false rules,
+                    // but that's too scary of a change for now
+                    if (start === 0) {
+                        this_.reset(results_set);
+                    } else {
+                        this_.add(results_set);
+                    }
+
+                    success(this_);
+                },
+                error
+            );
+        },
+
+        /**
+         * Update our cache with new results.
+         */
+        _persist_to_cache: function (callback) {
+            if (!this.cache_key) {
+                return callback();
+            }
+            var this_ = this;
+
+            var _save_cache = function (json_to_save) {
+                if (this_.cache_max) {
+                    json_to_save = json_to_save.slice(0, this_.cache_max);
+                }
+
+                // no need to wait for cache save to finish before calling callback; js cache will return result immediately, not waiting prevents timing issues
+                $f.mobile.cache.set(this_.cache_key, json_to_save);
+                this_.trigger('cache_updated', this_);
+                callback();
+            };
+
+            var this_json = this.to_cacheable_json();
+
+            // don't need to worry about merging into our cache; instead, we'll just replace the whole thing
+            if (!this._is_cache_merge_on_fetch()) {
+                return _save_cache(this_json);
+            }
+
+            // merge these new results into the cache instead of fully replacing it
+            $f.mobile.cache.get(this.cache_key, function (cached_json) {
+                if (!cached_json || cached_json.length == 0) {
+                    return _save_cache(this_json);
+                }
+
+                _.each(this_json, function (this_json_item) {
+                    var cached_json_item = _.find(cached_json, function (_cached_json_item) {
+                        return _cached_json_item.id === this_json_item.id;
+                    });
+
+                    if (cached_json_item) {
+                        _.extend(cached_json_item, this_json_item); // update
+                    } else {
+                        cached_json.push(this_json_item); // add
+                    }
+                });
+
+                _save_cache(cached_json); // save back to disk
+            });
+        },
+
+        /**
+         * Used by fetch() to filter results found in our local cache. By default, we filter using the
+         * this.typeahead_search_attrs.
+         *
+         * @param  {array[json]} results_json    The results to filter
+         * @return {array[json]}                 The filtered results.
+         */
+        filter_results_for_local_search: function (results_json, query) {
+            query = $f.utils.escape_for_regex(query.toLowerCase());
+
+            if (!this.typeahead_search_attrs || this.typeahead_search_attrs.length == 0) {
+                console.error(
+                    `Programmer Error: ${this.cache_key} collection does not contain typeahead_search_attrs when trying to search cache.`
+                );
+                return results_json;
+            }
+
+            var this_ = this;
+            return $.grep(results_json, function (json_model, i) {
+                var pass = false;
+                $.each(this_.typeahead_search_attrs, function (j, search_attr) {
+                    var attr_value = json_model[search_attr];
+
+                    if (!attr_value) {
+                        return true; // continue
+                    }
+
+                    if (attr_value.toLowerCase().indexOf(query.toLowerCase()) === -1) {
+                        return true; // continue
+                    }
+
+                    pass = true;
+                    return false; // break
+                });
+
+                return pass;
+            });
+        },
+
+        /**
+         * Filter results that we fetch from the local cache, when searching and when not. For example,
+         * Accounts will use this to reorder the results by location.
+         * @param  {object} results_json JSON results, fetched from the cache, before they're passed back to the Backbone front-end.
+         * @return {object}              A filtered/modified version of results_json.
+         */
+        filter_cache_fetch: function (results_json) {
+            return results_json;
+        },
+
+        /**
+         * If using local storage (i.e., cache_key is set):
+         *
+         * a) Unless searching or force=true, return results from local cache, then update cache/collection with results from server.
+         * b) If error (e.g., offline), just try to return local results.
+         *
+         * The following additional callbacks are available, in addition to Backbone's defaults:
+         *
+         * pre_online_fetch(done):  called after fetching from cache (if available) and before serverside fetch. Must call done() when finisehd.
+         * online_success():        called after a successful server fetch (and possible persist-to-cache). Note: this will be called in addition to success()
+         * online_error():         called after a failed server fetch. Note: this may be called in addition to error()
+         */
+        fetch: function (options) {
+            if (options && options.complete) {
+                console.error('AJAX complete callback not supported on Zenput mobile.');
+            }
+
+            if (!this.cache_enabled || $f.mobile.debugging.get_flag('disable_cache')) {
+                return CacheableCollection.__super__.fetch.apply(this, arguments);
+            }
+
+            if (!this.cache_key) {
+                console.error('Programmer Error: Collection does not have cache_key. Falling back to normal fetch.');
+                return CacheableCollection.__super__.fetch.apply(this, arguments);
+            }
+
+            if (!this.paginator) {
+                console.error('Programmer Error: Collection does not have paginator. Falling back to normal fetch.');
+                return CacheableCollection.__super__.fetch.apply(this, arguments);
+            }
+
+            // @author:david rather than just bailing, should we accomodate for this by changing our cache_fetch_limit to
+            // something higher (e.g., this.paginator.get('start') + this.paginator.get('limit')) automatically? @jira:MOBILE-622
+            // we don't want to use the cache if we're fetching more than our fetch limit
+            if (
+                !this._is_cache_merge_on_fetch() &&
+                this.paginator.get('start') + this.paginator.get('limit') > this.cache_fetch_limit
+            ) {
+                return CacheableCollection.__super__.fetch.apply(this, arguments);
+            }
+
+            // if the upper limit is greater than the amount we're caching, fetch from server because we won't have the data cached
+            if (this.paginator.get('start') + this.paginator.get('limit') > this.cache_fetch_limit) {
+                options.force = true; // we've used all we can from the cache, let's fetch everything from the server now
+            }
+
+            options = options || {};
+            options.success = options.success || function () {};
+            options.error = options.error || function () {};
+
+            // Our add-on callbacks:
+            options.pre_online_fetch =
+                options.pre_online_fetch ||
+                function (done) {
+                    done();
+                };
+            options.online_success = options.online_success || function () {};
+            options.online_error = options.online_error || function () {};
+
+            var this_ = this;
+            var arguments_ = arguments;
+
+            var fetched_online = false; // have we fetched from the server yet?
+            var results_sent = false; // have we called our success callback with any results (cached or otherwise) yet?
+            var previously_failed_online = false; // have we previously failed to fetch online? Used to prevent infinite loop
+
+            // We need to record this now so we know later on in our fetch process.
+            // Can't ask for it from the paginator later, because it may have changed
+            var skip_cache = false;
+            if (this.paginator) {
+                _.each(this.cache_disable_url_params, function (key) {
+                    if (this_.paginator.get(key)) {
+                        skip_cache = true;
+                    }
+                });
+            }
+
+            /**
+             * Fetch online. This could be called a) directly from fetch, b) as a followup after
+             * fetch_offline, or c) as a fallback to a failed fetch_offline.
+             */
+            var fetch_online = function (prevent_fallback_to_local) {
+                if (fetched_online) {
+                    return;
+                } // If we've already done this, break the loop
+
+                // Update our cache when we fetch online successfully. Can't do this in sync()
+                // because we don't want to cache results for search queries. (Note: _persist_to_cache()
+                // will know not to persist if performing search.)
+                var _success = options.success;
+                options.success = function (collection, response) {
+                    fetched_online = true;
+
+                    var success_this_ = this;
+                    var success_args_ = arguments;
+
+                    var on_persisted_to_cache = function () {
+                        options.online_success();
+
+                        // we don't want all 1000 results in our collection now that we've saved to the cache
+                        this_.reset(this_.first(this_.paginator.get('start') + this_.paginator.get('limit')));
+
+                        if (results_sent) {
+                            return;
+                        }
+
+                        results_sent = true;
+                        _success.apply(success_this_, success_args_);
+                    };
+
+                    if (skip_cache) {
+                        on_persisted_to_cache();
+                        return;
+                    }
+
+                    this_._persist_to_cache(on_persisted_to_cache);
+                };
+
+                // If we fail to fetch online, fall back to our cache.
+                var _error = options.error;
+                options.error = function (collection, response) {
+                    if (previously_failed_online) {
+                        return; // prevent infinite loop of error()
+                    }
+
+                    previously_failed_online = true;
+                    options.online_error();
+
+                    if (!prevent_fallback_to_local) {
+                        fetch_offline(() => {
+                            if (results_sent) {
+                                // broadcast that we failed to fetch from server even though we called success() with cached results
+                                this_.trigger('server_fallback_failed', this_);
+                                return;
+                            }
+
+                            _error.apply(this, arguments);
+                        }); // only fall back to local if we weren't able to fetch
+                        return;
+                    }
+
+                    return _error.apply(this, arguments);
+                };
+
+                if (skip_cache) {
+                    CacheableCollection.__super__.fetch.apply(this_, arguments_);
+                    return;
+                }
+
+                $f.mobile.storage.keys(function (keys) {
+                    // unfortunately we need to do this to check if we have a cache set up yet
+                    // We're not searching for a query, so we're fetching to refill the cache. Set the limit to our cache_fetch_limit temporarily
+                    var original_limit = this_.paginator.get('limit');
+
+                    // normally, we will set the limit to cache_fetch_limit to replenish our cache; however,
+                    // we will not do this if cache_merge_on_fetch is true and we have already cached some results.
+                    // @todo @author:david if our limit is actually higher than our cache_fetch_limit, we should probably keep the original limit
+                    if (!this_._is_cache_merge_on_fetch() || !_.contains(keys, this_.cache_key)) {
+                        this_.paginator.set('limit', this_.cache_fetch_limit);
+
+                        // we need reset=true for Backbone to properly overwrite everything when we get everything back
+                        options.reset = true;
+                    }
+
+                    // Also, update _last_cache_refill timestamp once we refill cache
+                    var __success = options.success;
+                    options.success = function (collection, response) {
+                        $f.mobile.cache.metadata_for(this_.cache_key).last_cache_refill = new Date();
+                        __success.apply(this, arguments);
+                    };
+
+                    if (options.pre_online_fetch.length == 0) {
+                        // caller is not using a done() callback, call fetch() immediately after
+                        options.pre_online_fetch();
+                        CacheableCollection.__super__.fetch.apply(this_, arguments_);
+                    } else {
+                        options.pre_online_fetch(function () {
+                            // pass in fetch as callback
+                            CacheableCollection.__super__.fetch.apply(this_, arguments_);
+                        });
+                    }
+
+                    this_.paginator.set('limit', original_limit);
+                });
+            };
+
+            /**
+             * Fetch from local cache. This could be called a) directly from fetch(), or b) as a fallback
+             * for fetch_online.
+             */
+            var fetch_offline = function (callback = () => {}) {
+                if (results_sent) {
+                    // offline fetch should never be a fallback/2nd try.
+                    callback();
+                    return;
+                }
+
+                // Return local results if available, then fetch from server to update cache
+                this_._fetch_local(
+                    options,
+                    function (collection) {
+                        options.success(collection);
+                        this_.trigger('cachesync', this_);
+                        this_.trigger('sync', this_);
+
+                        // don't call callbacks a second time after the server fetch
+                        results_sent = true;
+                        options.success = function () {};
+                        options.error = function () {};
+                        options.complete = function () {};
+
+                        // Don't fetch online if prefer_offline is true
+                        if (options.prefer_offline) {
+                            callback();
+                            return;
+                        }
+
+                        // Don't fetch online for a cache refill if we've done that less than a minute ago
+                        var lcr = $f.mobile.cache.metadata_for(this_.cache_key).last_cache_refill;
+                        if (lcr && new Date().getTime() - lcr.getTime() <= this_.cache_ttl) {
+                            callback();
+                            return;
+                        }
+
+                        fetch_online();
+                        callback();
+
+                        // If failed, go straight to server as normal
+                    },
+                    function () {
+                        fetch_online(true);
+                        callback();
+                    }
+                );
+            };
+
+            // If force=true or performing search, just fetch from the server. If server unavailable,
+            // this will fall back to the local cache, but otherwise not.
+            if (options.force || skip_cache) {
+                return fetch_online();
+            }
+
+            fetch_offline();
+        },
+
+        clear: function (options) {
+            options = options || {};
+            options.clear_from_disk = options.clear_from_disk !== false;
+
+            if (this.cache_key && options.clear_from_disk) {
+                // this normally takes a callback, but the clear() we're in is syncronous. Oh well.
+                $f.mobile.cache.clear(this.cache_key);
+            }
+
+            CacheableCollection.__super__.clear.apply(this, arguments);
+        },
+
+        /**
+         * Serialize the collection data for use in the cache. By default, this just returns toJSON(), but subclasses
+         * may override this if they need to save extra data.
+         */
+        to_cacheable_json: function () {
+            return this.toJSON();
+        },
+
+        /**
+         * Deserialize the collection data that was saved to the cache (@see to_cacheable_json()) in a way that is
+         * consumeable by Backbone. By default, this just returns the data as-is, but subclasses may override if
+         * they need to extract additional data.
+         */
+        parse_cached_json: function (data) {
+            return data;
+        }
+    });
+
+    Backbone.Collection = CacheableCollection;
+
+    var OriginalModel = Backbone.Model;
+    var CacheableModel = OriginalModel.extend({
+        cache_enabled: false,
+        cache_key: null,
+
+        // this ttl re-fetch behavior does not persist across page re-loads as the metadata for it is stored in memory
+        cache_ttl: 3600000,
+
+        fetch: function (options) {
+            if (this.cache_enabled && !this.cache_key) {
+                console.error('Programmer Error: model instantiated with cache_enabled=true but no cache_key');
+            }
+
+            if ($f.mobile.debugging.get_flag('disable_cache') || !this.cache_enabled || !this.cache_key) {
+                return CacheableModel.__super__.fetch.apply(this, arguments);
+            }
+
+            options = options || {};
+            options.success = options.success || function () {};
+            options.error = options.error || function () {};
+
+            // always fetch from server when force is true
+            if (options.force) {
+                this._fetch_from_server(options);
+                return false;
+            }
+            // if ttl is not up yet, don't fetch from server
+            var lcr = $f.mobile.cache.metadata_for(this.cache_key).last_cache_refill;
+            if (lcr && new Date().getTime() - lcr.getTime() <= this.cache_ttl) {
+                this._fetch_local(options);
+                return false;
+            }
+
+            this._fetch_from_server(options);
+        },
+
+        /**
+         * Update the last cache refill to either a specified date, or now.
+         *
+         * @param  {Date} date The date to use for the last refill. To invalidate cache, use null.
+         */
+        _update_cache_last_cache_refill: function (date) {
+            if (typeof date === 'undefined') {
+                // we need to allow 'null' as a way to invalidate the cache
+                date = new Date();
+            }
+
+            $f.mobile.cache.metadata_for(this.cache_key).last_cache_refill = date;
+        },
+
+        _fetch_from_server: function (options) {
+            var this_ = this;
+
+            options = options || {};
+            options.success = options.success || function () {};
+            options.error = options.error || function () {};
+
+            // let's set this now, so that if the cache is out of date and we have 2+ successive model.get()s, we don't
+            // actually fetch twice. If this requests fails, we can set it back so that the next fetch tries again.
+            this._update_cache_last_cache_refill();
+
+            // when successfull persist to cache
+            var _success = options.success;
+            options.success = function () {
+                this_._update_cache_last_cache_refill(); // still need to do this here, even though we did it at the start
+                // of fetch(), just in case we had failed between then and now.
+
+                // don't need to call _persist_to_cache() from here, because this will happen when
+                // Backbone calls set() internally
+                _success.apply(this, arguments);
+            };
+
+            var _error = options.error;
+            options.error = function () {
+                var error_this = this;
+                var error_args = arguments;
+
+                // Force the cache to be out of date to force us to try again next time
+                this_._update_cache_last_cache_refill(null);
+
+                this_._fetch_local({
+                    success: function (model) {
+                        options.success(model);
+                    },
+                    error: function () {
+                        _error.apply(error_this, error_args);
+                    }
+                });
+            };
+            // this was changed from fetch.apply because when i stepped in the
+            // fetch call on the base class options wasn't being defined so
+            // the error callback was lost
+            return CacheableModel.__super__.fetch.bind(this)(options);
+        },
+
+        _fetch_local: function (options) {
+            var this_ = this;
+            options = options || {};
+            options.success = options.success || function () {};
+            options.error = options.error || function () {};
+
+            $f.mobile.cache.get(this.cache_key, function (result) {
+                if (!result) {
+                    return options.error();
+                }
+
+                CacheableModel.__super__.set.call(this_, result);
+                this_.trigger('cachesync', this_);
+                this_.trigger('sync', this_);
+                return options.success(this_);
+            });
+        },
+
+        _persist_to_cache: function (callback) {
+            callback = callback || function () {};
+
+            $f.mobile.cache.set(this.cache_key, this.toJSON());
+            // update last_cache_refill timestamp once we update cache
+            this._update_cache_last_cache_refill();
+            // trigger cached_updated event
+            this.trigger('cache_updated', this);
+
+            return callback();
+        },
+
+        get: function (key) {
+            if (this.cache_enabled) {
+                this.fetch();
+            }
+
+            return CacheableModel.__super__.get.apply(this, arguments);
+        },
+
+        set: function (key, val) {
+            var super_return = CacheableModel.__super__.set.apply(this, arguments);
+            if (this.isNew()) {
+                return super_return;
+            }
+
+            if (this.cache_enabled) {
+                this._persist_to_cache();
+            }
+
+            return super_return;
+        },
+
+        clear: function (options) {
+            options = options || {};
+            options.clear_from_disk = options.clear_from_disk !== false;
+
+            if (this.cache_key && options.clear_from_disk) {
+                // this normally takes a callback, but the clear() we're in is syncronous. Oh well.
+                $f.mobile.cache.clear(this.cache_key);
+            }
+
+            CacheableModel.__super__.clear.apply(this, arguments);
+        }
+    });
+
+    Backbone.Model = CacheableModel;
+};
+
+if (typeof module !== 'undefined') {
+    // We are loading through require() (probably Jest)
+    module.exports = patch_backbone;
+} else {
+    // We are loading through HTML. We can't require() this because it needs to happen before our application code starts
+    // extending window.Backbone, but after we have loaded window.Backbone itself. Eventually when we start require()ing
+    // Backbone through package.json, we won't have this problem. // @todo:es6
+    patch_backbone(window.Backbone);
+}

@@ -1,0 +1,82 @@
+.product {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--navbar-background-color);
+  padding: 0 0.5rem;
+  padding-bottom: 1rem;
+  color: var(--navbar-background-color);
+  font-size: large;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputBox {
+  display: flex;
+  position: relative;
+  align-items: center;
+  height: 3rem;
+}
+
+.warning {
+  font-size: 0.8rem;
+  margin-top: 1.5rem;
+  margin-right: 0.5rem;
+  color: #eed202;
+}
+
+.missing {
+  margin-top: 1.5rem;
+  margin-right: 0.7rem;
+  font-size: 0.9rem;
+  color: var(--color-missing);
+}
+
+.input {
+  border: 1px solid var(--navbar-background-color);
+  border-radius: 4px;
+  height: 3rem;
+  background-color: transparent;
+  text-align: end;
+  width: 6rem;
+  padding-right: 0.2rem;
+  color: var(--navbar-background-color);
+  font-size: large;
+}
+
+.input__missing {
+  border: 1px solid var(--color-missing);
+  border-radius: 4px;
+  height: 3rem;
+  background-color: transparent;
+  text-align: end;
+  width: 6rem;
+  padding-right: 0.2rem;
+  color: var(--color-missing);
+  font-size: large;
+}
+
+.temp {
+  font-size: small;
+  padding-right: 0.3rem;
+  font-weight: 700;
+}
+
+.text {
+  font-size: 1.3rem;
+}
+
+.text__temp {
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.text__temp__missing {
+  color: var(--color-missing);
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}

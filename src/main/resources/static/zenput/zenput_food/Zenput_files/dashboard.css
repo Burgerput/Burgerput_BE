@@ -1,0 +1,975 @@
+/* Mobile Dashboard v2 */
+
+.dashboard_card .dashboard_card_title {
+    margin: 0px;
+    padding: 8px 16px;
+    line-height: 24px;
+    font-weight: 500;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #3b4850;
+    display: block;
+    position: relative;
+}
+
+.dashboard_card .dashboard_card_subtitle {
+    font-size: 10px;
+    float: right;
+    padding: 12px 0px;
+    color: #9fa7ab;
+}
+
+.dashboard_card .dashboard_card_filter {
+    float: right;
+    text-align: right;
+    padding: 8px;
+}
+
+.dashboard_card .dashboard_card_header {
+    border-bottom: 1px solid #f2f7fa;
+}
+
+.dashboard_card .dashboard_card_header .zp_autocomplete.fake_input {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding: 0 16px 0 16px;
+    min-height: 24px;
+    background-color: #ffffff;
+    color: #d1d1d1 !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.dashboard_card .dashboard_card_header .r_form_templates_typeahead {
+    position: relative;
+}
+
+.dashboard_card .dashboard_card_header .df-arrow-down {
+    position: absolute;
+    right: 8px;
+    top: 6px;
+    font-size: 16px;
+}
+
+.dashboard_card .dashboard_card_header .df-info {
+    left: 2px;
+    position: relative;
+    color: inherit;
+}
+
+.dashboard_card .dashboard_card_header .df-info.hidden {
+    display: none;
+}
+
+.dashboard_card a.dashboard_card_title:before {
+    content: '\f176'; /* df-arrow-right */
+    font-family: 'Donkeyfont';
+    display: block;
+    position: absolute;
+    right: -4px;
+    font-weight: normal;
+    font-size: 24px;
+    color: #3b4850;
+}
+
+.mobile_dashboard_page.logbook .top_items_card_row_title {
+    font-size: 14px;
+}
+
+.mobile_dashboard_page.logbook .loogbook_detail_row .top_items_card_column_value,
+.top_items_table .loogbook_detail_row .top_items_card_column_value {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.mobile_dashboard_page.logbook .loogbook_detail_row .top_items_card_column_value i,
+.top_items_table .loogbook_detail_row .top_items_card_column_value i {
+    font-size: 24px;
+}
+
+.top_items_table .loogbook_detail_row .top_items_card_column_value {
+    color: #3b4850;
+}
+.mobile_dashboard_page.logbook .top_items_card_column_value i {
+    margin-right: -8px;
+}
+
+.mobile_dashboard_page.logbook .top_items_card_column_value .mtp_tasks {
+    color: #007dbc;
+    font-weight: 400;
+}
+
+.top_items_table .top_items_card_column_value.red_column {
+    color: #de3c2f;
+}
+
+.top_items_table .loogbook_detail_row.selected,
+.top_items_table .top_items_card_header.selected {
+    background-color: #169dd9 !important;
+    border-bottom-color: #169dd9;
+}
+
+.top_items_table .loogbook_detail_row.selected .top_items_card_column_value,
+.top_items_table .top_items_card_header.selected,
+.top_items_table .top_items_card_header.selected .header_label,
+.top_items_table .top_items_card_header.selected .header_subtitle {
+    color: white;
+}
+
+.dashboard_card .top_items_card_header .header_subtitle {
+    color: #d1d1d1;
+    font-size: 8px;
+    line-height: 10px;
+    margin-bottom: 2px;
+}
+
+.dashboard_card .project_recurring_aggregate.logbook .top_items_card_header .header_subtitle {
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.dashboard_card .top_items_card_header .header_label {
+    color: #3b4850;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.dashboard_card .project_recurring_aggregate.logbook .top_items_card_header .header_label {
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.dashboard_card .tasks_completion_rate {
+    border-bottom: 1px solid #f2f7fa;
+    padding-bottom: 8px;
+}
+
+.dashboard_card .tasks_completion_rate .dashboard_card_component_body {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.dashboard_card .project_recurring_aggregate.logbook .logbook_table_container .zp_table {
+    table-layout: fixed;
+}
+
+.dashboard_card .project_recurring_aggregate.logbook .top_items_table .logbook_sticky_column {
+    position: sticky;
+    left: 0px;
+    top: auto;
+    background: white;
+    width: 160px;
+    padding-right: 16px;
+    padding-left: 16px;
+    box-sizing: content-box;
+}
+
+@media screen and (min-width: 600px) {
+    .dashboard_card .project_recurring_aggregate.logbook .top_items_table .logbook_sticky_column {
+        width: 240px;
+    }
+}
+
+.dashboard_card .project_recurring_aggregate.logbook .logbook_scroller {
+    overflow-x: scroll;
+    overflow-y: hidden; /* needed to prevent vertical scroll on iOS */
+    -webkit-overflow-scrolling: auto; /* nested overflow-scrolling needs to be overriden  1/2 */
+    overflow-scrolling: auto; /* because it creates a stacking context 2/2 */
+}
+
+.dashboard_card .project_recurring_aggregate.logbook.infinite_scroll_loading .logbook_scroller {
+    overflow: hidden;
+}
+
+.dashboard_card .project_recurring_aggregate.logbook .logbook_scroller.logbook_scroller_full_width {
+    margin-left: 0px !important;
+    position: relative;
+}
+
+.dashboard_card .project_recurring_aggregate.logbook {
+    position: relative;
+}
+.dashboard_card
+    .project_recurring_aggregate.logbook.infinite_scroll_loading
+    .logbook_infinite_scroll_spinner_container {
+    position: absolute;
+    background: #f5f5f5;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    opacity: 0.6;
+}
+.dashboard_card .project_recurring_aggregate.logbook .logbook_table_container {
+    display: inline-block;
+    vertical-align: middle;
+}
+.dashboard_card .project_recurring_aggregate.logbook.infinite_scroll_loading .loading_spinner {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    top: calc(50% - 24px);
+    left: calc(50% - 24px);
+}
+
+.dashboard_card .logbook_for_tasks {
+    margin-bottom: -1px; /* make the selected td have no border */
+}
+
+.dashboard_card .logbook_for_tasks th {
+    text-align: center !important;
+}
+
+.dashboard_card .logbook_for_tasks th .header_label {
+    min-width: 30px;
+}
+
+.tasks_dashboard_cards_container .infinite_scroll_loading {
+    padding: 0px !important;
+}
+
+.dashboard_card .tasks_card_title {
+    padding-left: 16px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #3b4850;
+}
+
+.dashboard_card .task_status_items {
+    padding: 16px 16px 16px 6px;
+    display: flex;
+    -webkit-display: flex;
+    -moz-display: flex;
+    -ms-display: flex;
+    -o-display: flex;
+    text-align: center;
+    position: relative;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    -o-justify-content: center;
+}
+
+.mobile_dashboard_page .dashboard_card_collection {
+    margin-bottom: 60px;
+}
+
+.mobile_dashboard_page .dashboard_card_collection .dashboard_card.card {
+    border-radius: 4px;
+}
+
+.mobile_dashboard_page .tasks .dashboard_card_collection {
+    margin-bottom: 0;
+}
+
+.mobile_dashboard_page .tasks .search_bar .df-remove-circle {
+    right: 66px;
+    top: 0;
+}
+
+/**
+ * Weird bug with IE 11 doesn't like justify-content, so let's just live with
+ * left-aligned cards.
+ */
+.dashboard_card .tasks_team_due:not(.ie) {
+    justify-content: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    -ms-justify-content: center;
+    -o-justify-content: center;
+}
+
+.dashboard_card .tasks_team_stat {
+    margin: 0px 8px;
+    display: inline-block;
+    vertical-align: top;
+    flex: 1;
+    min-width: 60px;
+    max-width: 150px;
+    min-height: 48px;
+}
+
+.dashboard_card .task_link {
+    position: relative;
+    text-decoration: none;
+    min-height: 100%;
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+    border-width: 2px;
+    border-style: solid;
+    color: #3b4850;
+    display: inline-block;
+    word-break: break-word;
+}
+
+.dashboard_card .task_link.overdue {
+    border-color: #f33155;
+}
+
+.dashboard_card .task_link.due_today {
+    border-color: #ffc857;
+}
+
+.dashboard_card .task_link.due_week {
+    border-color: #169dd9;
+}
+
+.dashboard_card .task_link.due_month {
+    border-color: #eff3f6;
+    background-color: #eff3f6;
+}
+
+.dashboard_card .task_link.no_due_green {
+    border-color: #33cc99;
+    font-size: 30px;
+}
+
+.dashboard_card .task_link .task_link_title {
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.dashboard_card .task_link .task_link_value {
+    font-size: 20px;
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 2px;
+    font-weight: 500;
+}
+
+.dashboard_card .task_link .task_link_value.df-success {
+    font-size: 24px;
+    height: 24px;
+    padding: 0;
+    display: block;
+    margin-top: 4px;
+    color: #33cc99;
+}
+
+.dashboard_card .task_link.hidden,
+.task_link.hidden .df-success {
+    color: #ececec;
+}
+
+.dashboard_card .down_state {
+    text-align: center;
+    padding: 16px;
+    white-space: normal;
+    line-height: 1.5em;
+}
+
+.dashboard_card .down_state i {
+    font-size: 80px;
+}
+
+/**  Task Completion Rate Body View **/
+
+.dashboard_card .subgroup .tasks_completion_rate .left_pane {
+    width: 36%;
+    top: -78px;
+}
+
+.dashboard_card .tasks_completion_rate .graph_name {
+    margin-top: 8px;
+}
+
+.dashboard_card .tasks_completion_rate .chart_legend {
+    font-size: 0.625em;
+    z-index: 10;
+    position: relative;
+    display: block;
+    top: 8px;
+}
+
+.dashboard_card .tasks_completion_rate .chart_legend i {
+    margin-right: 2px;
+}
+
+.dashboard_card .tasks_completion_rate .chart_legend i:first-child {
+    color: #67d69c;
+}
+
+.dashboard_card .tasks_completion_rate .chart_legend i:nth-child(2) {
+    color: #5c697c;
+    margin-left: 16px;
+}
+
+.dashboard_card .tasks_completion_rate .current_average,
+.relative_average,
+.relative_direction {
+    display: inline-block;
+}
+
+.dashboard_card .tasks_completion_rate .negative_diff {
+    color: #f33155;
+}
+
+.dashboard_card .tasks_completion_rate .positive_diff {
+    color: #67d69c;
+}
+
+.dashboard_card .tasks_completion_rate .current_average {
+    font-size: 24px;
+    padding-top: 20px;
+}
+
+.dashboard_card .tasks_completion_rate .relative_average {
+    font-size: 10px;
+    vertical-align: text-top;
+}
+
+.dashboard_card .tasks_completion_rate .relative_direction {
+    font-size: 7px;
+    vertical-align: text-top;
+}
+
+.dashboard_card .tasks_completion_rate .graph_name {
+    font-size: 12px;
+}
+
+/** Headers **/
+.mobile_dashboard_page .dashboard_section_header {
+    padding-left: 15px;
+    margin-top: 16px;
+}
+
+.zp_table {
+    width: 100%;
+    max-width: 100%;
+    background-color: transparent;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    margin: 0 0 100px;
+    color: #485465;
+}
+
+.zp_table,
+.zp_table tr,
+.zp_table th,
+.zp_table td {
+    border-radius: 0 !important;
+}
+
+.zp_table th,
+.zp_table td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: middle;
+    border: none;
+}
+
+.zp_table th {
+    font-weight: normal;
+    border-bottom: 0.5px solid #f2f7fa;
+    color: #3b4850;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.zp_table td {
+    border-top: 0.5px solid #f2f7fa;
+}
+
+.zp_table td:last-child,
+.zp_table th:last-child {
+    padding-right: 16px;
+}
+
+.dashboard_card .top_items_card_row {
+    max-width: 160px;
+}
+
+.dashboard_card .logbook_sticky_column.top_items_card_row {
+    max-width: none;
+}
+
+.logbook_sticky_column.empty_header_item {
+    border-bottom: none;
+}
+
+.dashboard_card .top_items_card_row .top_items_card_row_title,
+.dashboard_card .top_items_card_row .top_items_card_row_subtitle {
+    width: 100%;
+    overflow-wrap: break-word;
+}
+
+.dashboard_card .top_items_card_row .top_items_card_row_title {
+    vertical-align: text-bottom;
+    display: inline-block;
+    color: #3b4850;
+    font-family: Roboto;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.dashboard_card .logbook_sticky_column.top_items_card_row .top_items_card_row_title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.dashboard_card .top_items_card_row .top_items_card_row_subtitle {
+    cursor: default;
+    display: block;
+    color: #8a9297;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.dashboard_card .top_items_card_column_value {
+    color: #3b4850;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.dashboard_card .tasks_completion_rate .summary_task_completion_rate {
+    width: 90% !important;
+}
+
+/* Hiding the charts by default to allow data to load and chart to properly size before displaying */
+.dashboard_card .tasks_completion_rate .column_chart {
+    opacity: 0;
+}
+
+.info_container.card {
+    margin-top: 0;
+}
+
+.mobile_dashboard_page.info .r_info_map {
+    height: 200px;
+}
+
+.mobile_dashboard_page.info .r_info_map .account_location {
+    width: 100%;
+    height: 100%;
+}
+
+.mobile_dashboard_page.info .r_info_store {
+    padding: 16px;
+    display: inline-block;
+    border-bottom: 1px solid #f5f5f5;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.mobile_dashboard_page.info .r_info_store h3 {
+    margin-bottom: 16px;
+}
+
+.mobile_dashboard_page.info .r_info_store .info_icon,
+.r_info_owners .info_icon {
+    width: 25px;
+    height: 40px;
+    float: left;
+}
+
+.mobile_dashboard_page.info .r_info_store .info_map_address,
+.mobile_dashboard_page.info .r_info_store .info_phone_email {
+    line-height: 1.4em;
+}
+
+.mobile_dashboard_page.info .r_info_store .info_map_address {
+    width: 48%;
+    float: left;
+}
+
+.mobile_dashboard_page.info .r_info_store .info_phone_email {
+    width: 48%;
+    float: right;
+}
+
+.mobile_dashboard_page.info .r_info_store .info_phone_email .info_email {
+    display: block;
+}
+
+.mobile_dashboard_page.info .r_info_owners {
+    padding: 16px;
+}
+
+.mobile_dashboard_page.info .info_owner_group {
+    padding: 8px 0 8px;
+    margin-bottom: 8px;
+}
+
+.mobile_dashboard_page.info .info_owner_group h3 {
+    margin-bottom: 16px;
+}
+
+.dashboard_card .in_progress_card_footer_content {
+    line-height: 16px;
+    color: #757575;
+    font-size: 0.875em;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    text-align: center;
+    display: block;
+}
+
+.dashboard_card .overdue_project {
+    color: #f33155;
+}
+
+.dashboard_card .recurring_project_filter {
+    height: 24px;
+    width: 35px;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: right;
+    margin: 5px;
+    color: #d1d1d1;
+}
+
+.dashboard_card .recurring_project_filter:hover {
+    text-decoration: none;
+}
+
+.dashboard_card .recurring_project_filter.selected {
+    color: #169dd9;
+}
+
+.dashboard_card .top_items_card_row_title.all_projects {
+    color: #485465;
+    line-height: 32px;
+    font-weight: 500;
+}
+
+.dashboard_card .loading_state {
+    background: #eff3f6;
+    color: #eff3f6;
+    border: none;
+    pointer-events: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard_card .loading_state:after {
+    content: '';
+    background: #eff3f6;
+    position: absolute;
+    background: linear-gradient(to right, #f2f5f7 25%, #f2f5f7 25%, #f2f5f7 25%);
+    -webkit-transform: translateX(-100%);
+    -moz-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* To improve performance, let's only run animations once the user has viewed the card */
+.dashboard_card.has_intersected .loading_state:after {
+    animation: animation-loading-state 1.5s linear infinite;
+}
+
+.dashboard_card a.dashboard_card_title.loading_state:before {
+    content: '';
+    color: white;
+}
+
+.dashboard_card .loading_state_tasks_container {
+    display: flex;
+}
+
+.dashboard_card .loading_state_tasks_container {
+    height: 80px;
+    justify-content: space-between;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.dashboard_card .loading_state_tasks_container .tasks_team_stat {
+    border-radius: 4px;
+    margin: 16px 8px;
+}
+
+.dashboard_card .loading_state_table_items_container {
+    padding: 16px 0px;
+    height: 41px;
+}
+
+.dashboard_card .loading_state_table_items_container .title,
+.dashboard_card .loading_state_table_items_container .subtitle {
+    margin-left: 16px;
+    border-radius: 4px;
+}
+.dashboard_card .loading_state_table_items_container .title {
+    width: 200px;
+    height: 16px;
+}
+
+.dashboard_card .loading_state_table_items_container .subtitle {
+    width: 150px;
+    height: 12px;
+    margin-top: 8px;
+}
+
+.dashboard_card .loading_state_tasks_completion_rate_container {
+    height: 132px;
+    text-align: center;
+}
+
+.dashboard_card .loading_state_tasks_completion_rate_container .tcl_loading_chart_item {
+    width: 24px;
+    border-radius: 4px;
+    background-color: #eff3f6;
+    display: inline-block;
+    margin: 16px;
+    text-align: center;
+}
+
+.dashboard_card .loading_state_tasks_completion_rate_container .tcl_loading_chart_item:first-child {
+    margin-top: 50px;
+    height: 40px;
+}
+
+.dashboard_card .loading_state_tasks_completion_rate_container .tcl_loading_chart_item:nth-child(3) {
+    height: 80px;
+    margin-top: 10px;
+}
+
+.dashboard_card .loading_state_tasks_completion_rate_container .tcl_loading_chart_item:nth-child(2),
+.dashboard_card .loading_state_tasks_completion_rate_container .tcl_loading_chart_item:nth-child(4) {
+    margin-top: 30px;
+    height: 60px;
+}
+
+.dashboard_card a.dashboard_card_title.loading_state_active:before {
+    content: '';
+    color: white;
+}
+
+.dashboard_card.card.subgroup {
+    margin: 16px 8px;
+}
+
+.mobile_dashboard_page .no_teams_downstate {
+    text-align: center;
+}
+
+.mobile_dashboard_page .no_teams_downstate img {
+    display: block;
+    margin: 32px auto;
+}
+
+.mobile_dashboard_page .no_teams_downstate p {
+    padding: 32px;
+    white-space: normal;
+}
+
+.mobile_dashboard_page .r_info_selector div {
+    padding: 15px;
+}
+
+.mobile_dashboard_page .r_info_selector input {
+    font-size: 16px;
+    height: 65px;
+}
+
+.mobile_dashboard_page .r_info_selector i {
+    display: none;
+}
+
+.search_bar .search_wrapper input {
+    font-size: 16px;
+}
+
+.dashboard_card .ongoing_projects_card_row .listitem_subtitle,
+.ongoing_projects_card_row .listitem_date {
+    font-size: 0.75em;
+    color: #8a9297;
+}
+
+.dashboard_card .project_recurring_aggregate.logbook .top_items_card_header {
+    width: 46px;
+    text-align: center;
+}
+
+.r_gallery_images .thumbnails {
+    display: block;
+}
+
+.bannerDetails .content {
+    height: fit-content;
+    min-height: 100%;
+    padding: 16px 0;
+    background-color: #ffffff;
+}
+
+.bannerDetails .companyName {
+    background-color: #b9e2f4;
+}
+
+.bannerDetails .message {
+    word-break: break-word;
+    white-space: pre-wrap;
+    font-weight: 400;
+}
+
+.compliance_tasks_completion_rate {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.compliance_tasks_completion_rate .pass {
+    color: green;
+}
+
+.compliance_tasks_completion_rate .fail {
+    color: red;
+}
+
+.email_selector .email_selector_row {
+    padding: 16px;
+    box-shadow: inset 0px -1px 0px #edeef0;
+    display: block;
+}
+
+.email_selector .show_email_selector_legend {
+    color: #757575;
+}
+
+.email_selector .email_radio {
+    width: 34.5px;
+}
+
+.email_selector .custom_email {
+    display: flex;
+    flex-flow: column;
+}
+
+.email_selector .custom_email .input_container {
+    padding-top: 16px;
+    padding-left: 34.5px;
+}
+
+.email_selector .custom_email .custom_email_input.invalid {
+    outline: none;
+    border-color: #de3c2f;
+    background-color: #fae3e0;
+}
+
+.email_selector .custom_email .custom_email_input.disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+/**
+ * CSS Animations
+ */
+@-webkit-keyframes animation-loading-state {
+    100% {
+        -webkit-transform: translateX(100%);
+    }
+}
+@-moz-keyframes animation-loading-state {
+    100% {
+        -moz-transform: translateX(100%);
+    }
+}
+@-ms-keyframes animation-loading-state {
+    100% {
+        -ms-transform: translateX(100%);
+    }
+}
+@keyframes animation-loading-state {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/*(
+ * Media Queries
+) */
+
+@media (min-width: 320px) {
+    .subgroup .task_status_items .tasks_team_stat {
+        margin: 0px 6px;
+    }
+
+    .subgroup .loading_state_tasks_container .tasks_team_stat {
+        margin: 16px 6px;
+    }
+}
+
+.compliance__list {
+    padding-top: 16px;
+}
+
+.compliance__list .df-arrow-right {
+    top: 24px;
+}
+
+.project_compliance_report .r_info_selector div {
+    padding: 15px;
+}
+
+.project_compliance_report .r_info_selector input {
+    font-size: 16px;
+    height: 65px;
+}
+
+.project_compliance_report .r_info_selector i {
+    display: none;
+}
+
+.project_compliance_report .submit_report.hidden {
+    display: none;
+}
+
+.sensor_temp_log_report {
+    line-height: 150%;
+}
+
+.sensor_temp_log_report .title {
+    box-sizing: border-box;
+    color: #202123;
+    font-size: 16px;
+    height: min-content;
+    padding: 16px 8px 16px 16px;
+}
+
+.sensor_temp_log_report .title.title--secondary {
+    color: #747577;
+}
+
+.sensor_temp_log_report .subtitle {
+    color: #202123;
+    font-size: 14px;
+    font-weight: 500;
+    height: min-content;
+    padding: 4px 16px;
+}
+
+.sensor_temp_log_report .subtitle.subtitle--light {
+    font-weight: 400;
+}
+
+.sensor_temp_log_report .divider {
+    border-top: 1px solid #edeef0;
+}
+
+.sensor_temp_log_report .time_frame > .options {
+    padding: 4px 16px 16px 16px;
+}
+
+.sensor_temp_log_report .time_frame .options > select {
+    width: 100%;
+}

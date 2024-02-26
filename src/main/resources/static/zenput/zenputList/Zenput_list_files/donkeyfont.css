@@ -1,0 +1,567 @@
+/*
+  Icon Font: donkeyfont
+*/
+
+@font-face {
+    font-family: 'donkeyfont';
+    src: url('../font/donkeyfont.eot');
+    src: url('../font/donkeyfont.eot?#iefix') format('embedded-opentype'),
+        url('../font/donkeyfont.woff2') format('woff2'), url('../font/donkeyfont.woff') format('woff'),
+        url('../font/donkeyfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    @font-face {
+        font-family: 'donkeyfont';
+    }
+}
+
+[data-icon]:before {
+    content: attr(data-icon);
+}
+
+[data-icon]:before,
+.df-account:before,
+.df-add-circle:before,
+.df-advanced-formula:before,
+.df-alert:before,
+.df-android:before,
+.df-announcement:before,
+.df-apple:before,
+.df-arrow-down:before,
+.df-arrow-left:before,
+.df-arrow-right:before,
+.df-arrow-up:before,
+.df-attachment:before,
+.df-average:before,
+.df-back:before,
+.df-barcode:before,
+.df-battery-dead:before,
+.df-battery-full:before,
+.df-battery-good:before,
+.df-battery-half:before,
+.df-battery-low:before,
+.df-block:before,
+.df-branching:before,
+.df-brandhub:before,
+.df-brush:before,
+.df-calendar:before,
+.df-chat:before,
+.df-checkmark-delivered:before,
+.df-circle:before,
+.df-circle-check:before,
+.df-circle-status:before,
+.df-close:before,
+.df-columns:before,
+.df-comment:before,
+.df-compass:before,
+.df-computer:before,
+.df-contacts:before,
+.df-dashboard:before,
+.df-delete:before,
+.df-divide:before,
+.df-documentation:before,
+.df-donkey:before,
+.df-download:before,
+.df-drafts:before,
+.df-drag:before,
+.df-duplicate:before,
+.df-edit:before,
+.df-email:before,
+.df-equipment-temp:before,
+.df-error:before,
+.df-file:before,
+.df-filter:before,
+.df-flash-off:before,
+.df-flash-on:before,
+.df-followup:before,
+.df-form:before,
+.df-forward:before,
+.df-gateway:before,
+.df-help:before,
+.df-hierarchy:before,
+.df-history:before,
+.df-image:before,
+.df-info:before,
+.df-ingredients:before,
+.df-inventory:before,
+.df-jumpto:before,
+.df-labels:before,
+.df-labels-bulk:before,
+.df-location:before,
+.df-location-filled:before,
+.df-lock-locked:before,
+.df-lock-unlocked:before,
+.df-logomark:before,
+.df-logout:before,
+.df-mention:before,
+.df-menu:before,
+.df-minus:before,
+.df-minus-circle:before,
+.df-mobile-phone:before,
+.df-multiple-choice:before,
+.df-notifications:before,
+.df-number:before,
+.df-open:before,
+.df-open-checks:before,
+.df-overflow:before,
+.df-percent:before,
+.df-phone:before,
+.df-photo:before,
+.df-play:before,
+.df-plus:before,
+.df-printer:before,
+.df-product-temp:before,
+.df-production-sheets:before,
+.df-projects:before,
+.df-rating:before,
+.df-recurring:before,
+.df-redo:before,
+.df-refresh:before,
+.df-refresh-alert:before,
+.df-remove-circle:before,
+.df-reports:before,
+.df-required:before,
+.df-resizer:before,
+.df-rotate:before,
+.df-search:before,
+.df-section:before,
+.df-send:before,
+.df-settings:before,
+.df-settings-filled:before,
+.df-signature:before,
+.df-smile:before,
+.df-status-completed:before,
+.df-status-incomplete-with-exception:before,
+.df-status-open:before,
+.df-status-overdue:before,
+.df-status-overdue-and-closed:before,
+.df-stopwatch:before,
+.df-success:before,
+.df-tasks:before,
+.df-temp:before,
+.df-text:before,
+.df-time:before,
+.df-unavailable:before,
+.df-undo:before,
+.df-upload:before,
+.df-user:before,
+.df-user-circle:before,
+.df-users:before,
+.df-video:before,
+.df-vladcon:before,
+.df-windows:before,
+.df-workflow:before,
+.df-yes-no:before {
+    display: inline-block;
+    font-family: 'donkeyfont';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-decoration: inherit;
+    text-rendering: optimizeLegibility;
+    text-transform: none;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+.df-account:before {
+    content: '\f16e';
+}
+.df-add-circle:before {
+    content: '\f16f';
+}
+.df-advanced-formula:before {
+    content: '\f1d7';
+}
+.df-alert:before {
+    content: '\f171';
+}
+.df-android:before {
+    content: '\f172';
+}
+.df-announcement:before {
+    content: '\f1f1';
+}
+.df-apple:before {
+    content: '\f173';
+}
+.df-arrow-down:before {
+    content: '\f174';
+}
+.df-arrow-left:before {
+    content: '\f175';
+}
+.df-arrow-right:before {
+    content: '\f176';
+}
+.df-arrow-up:before {
+    content: '\f177';
+}
+.df-attachment:before {
+    content: '\f1e5';
+}
+.df-average:before {
+    content: '\f178';
+}
+.df-back:before {
+    content: '\f179';
+}
+.df-barcode:before {
+    content: '\f17a';
+}
+.df-battery-dead:before {
+    content: '\f1eb';
+}
+.df-battery-full:before {
+    content: '\f1ec';
+}
+.df-battery-good:before {
+    content: '\f1ed';
+}
+.df-battery-half:before {
+    content: '\f1ee';
+}
+.df-battery-low:before {
+    content: '\f1ef';
+}
+.df-block:before {
+    content: '\f17b';
+}
+.df-branching:before {
+    content: '\f17c';
+}
+.df-brandhub:before {
+    content: '\f17d';
+}
+.df-brush:before {
+    content: '\f17e';
+}
+.df-calendar:before {
+    content: '\f17f';
+}
+.df-chat:before {
+    content: '\f1e8';
+}
+.df-checkmark-delivered:before {
+    content: '\f1f4';
+}
+.df-circle:before {
+    content: '\f1e1';
+}
+.df-circle-check:before {
+    content: '\f180';
+}
+.df-circle-status:before {
+    content: '\f1d8';
+}
+.df-close:before {
+    content: '\f182';
+}
+.df-columns:before {
+    content: '\f183';
+}
+.df-comment:before {
+    content: '\f1f2';
+}
+.df-compass:before {
+    content: '\f184';
+}
+.df-computer:before {
+    content: '\f185';
+}
+.df-contacts:before {
+    content: '\f186';
+}
+.df-dashboard:before {
+    content: '\f187';
+}
+.df-delete:before {
+    content: '\f188';
+}
+.df-divide:before {
+    content: '\f189';
+}
+.df-documentation:before {
+    content: '\f18a';
+}
+.df-donkey:before {
+    content: '\f18b';
+}
+.df-download:before {
+    content: '\f18c';
+}
+.df-drafts:before {
+    content: '\f18d';
+}
+.df-drag:before {
+    content: '\f1ea';
+}
+.df-duplicate:before {
+    content: '\f18e';
+}
+.df-edit:before {
+    content: '\f18f';
+}
+.df-email:before {
+    content: '\f190';
+}
+.df-equipment-temp:before {
+    content: '\f1f6';
+}
+.df-error:before {
+    content: '\f191';
+}
+.df-file:before {
+    content: '\f1e0';
+}
+.df-filter:before {
+    content: '\f192';
+}
+.df-flash-off:before {
+    content: '\f193';
+}
+.df-flash-on:before {
+    content: '\f194';
+}
+.df-followup:before {
+    content: '\f195';
+}
+.df-form:before {
+    content: '\f196';
+}
+.df-forward:before {
+    content: '\f197';
+}
+.df-gateway:before {
+    content: '\f1f0';
+}
+.df-help:before {
+    content: '\f198';
+}
+.df-hierarchy:before {
+    content: '\f1e6';
+}
+.df-history:before {
+    content: '\f199';
+}
+.df-image:before {
+    content: '\f19a';
+}
+.df-info:before {
+    content: '\f19b';
+}
+.df-ingredients:before {
+    content: '\f1e3';
+}
+.df-inventory:before {
+    content: '\f19c';
+}
+.df-jumpto:before {
+    content: '\f19d';
+}
+.df-labels:before {
+    content: '\f1e4';
+}
+.df-labels-bulk:before {
+    content: '\f1f7';
+}
+.df-location:before {
+    content: '\f19e';
+}
+.df-location-filled:before {
+    content: '\f1d9';
+}
+.df-lock-locked:before {
+    content: '\f1da';
+}
+.df-lock-unlocked:before {
+    content: '\f1db';
+}
+.df-logomark:before {
+    content: '\f1a2';
+}
+.df-logout:before {
+    content: '\f1a3';
+}
+.df-mention:before {
+    content: '\f1e7';
+}
+.df-menu:before {
+    content: '\f1a4';
+}
+.df-minus:before {
+    content: '\f1a5';
+}
+.df-minus-circle:before {
+    content: '\f1e2';
+}
+.df-mobile-phone:before {
+    content: '\f1dc';
+}
+.df-multiple-choice:before {
+    content: '\f1dd';
+}
+.df-notifications:before {
+    content: '\f1a8';
+}
+.df-number:before {
+    content: '\f1a9';
+}
+.df-open:before {
+    content: '\f1aa';
+}
+.df-open-checks:before {
+    content: '\f1f3';
+}
+.df-overflow:before {
+    content: '\f1ab';
+}
+.df-percent:before {
+    content: '\f1ac';
+}
+.df-phone:before {
+    content: '\f1ad';
+}
+.df-photo:before {
+    content: '\f1ae';
+}
+.df-play:before {
+    content: '\f1af';
+}
+.df-plus:before {
+    content: '\f1b0';
+}
+.df-printer:before {
+    content: '\f1f8';
+}
+.df-product-temp:before {
+    content: '\f1f5';
+}
+.df-production-sheets:before {
+    content: '\f1f9';
+}
+.df-projects:before {
+    content: '\f1b1';
+}
+.df-rating:before {
+    content: '\f1b2';
+}
+.df-recurring:before {
+    content: '\f1b3';
+}
+.df-redo:before {
+    content: '\f1b4';
+}
+.df-refresh:before {
+    content: '\f1b5';
+}
+.df-refresh-alert:before {
+    content: '\f1b6';
+}
+.df-remove-circle:before {
+    content: '\f1b7';
+}
+.df-reports:before {
+    content: '\f1b8';
+}
+.df-required:before {
+    content: '\f1b9';
+}
+.df-resizer:before {
+    content: '\f1ba';
+}
+.df-rotate:before {
+    content: '\f1bb';
+}
+.df-search:before {
+    content: '\f1bc';
+}
+.df-section:before {
+    content: '\f1bd';
+}
+.df-send:before {
+    content: '\f1be';
+}
+.df-settings:before {
+    content: '\f1bf';
+}
+.df-settings-filled:before {
+    content: '\f1c0';
+}
+.df-signature:before {
+    content: '\f1c1';
+}
+.df-smile:before {
+    content: '\f1e9';
+}
+.df-status-completed:before {
+    content: '\f1c2';
+}
+.df-status-incomplete-with-exception:before {
+    content: '\f1c3';
+}
+.df-status-open:before {
+    content: '\f1c4';
+}
+.df-status-overdue:before {
+    content: '\f1df';
+}
+.df-status-overdue-and-closed:before {
+    content: '\f1c5';
+}
+.df-stopwatch:before {
+    content: '\f1c6';
+}
+.df-success:before {
+    content: '\f1c7';
+}
+.df-tasks:before {
+    content: '\f1c8';
+}
+.df-temp:before {
+    content: '\f1c9';
+}
+.df-text:before {
+    content: '\f1ca';
+}
+.df-time:before {
+    content: '\f1cb';
+}
+.df-unavailable:before {
+    content: '\f1cc';
+}
+.df-undo:before {
+    content: '\f1cd';
+}
+.df-upload:before {
+    content: '\f1ce';
+}
+.df-user:before {
+    content: '\f1cf';
+}
+.df-user-circle:before {
+    content: '\f1de';
+}
+.df-users:before {
+    content: '\f1d1';
+}
+.df-video:before {
+    content: '\f1d2';
+}
+.df-vladcon:before {
+    content: '\f1d3';
+}
+.df-windows:before {
+    content: '\f1d4';
+}
+.df-workflow:before {
+    content: '\f1d5';
+}
+.df-yes-no:before {
+    content: '\f1d6';
+}

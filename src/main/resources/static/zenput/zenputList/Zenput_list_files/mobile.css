@@ -1,0 +1,5692 @@
+:root {
+    --secondary-main: #132d74; /* Nav bar */
+    --secondary-main-active: #0e1a3b;
+    --primary-main: #0871c9; /* Primary Button */
+
+    /* Login Form Fields */
+    --gray-100: #f2f2f2; /* Page Background */
+    --gray-400: #bcbdbf; /* Border Color */
+    --gray-600: #747577; /* Text Color */
+
+    --gray-900: #191919; /* Secondary Buttons */
+}
+
+/**
+ * Color Palette:
+ *
+ * Zenput Blue: var(--secondary-main)
+ *
+ * Red: #DE3C2F
+ * Rose: #FAE3E0
+ * Green: #2ECC71
+ * Light blue: #62BFE7
+ *
+ * Grey 1: #212121 - Darkest Text
+ * Grey 2: #757575 - Standard Text, Icons
+ * Grey 3: #B8B8B8
+ * Grey 4: #CACACA - Form Element Border
+ * Grey 5: #ECECEC
+ * Grey 6: #F5F5F5 - Form Element Background
+ */
+
+/**
+ * Only enable pan-y gesture on Windows. This prevents touch/mouse move events from being cancelled.
+ * See https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action?v=example for all options
+ * Disable optical zoom https://docs.microsoft.com/en-us/windows/uwp/input-and-devices/guidelines-for-optical-zoom
+*/
+.windows * {
+    touch-action: pan-y;
+    -ms-content-zooming: none;
+}
+
+/**
+ * Set up our fonts!
+ */
+@font-face {
+    font-family: Roboto;
+    src: url('../font/Roboto-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url('../font/Roboto-Medium.ttf');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url('../font/Roboto-MediumItalic.ttf');
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url('../font/Roboto-Bold.ttf');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url('../font/Roboto-BoldItalic.ttf');
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* Override Donkeyfont to fix: correct paths, and fix android 4.0 issue */
+@font-face {
+    font-family: 'donkeyfont';
+    src: url('../font/donkeyfont.eot');
+    src: url('../font/donkeyfont.eot?#iefix') format('embedded-opentype'), url('../font/donkeyfont.woff') format('woff'),
+        url('../font/donkeyfont.svg#donkeyfont') format('svg'), url('../font/donkeyfont.ttf') format('truetype'); /* Android 4.0, 4.1 dont like TTF, so it must go last */
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    outline: none;
+}
+
+html {
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape while allowing user zoom */
+}
+
+html,
+body {
+    z-index: 0;
+    height: 100vh;
+}
+
+body {
+    font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, Tahoma, sans-serif;
+    font-size: 16px;
+    line-height: 1em;
+    background: var(--secondary-main);
+    overflow: hidden;
+    position: relative;
+    color: #757575;
+
+    /* prevent selecting text - more app-like feel :) */
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+input,
+select,
+textarea,
+.fake_input {
+    font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, Tahoma, sans-serif;
+    font-size: 1em;
+    line-height: 1em;
+}
+
+h2,
+h3,
+h4,
+h5 {
+    font-weight: 500;
+}
+
+input[type='checkbox'] {
+    float: left;
+    width: 18px;
+    height: 18px;
+    cursor: default;
+}
+
+a {
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-touch-callout: none;
+    color: var(--secondary-main);
+    text-decoration: none;
+}
+
+img {
+    border: 0;
+}
+img.photo {
+    padding: 2px;
+    background: #757575;
+    border: 1px solid #cacaca;
+    float: right;
+    margin-left: 20px;
+    margin-right: 11px;
+}
+
+ul,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    display: block;
+}
+
+.clear {
+    clear: both;
+}
+.push {
+    margin-top: 50px;
+}
+.push-little {
+    margin-top: 25px;
+}
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/**
+ * The following are used when a LEFT or RIGHT div should fill the space next to a RIGHT or LEFT floated div, respectively.
+ * The static (not filling) div should be floated right or left and must have a static width defined. It should come BEFORE
+ * the floated element (.fill_left or .fill_right) in the HTML.
+ *
+ * For more info, see here: http://stackoverflow.com/a/14537979/477632
+ */
+.fill_left {
+    /* Accompanying float-right div must come before this element in HTML. A width (or max-width) is recommended */
+    float: none;
+    overflow: hidden;
+}
+.fill_right {
+    /* Accompanying float-right div must come before this element in HTML. A width (or max-width) is recommended */
+    float: none;
+    overflow: hidden;
+}
+
+textarea,
+select,
+input[type='text'],
+input[type='password'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='date'],
+input[type='month'],
+input[type='time'],
+input[type='week'],
+input[type='number'],
+input[type='tel'],
+input[type='email'],
+input[type='url'],
+input[type='search'],
+input[type='tel'],
+input[type='color'],
+.uneditable-input,
+.fake_input {
+    -webkit-appearance: none;
+    -webkit-user-select: text;
+    outline: none;
+    background-color: #f5f5f5;
+    color: #757575 !important;
+    display: inline-block;
+    line-height: 1.7142857143em;
+    min-height: 48px;
+    border: 1px solid #cacaca;
+    border-radius: 4px;
+    padding: 11px 16px;
+    font-size: 0.875em;
+    box-sizing: border-box;
+}
+
+textarea:focus,
+select:focus,
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='datetime']:focus,
+input[type='datetime-local']:focus,
+input[type='date']:focus,
+input[type='month']:focus,
+input[type='time']:focus,
+input[type='week']:focus,
+input[type='number']:focus,
+input[type='tel']:focus,
+input[type='email']:focus,
+input[type='url']:focus,
+input[type='search']:focus,
+input[type='tel']:focus,
+input[type='color']:focus,
+.uneditable-input:focus {
+    border-color: var(--secondary-main) !important;
+}
+
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+
+input[type='submit'].btn {
+    -webkit-appearance: button;
+}
+
+a.btn {
+    text-decoration: none;
+}
+.btn {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.875em;
+    line-height: 20px;
+    margin-bottom: 0;
+    padding: 4px 12px;
+    text-align: center;
+    vertical-align: middle;
+    outline: none;
+    text-shadow: none;
+}
+.btn_done {
+    background: var(--primary-main);
+}
+
+.btn_zp {
+    font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, Tahoma, sans-serif;
+    color: #fff;
+    background: var(--secondary-main);
+    border-color: var(--secondary-main);
+    padding: 6px 13px;
+    margin: 10px;
+    position: relative;
+    outline: none;
+}
+.btn_zp.btn_gray {
+    background: #cacaca;
+    border-color: #cacaca;
+}
+
+.btn-primary {
+    background: var(--primary-main);
+    color: #ffffff;
+}
+
+.btn_danger {
+    background: unset;
+    border: solid 1px #ff0000;
+    color: #ff0000;
+}
+
+.btn_success {
+    background: #33cc99;
+}
+
+.btn-large {
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.btn-medium {
+    border-radius: 3px;
+    font-size: 14.5px;
+    padding: 7px 15px;
+}
+
+/* in order for ellipsis to work, the element must have a width defined */
+.ellipsis {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+select,
+input[type='file'] {
+    height: 30px;
+}
+
+select,
+input,
+textarea,
+.fake_input {
+    width: 220px;
+}
+
+.row-fluid {
+    margin: 0 auto;
+}
+
+/* hide our $f.mobile.uploads.web_filestore */
+.web_filestore {
+    display: none;
+    width: 0px !important;
+    height: 0px !important;
+    overflow: hidden;
+}
+
+.pagelist .listitem_title {
+    color: #212121;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 1em;
+    font-weight: normal;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.pagelist .listitem_title:after {
+    content: '';
+    clear: both;
+}
+
+.pagelist .listitem_subtitle {
+    color: #757575;
+    font-size: 0.875em;
+    line-height: 1.1428571429em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: bottom;
+    height: 16px; /* makes sure all list items are the same height */
+}
+
+.pagelist .listitem_account,
+.pagelist .projects_list .listitem_subtitle,
+.pagelist.projects_list .listitem_date {
+    font-weight: 500;
+}
+
+.pagelist .listitem_title.project_recurring:after {
+    color: #757575;
+    content: '\f1b3'; /* df-recurring */
+    display: block;
+    font-family: 'donkeyFont' !important;
+    float: right;
+    width: 16px;
+    height: 16px;
+}
+
+.pagelist .listitem_distance {
+    color: #757575;
+    float: right;
+    font-size: 0.875em;
+    vertical-align: bottom;
+    width: 64px;
+    text-align: right;
+}
+
+.pagelist .listitem_datetime,
+.listitem_status_icon,
+.tasks_list.pagelist .listitem_icon {
+    float: right;
+    text-align: right;
+    font-size: 14px;
+    color: var(--gray-900);
+    margin-left: 5px;
+}
+
+.pagelist .author_datetime {
+    font-size: 14px;
+    color: #c6ccd1;
+}
+
+.pagelist .author_datetime .author {
+    float: left;
+}
+
+.pagelist .author_datetime .listitem_date {
+    margin-left: 5px;
+    text-align: right;
+}
+
+.feed .pagelist .listitem_icon {
+    float: right;
+    color: #c6ccd1;
+    margin-right: -5px;
+}
+
+.pagelist .listitem_assignee {
+    font-size: 0.75em;
+    padding-top: 3px;
+    color: #757575;
+    height: 16px;
+}
+
+.pagelist .listitem_time {
+    font-size: 0.75em;
+}
+
+.pagelist .progress_wrapper {
+    height: 8px;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.tasks_list.pagelist .listitem_icon {
+    font-size: 16px;
+}
+
+.tasks_list.pagelist .listitem_title {
+    color: #3b4850;
+}
+
+.tasks_list.pagelist .listitem_subtitle,
+.tasks_list.pagelist .listitem_date,
+.feed .pagelist .listitem_subtitle,
+.feed .pagelist .listitem_date,
+.feed .pagelist .listitem_subtitle {
+    font-size: 12px;
+}
+
+.tasks_list.pagelist .listitem_subtitle {
+    color: #8a9297;
+}
+
+.progress_wrapper .project_progressbar {
+    background-color: #ececec;
+    display: block;
+    height: 100%;
+    width: 50%;
+    border-radius: 4px;
+}
+
+.progress_wrapper .project_progressbar .inner_progress {
+    background-color: #2ecc71;
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.pagelist_gap_header {
+    font-size: 0.875em;
+    font-weight: 500;
+    margin: 16px;
+    color: #757575;
+}
+
+.google_map {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.account_submissions_history_list li .df-user {
+    font-size: 11px;
+    position: relative;
+    margin-right: 5px;
+}
+
+/* Mobile Dashboard */
+.card .loading_spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -20px;
+    margin-top: -20px;
+    width: 40px;
+    height: 40px;
+    z-index: 2;
+    display: none;
+}
+
+.square {
+    float: left;
+    position: relative;
+    width: 22.75%;
+    padding-bottom: 22.75%; /* = width for a 1:1 aspect ratio */
+    margin: 0 3% 0 0;
+    overflow: hidden;
+    list-style-type: none;
+    max-width: 151px;
+}
+
+.content {
+    position: absolute;
+    height: 100%; /* = 100% - 2*5% padding */
+    width: 100%; /* = 100% - 2*5% padding */
+}
+.table {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+    background: #ececec;
+    padding: 7px;
+    margin: 0 1px;
+    border-radius: 4px;
+    color: #757575;
+}
+
+.row-fluid:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.row-fluid .square:last-child {
+    margin-right: 0px;
+}
+.square .statcard_item {
+    width: 100% !important;
+    padding: 0px;
+    background: none;
+}
+.square .count-exists.stat_overdue,
+.square .count-exists.stat_today {
+    background: #de3c2f !important;
+    color: #fff;
+}
+
+.square .count_empty.stat_overdue,
+.square .count_empty.stat_today {
+    background-color: #2ecc71 !important;
+}
+.square .stat_today .statcard_item,
+.square .stat_overdue .statcard_item {
+    color: #fff;
+}
+
+/**
+ * @author:david Warning: "position: relative" for .card's on Android 4.1 causes a performance decrease
+ * when scrolling, so we are restricting this to the dashboard since it's only necessary there.
+ */
+#dashboard_cards_container .card {
+    position: relative;
+}
+
+.card .card_title {
+    font-size: 1em;
+    font-weight: 500;
+    display: block;
+    padding-bottom: 8px;
+}
+
+.card .inner_card_title {
+    width: 100%;
+}
+
+#dashboard_cards_container .card .inner_card_title {
+    padding-right: 26px;
+    box-sizing: border-box;
+}
+
+.statcard_item {
+    display: inline-block;
+    width: 73px;
+    background: #ececec;
+    padding: 7px;
+    margin: 0 1px;
+    border-radius: 4px;
+    color: #757575;
+}
+
+.card .statcard_item.overdue {
+    background: #de3c2f;
+    color: #fff;
+}
+
+.card .statcard_item.non_overdue {
+    background: #2ecc71;
+    color: #fff;
+}
+
+.statcard_item .statitem_num {
+    font-size: 1.375em;
+    line-height: 30px;
+    margin: auto;
+    font-weight: 500;
+}
+
+.statcard_item .statitem_label {
+    width: 100%;
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+/* Email Field */
+
+.field_value .email_value_wrapper {
+    margin-bottom: 10px;
+}
+
+.field_value.email_field_value .btn.add_email {
+    color: #757575;
+    background: #f5f5f5;
+    border: 1px solid #cacaca;
+    float: right;
+    padding: 0;
+    position: relative;
+    border-radius: 4px;
+    padding: 16px;
+    line-height: 12px;
+}
+.field_value.email_field_value .btn.add_email i {
+    line-height: 12px;
+}
+
+.field_value .field_action_btn {
+    background: #f5f5f5;
+    display: inline-block;
+    border: 1px solid #cacaca;
+    color: #757575;
+    font-size: 0.875em;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 48px;
+    height: 48px;
+}
+
+.stopwatch_field .field_value .field_action_btn {
+    padding: 14px 14px 14px 36px;
+    width: 100%;
+}
+
+.field_value .field_action_btn i {
+    font-size: 1.5em;
+    position: absolute;
+    left: 12px;
+    top: 12px;
+}
+
+.field_action_btn.ingredient_equipment_temperature_na {
+    margin-right: 16px;
+}
+
+.field_action_btn.ingredient_equipment_temperature_na.btn.selected {
+    color: #fff;
+    background-color: var(--secondary-main);
+    border-color: var(--secondary-main);
+}
+
+/** Bluetherm and Email Fields (any inputs with action buttons) */
+.field_value .field_action_buttons_container {
+    float: right;
+}
+
+.stopwatch_field .field_value .field_action_buttons_container {
+    width: 130px;
+}
+
+.field_value .actionable_input_wrapper {
+    /* The input that goes next to the action buttons */
+    width: auto;
+    overflow: hidden;
+    float: none !important;
+    position: relative;
+    padding-right: 16px;
+}
+
+.fake_input,
+input.fake_input {
+    text-align: left;
+    padding-right: 40px;
+}
+
+.fake_input .fake_placeholder {
+    font-weight: normal;
+    color: #b8b8b8;
+    pointer-events: none;
+}
+
+/* Bluetherm Field */
+.field_value.bluetherm_field_value input,
+.field_value.bluetherm_field_value .fake_input {
+    padding-right: 30px;
+    height: 48px;
+}
+
+.field_value.show_clear .field_action_buttons_container {
+    text-align: right;
+    display: block;
+}
+
+/* Hide Number Tickers for bluetherm field */
+.bluetherm_field_value input {
+    -moz-appearance: textfield;
+}
+.bluetherm_field_value input::-webkit-outer-spin-button,
+.bluetherm_field_value input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.bluetherm_field_value {
+    position: relative;
+}
+.bluetherm_field_value .temperature_units {
+    position: absolute;
+    top: 18px;
+    right: 32px;
+    z-index: 10;
+    font-size: 1em;
+}
+
+.bluetherm_field_value.polling .fake_input {
+    border: 1px solid var(--secondary-main);
+    background-color: #fff;
+}
+
+/* Animation for pulsing thermometer icon :) */
+@-webkit-keyframes text_shadow_pulse {
+    0% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+    50% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+    75% {
+        text-shadow: 0 0 2px var(--secondary-main);
+    }
+    100% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+}
+@-moz-keyframes text_shadow_pulse {
+    0% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+    50% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+    75% {
+        text-shadow: 0 0 2px var(--secondary-main);
+    }
+    100% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+}
+@-ms-keyframes text_shadow_pulse {
+    0% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+    50% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+    75% {
+        text-shadow: 0 0 2px var(--secondary-main);
+    }
+    100% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+}
+@keyframes text_shadow_pulse {
+    0% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+    50% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+    75% {
+        text-shadow: 0 0 2px var(--secondary-main);
+    }
+    100% {
+        text-shadow: 0 0 0px var(--secondary-main);
+    }
+}
+
+/** BlueTherm indicator/button */
+.bluetherm_field_value.show_clear .bluetherm_indicator {
+    margin-bottom: 8px;
+    display: block;
+}
+.bluetherm_field_value .bluetherm_indicator .loading_spinner {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 9px;
+    left: 9px;
+    margin: auto;
+}
+
+.bluetherm_field_value .bluetherm_indicator .df-refresh-alert {
+    font-size: 26px;
+    top: 10.5px;
+    left: 11px;
+}
+
+.bluetherm_field_value .bluetherm_indicator i {
+    display: none;
+} /* hide all the icons by default */
+
+.bluetherm_field_value.disconnected i.df-refresh-alert {
+    display: block;
+}
+.bluetherm_field_value.disconnected .bluetherm_indicator i {
+    color: #de3c2f;
+}
+
+.windows .bluetherm_field_value.disconnected .bluetherm_indicator,
+.windows .bluetherm_field_value.disconnected .bluetherm_indicator i,
+.web .bluetherm_field_value.disconnected .bluetherm_indicator,
+.web .bluetherm_field_value.disconnected .bluetherm_indicator i,
+.historical_submission .bluetherm_field_value.disconnected .bluetherm_indicator,
+.historical_submission .bluetherm_field_value.disconnected .bluetherm_indicator i,
+.bluetherm_field_value.disconnected .disabled_by_sensor i {
+    color: inherit; /* don't show red on web or if previous submission */
+    border-color: #cacaca;
+    background: #f5f5f5;
+}
+
+.bluetherm_field_value.connecting .loading_spinner {
+    display: block;
+}
+
+.bluetherm_field_value.connected i.df-temp {
+    display: block;
+    color: var(--secondary-main);
+    left: 13px;
+    top: 14px;
+    -webkit-animation: text_shadow_pulse 3s infinite;
+    -moz-animation: text_shadow_pulse 3s infinite;
+    -ms-animation: text_shadow_pulse 3s infinite;
+    animation: text_shadow_pulse 3s infinite;
+}
+
+.bluetherm_field_value.polling i.df-success {
+    display: block;
+}
+.bluetherm_field_value.polling .bluetherm_indicator {
+    background: var(--secondary-main);
+    border-color: var(--secondary-main);
+}
+.bluetherm_field_value.polling i.df-success {
+    color: #fff;
+    display: block;
+}
+
+.bluetherm_field_value .actionable_input_wrapper .acceptance_value_failure {
+    background-color: #f33155 !important;
+    color: #fff !important;
+}
+
+.bluetherm_field_value .actionable_input_wrapper .acceptance_value_pass {
+    background-color: #33cc99 !important;
+    color: #fff !important;
+}
+
+.bluetherm_field_value .acceptance_value_failure.actionable_input_wrapper {
+    color: #fff !important;
+}
+.bluetherm_field_value .acceptance_value_pass.actionable_input_wrapper {
+    color: #fff !important;
+}
+
+.btn_group {
+    text-align: center;
+}
+
+.btn_group .btn {
+    display: inline-block;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.sensor_link_wrapper {
+    padding-bottom: 6px;
+}
+
+.sensor_link_wrapper div {
+    display: inline-block;
+}
+
+.sensor_link_wrapper .sensor_link svg {
+    font-size: medium;
+}
+
+.sensor_equipment_reading {
+    font-size: 14px;
+}
+
+.btn_group .btn i[class*='df-'] {
+    font-size: 1.4285714286em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.btn_group.span_1 .btn {
+    width: 98%;
+}
+.btn_group.span_2 .btn {
+    width: 48%;
+}
+.btn_group.span_3 .btn {
+    width: 31%;
+}
+
+/* Yes/No Field */
+.yesno_buttons {
+    width: 100%;
+}
+
+.field_value .yesno_buttons .btn {
+    width: 31%;
+    display: inline-block;
+    float: none;
+}
+.yesno_buttons .btn:first-of-type {
+    margin-right: 1%;
+}
+.yesno_buttons .btn:last-of-type {
+    margin-left: 1%;
+}
+.yesno_buttons .btn,
+.fake_checkbox,
+.btn_group .btn {
+    outline: none;
+    color: #757575;
+    font-size: 0.875em;
+    line-height: 1.7142857143em;
+    background: #f5f5f5;
+    padding: 11px 4px;
+    border: 1px solid #cacaca;
+    border-radius: 4px;
+    position: relative;
+    box-sizing: border-box;
+    height: 47px; /* force height for when buttons get to thin - better than having one be taller than the other */
+}
+
+.yesno_buttons .btn.selected,
+.btn_group .btn.selected,
+.fake_checkbox.checked {
+    color: #fff;
+    background-color: var(--primary-main);
+    border-color: var(--primary-main);
+}
+
+.yesno_buttons .btn.selected_pass {
+    color: #fff;
+    background-color: #33cc99;
+    border-color: var(--secondary-main);
+}
+
+.yesno_buttons .btn.selected_failure {
+    color: #fff;
+    background-color: #f33155;
+    border-color: var(--secondary-main);
+}
+
+.yesno_history {
+    margin: 10px 10px 0 10px;
+    border-radius: 3px;
+}
+
+.yesno_history h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: normal;
+    margin-bottom: 8px;
+}
+
+.yesno_history .yesno_history_item {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 3px;
+    text-align: center;
+    height: 52px;
+    vertical-align: top;
+}
+
+.yesno_history .yesno_history_date {
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.yesno_history .yesno_history_icon {
+    font-size: 24px;
+    text-align: center;
+}
+
+.yesno_history .yesno_history_icon.df-success {
+    color: #2ecc71;
+}
+
+.yesno_history .yesno_history_icon.df-close {
+    color: #de3c2f;
+}
+
+.na_icon {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/*.yesno_history .yesno_history_icon.df-success {
+    color: green;
+}*/
+
+/* Language Dropdown */
+.language_selector > div {
+    margin: 0px auto;
+    max-height: 48px;
+    max-width: 350px;
+    position: relative;
+}
+.language_selector div select.option_flag {
+    float: none;
+}
+
+/* Multiselect Field */
+.field_value .selected_list_container {
+}
+.field_value .open_selector {
+    background-color: #f5f5f5 !important;
+}
+
+.field_value .df-arrow-down {
+    pointer-events: none;
+}
+.field_value .form_element_icon,
+.language_selector > div > .form_element_icon,
+.r_placement_typeahead .form_element_icon,
+.sensors_typeahead .form_element_icon {
+    font-size: 1.5em;
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    height: 24px;
+    pointer-events: none;
+}
+
+#login_panel .language_selector > div > .form_element_icon {
+    color: white;
+}
+
+/**
+ * On Android, some password managers (e.g., 1Password) won't see a password input with
+ * display:none, so we have to show ours way outside of the viewport.
+ */
+#login_panel input.show_for_pw_managers {
+    position: absolute;
+    top: -99999999px;
+    left: -9999999px;
+    width: 1px;
+    height: 1px;
+}
+
+.field_value .select_field_selection_item .fake_input {
+    padding-right: 28px;
+}
+.field_value .select_field_selection_item {
+    position: relative;
+    padding: 0 0 16px 0px;
+    font-size: 0.875em;
+}
+.field_value .select_field_selection_item .remove {
+    color: inherit;
+}
+
+/* Range Slider */
+.field_value .slider-wrapper {
+    float: left;
+    width: 76%;
+    margin: 20px 15px 15px 0px;
+}
+
+.field_value .slider_value {
+    text-align: center;
+    float: right;
+    padding-top: 15px;
+    font-weight: 700;
+    font-size: 1em;
+}
+
+.field_value .noUiSlider {
+    border: none;
+    height: 8px;
+    box-shadow: none;
+    padding-left: 17px;
+    border-radius: 7px;
+    overflow: visible;
+}
+
+.field_value .noUi-connects {
+    border-radius: 6px;
+}
+
+.field_value .noUi-connect:first-child {
+    background: var(--secondary-main);
+    z-index: 10;
+}
+
+.field_value .noUi-connect:last-child {
+    background: white;
+    border: 1px solid #cacaca;
+    border-radius: 6px;
+
+    /**
+     * @author:david this fixes a UI glitch where the right-side (non-filled side) of the slider has its border
+     * cut off. Rather than letting the plugin move the right-side to the right as handle is moved, this will
+     * keep it in place. Note that the left-side (.noUi-connect:first-child) now requires a higher z-index
+     * so that it still appears.
+     */
+    transform: none !important;
+}
+
+.field_value .noUi-handle {
+    width: 24px !important;
+    height: 24px !important;
+    background-color: #ffffff;
+    border-radius: 50% !important;
+    top: -9px !important;
+    box-shadow: none;
+    right: -7px !important;
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.field_value .noUi-handle:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+/* The handle bars */
+.noUi-handle:after,
+.noUi-handle:before {
+    display: none !important;
+}
+
+.thumbnails {
+    display: none;
+}
+.has_value .thumbnails,
+.thumbnails.task_thumbnails,
+.title_images .thumbnails {
+    display: block;
+}
+
+.thumbnails .thumbnail,
+.thumbnails_location_gallery .thumbnail {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    background-color: #b8b8b8;
+    position: relative;
+}
+
+.thumbnails .thumbnail {
+    width: 100px;
+    height: 100px;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    float: left;
+    border-radius: 4px;
+    display: block;
+}
+
+.thumbnails .thumbnail.video_thumbnail {
+    background: #fff;
+    border: 1px solid #cacaca;
+    width: 86px;
+    height: 86px;
+    box-sizing: border-box;
+    padding: 0px;
+}
+
+.thumbnails .thumbnail.video_thumbnail i {
+    position: absolute;
+    left: 30px;
+    top: 28px;
+    font-size: 1.8em;
+}
+
+.field_instructions .thumbnails {
+    margin-top: 16px;
+}
+
+.thumbnails_location_gallery:not(.empty_gallery) {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.thumbnails_location_gallery .thumbnail {
+    min-width: 120px;
+    min-height: 120px;
+    margin: 1px;
+    padding: 0;
+    border-radius: 0;
+    flex: 2 1 0;
+}
+
+.add_media_placeholder {
+    font-size: 0.875em;
+    line-height: 1.1428571429em;
+    color: #757575;
+    font-weight: normal;
+    z-index: 9;
+    position: relative;
+}
+
+.field_value:not(.has_value) .add_media_placeholder.update {
+    display: none;
+}
+.field_value.has_value .take_video .add_media_placeholder:not(.update),
+.field_value.has_value .add_signature_btn .add_media_placeholder:not(.update) {
+    display: none;
+}
+
+.add_media_btn {
+    padding: 15px;
+    display: block;
+    border-radius: 4px;
+    border: 1px solid #cacaca;
+    position: relative;
+    text-align: center;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 16px;
+    min-width: 160px;
+    clear: both;
+    color: inherit;
+}
+
+.add_media_btn.add_signature_btn {
+    margin-bottom: 0px;
+}
+
+.add_signature_preview {
+    display: block;
+    margin-bottom: 8px;
+    border: 1px solid #cacaca;
+    border-radius: 4px;
+}
+.add_signature_preview img {
+    display: block;
+    width: 100%;
+    height: 48px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.has_value .add_media_btn:before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: #fff;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0.2;
+}
+
+.add_media_btn i {
+    color: #757575;
+    text-decoration: none;
+    position: absolute;
+}
+
+.add_media_btn i {
+    font-size: 24px;
+    top: 11px;
+    left: 15px;
+    z-index: 101;
+}
+
+.add_media_btn i.df-success {
+    color: var(--secondary-main);
+}
+
+.field_value:not(.has_value) .add_media_btn i.df-success,
+.field_value:not(.has_value) .add_media_btn i.df-plus {
+    display: none;
+}
+
+.field_value.has_value .add_media_btn.take_photo .df-plus {
+    display: none;
+}
+
+.field_value.has_value .add_media_btn.take_photo .add_media_placeholder.update {
+    display: none;
+}
+
+/* Stopwatch Field */
+.stopwatch_field .add_media_btn {
+    min-width: 80px;
+}
+
+.stopwatch_field .field_value .field_action_buttons_container .stopwatch_start_button {
+    padding: 15px 47px;
+}
+
+.stopwatch_field .field_value .field_action_buttons_container .stopwatch_stop_button {
+    padding: 15px 35px;
+    background-color: #39ca74;
+    color: #fff;
+    border-color: #39ca74;
+    text-align: center;
+}
+
+.stopwatch_field .field_value .field_action_buttons_container .stopwatch_reset_button {
+    padding: 15px 0;
+    text-align: center;
+}
+
+.stopwatch_field .acceptance_value_pass {
+    background-color: #33cc99 !important;
+    color: #fff !important;
+}
+
+.stopwatch_field .acceptance_value_failure {
+    background-color: #f33155 !important;
+    color: #fff !important;
+}
+
+.stopwatch_field .acceptance_value_neutral {
+    background-color: var(--secondary-main) !important;
+    color: #fff !important;
+}
+
+/* Signature Field */
+.signature_wrapper {
+    height: 79%;
+    position: relative;
+}
+
+.signature_wrapper .sign_line {
+    width: 70%;
+    border-top: 1px solid;
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    margin-left: -35%;
+    padding-top: 10px;
+    font-size: 14px;
+    text-align: center;
+    color: #757575;
+}
+
+.signature_wrapper .controls {
+    padding: 10px 1%;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 98%;
+}
+
+.signature_close,
+.signature_wrapper .signature_close {
+    position: absolute;
+    margin: 0 auto;
+    left: 16px;
+    bottom: 20px;
+    font-size: 25px;
+    color: #757575;
+}
+.signature_wrapper .signature_close {
+    font-size: 1.5em;
+    bottom: 16px;
+}
+
+.signature_wrapper .signature_clear,
+.signature_wrapper .signature_submit {
+    font-size: 16px;
+    margin-right: 2px;
+    display: inline-block;
+    padding: 6px;
+}
+
+.signature_display {
+    background: #f5f5f5;
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    z-index: 99999990;
+}
+
+.signature_field {
+    background: #fff;
+    box-shadow: 0 2px 3px #cacaca;
+}
+/**
+ * Our main page layout
+*/
+#pagebody {
+    background: #ececec;
+    z-index: 99999;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+#pagebody,
+.main_content {
+    /* Improves animation perf */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+}
+
+.page_scrollable {
+    /* The scrollable 'body' of a page, comes after toolbarnav */
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    will-change: overflow;
+
+    /* Deleting this means that some element with z-index will stop displaying correctly pleas be aware */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+
+    /* height will be set dynamically via JS to fill remaining space */
+    /* Improves performance on some devices (borrowed from snap.js documentation): */
+    -webkit-transition-property: top, bottom;
+    transition-property: top, bottom;
+    -webkit-transition-duration: 0.2s, 0.2s;
+    transition-duration: 0.2s, 0.2s;
+    -webkit-transition-timing-function: linear, linear;
+    transition-timing-function: linear, linear;
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch; /* overflow scroll effect on iOS! */
+}
+
+.page_scrollable.react_page_scrollable {
+    -webkit-transform: none !important;
+    transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    transform: none !important;
+
+    -webkit-transition-property: unset !important;
+    transition-property: unset !important;
+    -webkit-transition-duration: unset !important;
+    transition-duration: unset !important;
+    -webkit-transition-timing-function: unset !important;
+    transition-timing-function: unset !important;
+
+    box-sizing: border-box;
+}
+
+/**
+ * There is an issue on iOS where elements with "-webkit-overflow-scrolling: touch" and "overflow: scroll" may fail to scroll
+ * when content is added dynamically. This is fixed by creating a div inside that's 1px taller than the height of the scrollable div
+ * (in this case, .page_scrollable).
+ *
+ * @bug:MOBILE-194
+ * @see http://patrickmuff.ch/blog/2014/10/01/how-we-fixed-the-webkit-overflow-scrolling-touch-bug-on-ios/
+ */
+.ios .page_scrollable::before {
+    content: '';
+    width: 1px;
+    display: block;
+    height: calc(100% + 1px);
+    position: absolute;
+}
+
+/* Prevent scrolling when drawer is open */
+body.snapjs-left #pagebody .page_scrollable {
+    overflow: hidden;
+}
+
+/**
+ * For some reason, Android doesn't show scrollbars for .page_scrollable. Styling them fixes that :)
+ */
+.android ::-webkit-scrollbar {
+    width: 4px;
+}
+.android ::-webkit-scrollbar-thumb {
+    background-color: #b8b8b8;
+    border-radius: 2px;
+}
+
+.page_scrollable.keyboard_open::after,
+.fullscreen .page_scrollable.keyboard_open::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 300px !important;
+}
+
+#pagebody #leftmenu_dragger {
+    /**
+     * account for clicking toolbarnav. This is janky, but this element has to be outside of the main_content.
+     * @author:david if needed, we could dynamically set 'top' in on_orientation_change().
+     */
+    top: 64px;
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 20px;
+    z-index: 999999;
+    opacity: 0.2;
+}
+
+#pagebody .leftmenu_open_pagebody_blocker {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 9999999;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    display: none;
+}
+body.snapjs-left #pagebody .leftmenu_open_pagebody_blocker {
+    display: block;
+}
+
+/** @group header **/
+.toolbarnav {
+    position: relative;
+    display: block;
+    height: 64px;
+    width: 100%;
+    padding-right: 8px;
+    box-sizing: border-box;
+    background: var(--secondary-main);
+    font-weight: normal;
+    color: #fff;
+    box-shadow: 0 2px 3px #cacaca;
+    display: flex;
+    z-index: 9999;
+}
+
+.toolbarnav .toolbarnav_section {
+    flex: 1 1 auto;
+}
+
+.toolbarnav .toolbarnav_section.title_container {
+    flex: 100 1 auto;
+}
+
+.toolbarnav .toolbarnav_section.title_container a {
+    color: white;
+}
+
+.toolbarnav .toolbarnav_btn,
+.toolbarnav .title_container {
+    display: inline-block;
+    position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    color: inherit;
+}
+
+.toolbarnav .unread_comments_notification {
+    color: #de3c2f;
+    position: absolute;
+    top: 35px;
+    left: 31px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.toolbarnav .toolbarnav_btn.lock_icon .df-lock {
+    top: 26px;
+    right: 10px;
+}
+
+.toolbarnav .select_options_container,
+.toolbarnav .overflow_menu {
+    position: absolute;
+    background: #fff;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
+    border-radius: 2px;
+    padding: 5px 0px;
+    overflow: hidden;
+    z-index: 9999999;
+    color: #212121;
+    overflow: hidden;
+}
+
+.toolbarnav .select_options_container ul,
+.toolbarnav .overflow_menu ul {
+    list-style: none;
+}
+.toolbarnav .select_options_container ul li,
+.toolbarnav .overflow_menu ul li {
+    display: block;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1em;
+}
+
+.toolbarnav .overflow_menu a,
+.toolbarnav .select_options_container a {
+    color: inherit;
+    display: block;
+    position: relative;
+    line-height: 18px;
+    height: 18px;
+}
+
+.toolbarnav .overflow_menu .disabled {
+    color: #bcbdbf;
+    pointer-events: none;
+    cursor: default;
+}
+
+.toolbarnav .overflow_menu:empty,
+.toolbarnav .select_options_container:empty {
+    /**
+     * @author:david there's a bug in Safari where using 'display: none' here prevents the overflow menu
+     * from re-opening, every other time. Instead, we'll just set height and width to 0. >:(
+     */
+    height: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+.toolbarnav .select_options_container:not(:empty) {
+    top: 8px;
+    left: 48px;
+    min-width: 168px;
+}
+
+.toolbarnav .select_options_container a {
+    padding: 16px;
+}
+
+.toolbarnav .overflow_menu {
+    width: 220px;
+    right: 13px;
+    top: 52px;
+}
+
+.toolbarnav .overflow_menu a {
+    padding: 10px 16px;
+}
+
+.toolbarnav .toolbarnav_btn {
+    cursor: pointer;
+    position: relative;
+    box-sizing: border-box;
+    width: 48px;
+    color: #fff;
+}
+
+.tasks_filtered_by_project .toolbarnav .toolbarnav_btn.toggle_search {
+    display: none;
+}
+
+.toolbarnav .toolbarnav_btn.quick_add_task,
+.toolbarnav .toolbarnav_btn.toggle_search {
+    background: var(--primary-main);
+}
+
+.toolbarnav .toolbarnav_btn.edit_sensor,
+.toolbarnav .toolbarnav_btn.quick_add_task,
+.toolbarnav .toolbarnav_btn.toggle_search {
+    height: 32px;
+    width: 32px;
+    border-radius: 4px;
+    vertical-align: top;
+    margin-top: 17px;
+}
+
+.toolbarnav .toolbarnav_btn.toggle_search {
+    background: var(--secondary-main);
+    color: #fff;
+}
+
+.toolbarnav .toolbarnav_btn.toggle_search.active {
+    background: #fff;
+    color: var(--secondary-main);
+}
+
+.toolbarnav .toolbarnav_btn.edit_sensor i,
+.toolbarnav .toolbarnav_btn.quick_add_task i,
+.toolbarnav .toolbarnav_btn.toggle_search i {
+    top: 8px;
+    left: 8px;
+    font-size: 1em;
+}
+
+.toolbarnav .toolbarnav_btn.show_overflow_menu {
+    color: #fff;
+}
+
+.toolbarnav .toolbarnav_btn i {
+    position: absolute;
+}
+
+.toolbarnav .toolbarnav_btn.go_back i {
+    top: 20px;
+    left: 16px;
+    font-size: 24px;
+}
+.toolbarnav .toolbarnav_btn.toggle_leftmenu i {
+    color: #fff;
+    font-size: 24px;
+    top: 20px;
+    left: 16px;
+}
+
+/**
+ * Toolbarnav Actions / Overflow Menu
+ */
+.toolbarnav .overflow_touchblock,
+.tasks_creator .overflow_touchblock {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    display: none;
+}
+
+.toolbarnav .toolbarnav_btn .df-overflow {
+    font-size: 1.5em;
+    top: 20px;
+    right: 12px;
+}
+
+.toolbarnav .toolbarnav_btn .df-plus {
+    font-size: 19px;
+    top: 23px;
+    left: 15px;
+}
+
+.toolbarnav .toolbarnav_btn .df-success {
+    font-size: 32px;
+    top: 16px;
+    left: 9px;
+}
+
+.toolbarnav .toolbarnav_btn .df-delete {
+    font-size: 27px;
+    top: 20px;
+    left: 10px;
+}
+
+.dialog.image_preview_modal .toolbarnav .df-edit {
+    font-size: 27px;
+    top: 20px;
+    left: 10px;
+    color: white;
+}
+
+.dialog.image_preview_modal .delete_image_mobile {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    left: 24px;
+    bottom: 24px;
+    z-index: 99999;
+    background: #de3c2f;
+    text-align: center;
+    font-size: 2.4em;
+}
+
+.dialog.image_preview_modal .delete_image_mobile .delete_image {
+    text-decoration: none;
+    color: #fae3e0;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+
+.toolbarnav .toolbarnav_btn .df-edit {
+    font-size: 25px;
+    top: 21px;
+    left: 13px;
+}
+
+.toolbarnav h1,
+.toolbarnav h2 {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: absolute;
+    width: 100%;
+}
+
+.toolbarnav h1 {
+    top: 16px;
+    font-size: 1.25em;
+    font-weight: normal;
+    line-height: 1.6em;
+}
+.toolbarnav.has_subtitle h1 {
+    top: 12px;
+}
+
+.toolbarnav .title_container a.has_select_options {
+    cursor: pointer;
+}
+
+.toolbarnav h2 {
+    top: 40px;
+    font-size: 14px;
+    color: #ececec;
+    font-weight: normal;
+}
+
+.toolbarnav .loading_bar {
+    height: 5px;
+    width: 100%;
+    background: #cacaca;
+    position: absolute;
+    bottom: -1px;
+    display: none;
+    overflow: hidden;
+    left: 0;
+    right: 0;
+}
+
+/**
+ * Dropdown triangle for toolbarnav title selector
+ */
+
+.toolbarnav .title_container h1 i {
+    display: none;
+}
+
+.toolbarnav .title_container a.has_select_options h1 i {
+    display: inline;
+    font-size: 24px;
+    line-height: 1em;
+    vertical-align: middle;
+}
+
+/* The animating piece within the loading bar */
+.toolbarnav .loading_bar .progress {
+    height: 100%;
+    width: 0;
+    margin: 0;
+    background: #62bfe7;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0); /* required for Android 4.3 and below for CSS3 animation to work */
+    position: relative;
+    z-index: 1;
+    -webkit-transition: width 2s;
+    -moz-transition: width 2s;
+    -ms-transition: width 2s;
+    transition: width 2s;
+}
+
+.toolbarnav .loading_bar .infinite_progress {
+    width: 200%;
+    height: 0px;
+    position: absolute;
+    top: 0;
+    left: 0%;
+    z-index: 0;
+    border: 2px dashed var(--secondary-main);
+    opacity: 0.4;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0); /* required for Android 4.3 and below for CSS3 animation to work */
+    -webkit-animation: animate_infinite_progressbar 10s linear infinite;
+    -moz-animation: animate_infinite_progressbar 10s linear infinite;
+    -ms-animation: animate_infinite_progressbar 10s linear infinite;
+    animation: animate_infinite_progressbar 10s linear infinite;
+}
+
+/** CSS3 Keyframe for .infinite_progress bar */
+@-webkit-keyframes animate_infinite_progressbar {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 0%;
+    }
+}
+@-moz-keyframes animate_infinite_progressbar {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 0%;
+    }
+}
+@-ms-keyframes animate_infinite_progressbar {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 0%;
+    }
+}
+@keyframes animate_infinite_progressbar {
+    from {
+        left: -100%;
+    }
+    to {
+        left: 0%;
+    }
+}
+
+#notifications {
+    display: none;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 9999;
+    height: 40px;
+    width: 100%;
+    background: #de3c2f;
+}
+
+#notifications h2 {
+    text-align: center;
+    padding-top: 10px;
+    color: #fff;
+    font-weight: 700;
+    font-size: 2em;
+}
+
+.toolbar_error {
+    background: #de3c2f !important;
+}
+.field_error {
+    border: solid 1px red;
+}
+
+/** Mobile Form Sticky Section Header */
+.section_sticky_header .section_sticky_name {
+    width: 100%;
+    vertical-align: middle;
+}
+.section_sticky_header .show_toc {
+    position: absolute;
+    right: 12px;
+    top: 8px;
+    font-size: 1.5em;
+}
+.section_sticky_header {
+    background: #ececec;
+    padding: 12px 32px 12px 16px;
+    display: block;
+    color: inherit;
+    box-shadow: 0 2px 3px 0 rgba(72, 84, 101, 0.15);
+    z-index: 1;
+    text-align: left;
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: none;
+}
+
+.has_sections .section_sticky_header {
+    display: block;
+}
+
+/**
+ * Slide menus
+*/
+#leftmenu {
+    background: var(--secondary-main);
+    height: 100%;
+    display: block;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    z-index: 0;
+}
+
+#leftmenu #logo {
+    height: 65px;
+    padding: 16px 0px 0px 16px;
+    position: relative;
+    z-index: 114;
+    box-sizing: border-box;
+    width: 100%;
+}
+.fullscreen #leftmenu #logo {
+    padding-top: 24px; /* fall back to pre-iOS 11 */
+    padding-top: calc(constant(safe-area-inset-top) + 14px); /* iOS 11.0 */
+    padding-top: calc(env(safe-area-inset-top) + 14px); /* iOS 11.2 */
+}
+
+#leftmenu .sidenav_logo {
+    width: 105px;
+    display: block;
+}
+
+.num_uploads_pending {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 2px 5px;
+}
+
+#pagebody #content {
+    display: block;
+    padding: 5px 12px;
+    margin-top: 40px;
+    min-height: 550px;
+    height: 100%;
+    z-index: 9999;
+}
+
+#leftmenu .menu_section_header {
+    font-size: 1em;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin: 16px 0px 0px 16px;
+    color: #fff;
+    padding-bottom: 5px;
+}
+#leftmenu ul#main {
+}
+#leftmenu ul {
+    list-style: none;
+}
+#leftmenu ul li {
+    display: block;
+}
+#leftmenu ul li a {
+    position: relative;
+    display: block;
+    padding: 16px;
+    font-weight: normal;
+    color: #ffffff;
+    font-size: 1em;
+    text-decoration: none;
+    line-height: 1em;
+}
+#leftmenu ul li a i {
+    margin-right: 16px;
+    font-size: 20px;
+    vertical-align: middle;
+
+    /* Galaxy S2 (Android 4.0) and Atrix HD need fontastic icons to have widths */
+    display: inline-block;
+    width: 24px;
+    position: relative;
+    top: -1px;
+}
+
+#leftmenu .count {
+    float: right;
+    text-align: center;
+    width: 33px;
+    height: 30px;
+    box-sizing: border-box;
+    padding: 7px;
+    border-radius: 3px;
+    font-size: 1em;
+    left: 210px;
+    position: absolute;
+    vertical-align: top;
+    top: 10px;
+    background-color: #de3c2f;
+    color: #fff;
+    border: 1px solid #de3c2f;
+}
+
+#leftmenu .count.white {
+    background-color: transparent;
+    border-color: #fff;
+}
+
+#leftmenu ul li .nav_pending {
+    font-size: 15px;
+}
+
+#leftmenu ul li a:hover {
+    text-decoration: none;
+}
+#leftmenu ul li a.selected {
+    background: var(--secondary-main-active);
+}
+#leftmenu ul#recent_template_list li a .df-arrow-right {
+    display: none;
+}
+#leftmenu ul li a [class^='zp-'] {
+    opacity: 0.6;
+    font-size: 12px;
+}
+
+#leftmenu .upload_background.error .count {
+    background: #de3c2f;
+    border-color: #de3c2f;
+}
+
+#leftmenu_scroller {
+    position: absolute;
+    z-index: 1;
+    top: 65px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.fullscreen #leftmenu_scroller {
+    top: 95px; /* non-iPhone X */
+    top: calc(constant(safe-area-inset-top) + 65px); /* iOS 11.0 */
+    top: calc(env(safe-area-inset-top) + 65px); /* iOS 11.2 */
+
+    bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */
+    bottom: env(safe-area-inset-bottom); /* iOS 11.2 */
+}
+
+#leftmenu .listitem_title {
+    max-width: 180px;
+    vertical-align: top;
+}
+
+/** pad the top of the form to account for the toolbar */
+.main_content {
+    padding: 0px;
+    margin: 0;
+    background: #ececec;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    box-shadow: 0 0 2px #cacaca; /* for transitions - more performant to always have the shadow than to add it just when transitioning */
+}
+
+.fullscreen .fullscreen_filler {
+    /* fullscreen spacer for iOS */
+    position: relative;
+    width: 100%;
+    height: 15px; /* fall back to pre-iOS 11 */
+    height: constant(safe-area-inset-top); /* iOS 11.0 */
+    height: env(safe-area-inset-top); /* iOS 11.2 */
+    background: var(--secondary-main);
+    z-index: 99999999;
+}
+
+.fullscreen .page_scrollable::after {
+    content: '';
+    display: block;
+    height: 0px; /* non-iPhone X */
+    height: constant(safe-area-inset-bottom); /* iOS 11.0 */
+    height: env(safe-area-inset-bottom); /* iOS 11.2 */
+    background: transparent;
+}
+
+/**
+ * My Forms & Drafts Pages
+ */
+
+.pagelist .no_results {
+    margin-left: -100px;
+    display: block;
+    font-size: 16px;
+    border-bottom: 1px solid #cacaca;
+    padding: 14px 15px 14px 0;
+    color: #757575;
+    margin: 0;
+    position: relative;
+    margin-left: 15px;
+
+    /* Static height and overflow: hidden so that we can better style the delete buttons as 100% height */
+    height: 19px;
+    overflow: hidden;
+    font-weight: 700;
+}
+
+.pagelist li > a:not(.df-info),
+.pagelist li .notification {
+    display: block;
+    font-size: 1em;
+    border-bottom: 1px solid #ececec;
+    padding: 16px;
+    color: #212121;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+
+    /* Static height and overflow: hidden so that we can better style the delete buttons as 100% height */
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.pagelist li a:after:not(.linkified) {
+    content: '';
+    clear: both;
+    display: block;
+}
+
+.has_search_bar ul.pagelist {
+    margin-top: 0px;
+}
+
+ul.pagelist {
+    list-style-type: none;
+    position: relative;
+    margin-top: 16px;
+    padding-bottom: 8px;
+}
+ul.pagelist li:last-child {
+    box-shadow: 0 2px 3px #cacaca;
+}
+
+ul.tasks_list.pagelist {
+    margin-top: 0px;
+}
+
+.tasks_list.pagelist li a:not(.df-info) {
+    padding: 16px 16px 16px 8px;
+}
+
+.tasks_dashboard_cards_container .card {
+    margin-bottom: 0px;
+}
+
+.card .pagelist li:last-child {
+    box-shadow: none;
+}
+
+.pagelist li:after {
+    clear: both;
+}
+
+.pagelist li:after,
+.pagelist li:before {
+    content: ' '; /* 1 */
+    display: table; /* 2 */
+}
+
+.pagelist li:last-child a {
+    margin-bottom: -1px;
+}
+
+.pagelist .delete_draft {
+    position: absolute;
+    right: -100px;
+    top: 0px;
+    bottom: 0;
+    background: #de3c2f;
+    text-align: center;
+    font-size: 1em;
+    padding: 37px 26px;
+    color: #fff;
+    box-sizing: border-box;
+    -webkit-transition: right 0.1s linear;
+    -moz-transition: right 0.1s linear;
+    -o-transition: right 0.1s linear;
+    transition: right 0.1s linear;
+}
+.pagelist.editing .delete_draft {
+    right: 0;
+    height: 100%;
+    -webkit-transition: right 0.1s linear;
+    -moz-transition: right 0.1s linear;
+    -o-transition: right 0.1s linear;
+    transition: right 0.1s linear;
+}
+.pagelist li:first-child .delete_draft {
+    padding-bottom: 17px;
+} /* account for lack of border on top one */
+
+.form_template_list:not(.submissions_list):not(.drafts_list) .listitem_title {
+    margin-bottom: 0px;
+}
+
+.form_template_list li a i.df-form {
+    display: none;
+}
+.pagelist .df-arrow-right {
+    color: #b8b8b8;
+    font-size: 1.5em;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+}
+
+.card .pagelist {
+    margin: 0;
+    box-shadow: none;
+}
+
+.card .card_body .pagelist {
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-bottom: -24px;
+}
+
+.card .pagelist li,
+.card .pagelist li:first-child,
+.card .pagelist li:last-child {
+    border: none;
+}
+
+/**
+ * Dialogs/modals/etc
+ */
+.empty_list_message_wrapper {
+    padding: 20px 20px 20px 20px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 16px;
+    color: #3b4850;
+    height: 100%;
+    display: block;
+}
+.empty_list_message_wrapper .message_icon {
+    font-size: 70px;
+    display: block;
+    margin: 40px auto 35px;
+}
+
+.empty_list_message_wrapper .empty_list_message_retry {
+    margin-top: 16px;
+}
+
+.empty_list_message_wrapper img {
+    margin: 90px auto 35px;
+}
+
+.empty_list_message_wrapper h2 {
+    margin-bottom: 8px;
+}
+
+.empty_list_message_wrapper p {
+    white-space: pre-wrap;
+}
+
+.page_transition_touchblock,
+.modal_touchblock {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 99999999999;
+    display: none;
+}
+
+.modal_touchblock {
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999999;
+}
+
+#touch_block {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    position: fixed;
+    left: 0%;
+    z-index: 99999999;
+    background: rgba(251, 251, 251, 0.76);
+}
+
+.loading_spinner {
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 2s linear infinite;
+    -moz-animation: spin 2s linear infinite;
+    -o-animation: spin 2s linear infinite;
+    -ms-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+/** Global loading spinner */
+#loading_dialog_wrapper .loading_spinner {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 70px;
+    height: 70px;
+    z-index: 99999999;
+    margin-left: -35px;
+    margin-top: -35px;
+}
+
+/** Material Spinner: https://codepen.io/jczimm/pen/vEBpoL */
+.loading_spinner svg {
+    height: 100%;
+    transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.loading_spinner circle {
+    stroke-dasharray: 1, 200;
+    -webkit-animation: material-load-dash 1.5s ease-in-out infinite;
+    -moz-animation: material-load-dash 1.5s ease-in-out infinite;
+    -o-animation: material-load-dash 1.5s ease-in-out infinite;
+    -ms-animation: material-load-dash 1.5s ease-in-out infinite;
+    animation: material-load-dash 1.5s ease-in-out infinite;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    stroke: var(--secondary-main);
+}
+
+.infinite_scroll_loading {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0px;
+}
+
+.infinite_scroll_loading .loading_spinner {
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: 5px auto;
+}
+
+.dialog {
+    background: #f5f5f5;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999998;
+    overflow: hidden;
+}
+
+.dialog ul.pagelist {
+    margin-top: 0px;
+}
+
+/**
+ * fix for wacky inputs/textareas on Android 4.0
+ */
+input,
+textarea {
+    -webkit-user-modify: read-write-plaintext-only;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+select,
+.btn {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/** @group clearfix **/
+.clearfix:after {
+    content: '.';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+* html .clearfix {
+    height: 1%;
+}
+
+ul.form_container {
+    list-style: none outside none;
+    padding-bottom: 8px;
+}
+
+.form_container .form-field {
+    background: #fff;
+    border-top: 1px solid #ececec;
+    position: relative;
+}
+.form_container .form-field::after {
+    content: '';
+    clear: both;
+    display: block;
+}
+
+.ingredient_equipment_temperatures_list {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.ingredient_equipment_temperatures_list ul {
+    width: 100%;
+    list-style: none;
+}
+
+.ingredient_equipment_temperatures_list .form-field {
+    padding: 16px 0px;
+}
+
+.ingredient_equipment_temperatures_list .form-field:first-child {
+    border-top: none;
+}
+.ingredient_equipment_temperatures_list .ingredient_equipment_follow_up_actions .form-field {
+    border-top: 1px solid #ececec;
+}
+
+.form_container .ingredient_equipment_temperature_instructions {
+    font-size: 0.875em;
+    font-weight: 200;
+    margin: 6px 0px 20px;
+    text-transform: capitalize;
+    word-break: break-word;
+    font-style: italic;
+}
+
+.form_container .form-field .field_instructions {
+    clear: both;
+    background: #ececec;
+    color: #757575;
+    padding: 16px;
+    margin: 16px -16px 0;
+    box-shadow: inset 0 4px 11px 0 #c0c0c0;
+    overflow: hidden;
+    display: none; /* default to display:none to avoid flicker on iOS */
+}
+
+.form-field .field_instructions .field_instructions_text {
+    line-height: 1.2em;
+}
+
+.task_details .triggering_image_fields {
+    padding-top: 5px;
+}
+
+.task_details .triggering_image_fields .field_value {
+    margin: initial !important;
+}
+
+.task_details .triggering_image_fields li {
+    list-style-type: none;
+    border-top: 1px solid #eee;
+}
+
+.notification_settings .notification_category {
+    padding: 8px 16px;
+    font-size: 16px;
+    color: #3b4850;
+    background-color: #ffffff;
+    min-width: 150px;
+    max-width: 400px;
+    float: left;
+    line-height: 1.5em;
+}
+
+.task_details .triggering_image_fields .field_title {
+    padding-bottom: 12px;
+    display: block;
+    padding-top: 12px;
+}
+
+.title_images .btn.view_pdf,
+.file_field.view_pdf {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 0.8em;
+    position: relative;
+    padding-right: 32px;
+    margin-bottom: 8px;
+    max-width: 450px;
+    text-align: left;
+}
+
+.title_images .btn.view_pdf:before,
+.file_field.view_pdf:before {
+    content: '\f1e0'; /* df-file */
+    display: block;
+    position: absolute;
+    right: 12px;
+    top: 8px;
+    font-family: 'donkeyfont' !important;
+    font-size: 1.5em;
+}
+
+.form_container .form-field.hidden_formula {
+    display: none !important;
+}
+.form_container .form-field.dependent_field {
+    padding-left: 37px;
+}
+.form_container .form-field.dependent_field.dependent_field_level_2 {
+    padding-left: 53px;
+}
+.form_container .form-field .dependent_vertical_line_level_1::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 100%;
+    background: #ececec;
+    position: absolute;
+    left: 16px;
+    top: 0px;
+}
+
+.form_container .form-field .dependent_vertical_line_level_2::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 100%;
+    background: #ececec;
+    position: absolute;
+    left: 32px;
+    top: 0px;
+}
+
+.form_container .form-field.dependent_field::after,
+.form_container .form-field.dependent_field_level_2::after {
+    content: '';
+    display: block;
+    background-color: #fff;
+    height: 1px;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    z-index: 101;
+}
+
+.form_container .form-field.dependent_field::after {
+    width: 16px;
+}
+
+.form_container .form-field.dependent_field_level_2::after {
+    width: 32px;
+}
+.form_container .invalid.form-field.dependent_field::before {
+    background: #de3c2f;
+}
+
+.has_sections:not(.historical_submission) .form_outer_container {
+    padding-top: 40px;
+}
+
+.form_outer_container .secure_form_header .nav_icon.df-lock {
+    float: left;
+}
+
+.form_outer_container .secure_form_header p {
+    padding-left: 25px;
+    text-align: left;
+}
+
+.form_outer_container .secure_form_header {
+    font-size: 16px;
+    line-height: 24px;
+    color: #ffffff;
+    background-color: #485465;
+    padding: 20px 16px 20px 16px;
+}
+
+.form_section .section_header {
+    font-size: 1.125em;
+    line-height: 1.125em;
+    position: relative;
+    padding: 20px 16px 20px 16px;
+    font-weight: 500;
+    box-shadow: 0 2px 3px #cacaca;
+}
+
+.form_section .section_header i {
+    position: absolute;
+    right: 8px;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(0deg);
+}
+
+.form_section.collapsed .section_header i {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(180deg);
+}
+
+.form_section.section_no_fields .section_header i {
+    display: none;
+}
+
+.form_section .section_footer {
+    padding: 16px;
+    text-align: center;
+    position: relative;
+    font-weight: normal;
+    font-size: 1em;
+    color: #fff;
+}
+
+.form_section .section_footer.required_complete {
+    background-color: #62bfe7;
+}
+
+.form_section .section_footer.required_not_complete {
+    background-color: #de3c2f;
+}
+
+.form_section .section_footer::before,
+.form_section .section_footer::after {
+    content: '\f177'; /* .df-arrow-up */
+    font-family: 'donkeyfont' !important;
+    position: absolute;
+    transform: rotate(180deg);
+    font-size: 1.5em;
+    line-height: 1em;
+    top: 12px;
+}
+.form_section .section_footer::before {
+    right: 8px;
+}
+.form_section .section_footer::after {
+    left: 8px;
+}
+
+/* if no footer text, hide footer entirely when collapsed. Always hide arrows when collapsed */
+.form_section.collapsed .section_footer.none_required,
+.form_section.collapsed .section_footer::before,
+.form_section.collapsed .section_footer::after {
+    display: none;
+}
+
+.form_container li {
+    clear: both;
+    padding: 16px;
+}
+
+.form_container .field_title {
+    font-size: 0.875em;
+}
+.form_container .field_title {
+    min-width: 150px;
+    max-width: 400px;
+    float: left;
+    padding-top: 0;
+    padding-bottom: 16px;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.form_container .field_title_small {
+    min-width: 150px;
+    max-width: 400px;
+    float: left;
+    padding-top: 0;
+    padding-bottom: 16px;
+    font-size: 0.875em;
+    line-height: 1.5em;
+}
+
+.form_container .required_star {
+    color: #de3c2f;
+}
+
+.form_container .form-field:not(.invalid) .field_title {
+    color: #757575;
+}
+
+.form_container .instructions_field_instructions {
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.field_value input[type='file'] {
+    position: absolute;
+    left: -99999px;
+}
+
+.field_value {
+    text-align: right;
+    padding-top: 0px;
+    height: auto;
+    overflow: hidden;
+    text-align: left;
+}
+
+.equipment_location_field_value {
+    width: 100%;
+    padding-bottom: 13px;
+}
+
+.form_container .field_value {
+    min-width: 265px;
+    float: right;
+    position: relative;
+    margin-bottom: 3px;
+}
+
+.ingredient_equipment_temperatures_list.field_value {
+    width: 100%;
+}
+
+.ingredient_equipment_temperatures_list
+    .ingredient_equipment_follow_up_actions
+    .dependent_vertical_line_level_1::before {
+    height: 100%;
+}
+
+.form_container .ingredient_equipment_temperatures_list .retemp-field {
+    padding-left: 25px;
+}
+
+.field_value.field_full {
+    width: 100%;
+}
+
+.field_value .account_address_hidden {
+    padding: 8px 0px 0px 16px;
+    color: #757575;
+}
+.field_value .account_address_moreinfo {
+    padding: 8px 16px 0px 16px;
+    color: #757575;
+    font-size: 0.875em;
+}
+
+.field_value.add_image_value {
+    max-width: 256px;
+}
+
+.field_value input,
+.form-field textarea,
+.fake_input,
+.field_value select {
+    width: 100%;
+    max-height: 200px;
+}
+
+.field_value input.has_value,
+.form-field textarea.has_value,
+.fake_input.has_value,
+.field_value select.has_value,
+.field_value input:focus,
+.form-field textarea:focus,
+.fake_input:focus,
+.field_value select:focus {
+    background-color: #ffffff;
+}
+
+.field_value input.saveonchange,
+.field_value textarea.saveonchange,
+.field_value select.saveonchange,
+.field_value .btn {
+    float: left;
+}
+
+.field_value .clear {
+    font-size: 24px;
+    position: absolute;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+    top: 4px;
+    color: #757575;
+}
+
+/* Mobiscroll Adjustments */
+body > div.mbsc-fr {
+    z-index: 9999999999;
+}
+.mbsc-material .mbsc-cal-btn-txt,
+.mbsc-material .mbsc-sc-btn,
+.mbsc-material .mbsc-fr-btn,
+.mbsc-material .mbsc-cal-hl-now .mbsc-cal-today {
+    color: var(--secondary-main) !important;
+}
+.mbsc-material .mbsc-sc-whl-l {
+    border-color: var(--secondary-main) !important;
+}
+
+.mbsc-material.mbsc-no-touch .mbsc-cal-day.mbsc-cal-day-v:hover .mbsc-cal-day-fg,
+.mbsc-material.mbsc-no-touch .mbsc-cal-sc .mbsc-cal-sc-cell:not(.mbsc-fr-btn-d):hover .mbsc-cal-sc-tbl,
+.mbsc-material .mbsc-cal .mbsc-cal-day-sel .mbsc-cal-day-fg,
+.mbsc-material .mbsc-cal-sc .mbsc-cal-sc-sel .mbsc-cal-sc-cell-i {
+    background: rgba(22, 157, 217, 0.4) !important;
+}
+
+/* Hide labels for hours, minutes, seconds next to timespan numbers */
+.mbsc-ts-lbl {
+    display: none;
+}
+
+.field_value .datetime_field_wrapper {
+    width: 100%;
+    float: left;
+}
+.field_value .datetime_field_wrapper h2 {
+    font-size: 13px;
+    text-align: left;
+    margin: 5px 0 7px;
+}
+.field_value .date input,
+.field_value .datetime_field_wrapper input {
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 5px;
+    text-align: center;
+}
+.field_value .datetime_field_wrapper.date {
+    position: relative;
+}
+.field_value .datetime_field_wrapper.date .df-calendar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 1;
+    font-size: 1.5em;
+}
+.field_value .datetime_field_wrapper.time {
+    width: 95px;
+}
+
+.field_value select {
+    height: 48px;
+}
+
+.checkbox_mod {
+    display: none;
+}
+.fake_checkbox {
+    font-size: 1.5em;
+    width: 100%;
+}
+.fake_checkbox .df-success {
+    position: relative;
+    top: -7px;
+}
+.image_field {
+    padding: 10px;
+    line-height: 25px;
+}
+
+.r_account_field_extra_explainer {
+    margin: 16px 16px 0;
+    background: #f5f5f5;
+    padding: 16px;
+    font-size: 15px;
+    max-width: 460px;
+    border-radius: 6px;
+}
+
+.r_account_field_extra_explainer h4 {
+    font-weight: normal;
+    font-size: 1.125em;
+}
+
+.r_account_field_extra_explainer p {
+    margin: 10px auto;
+    line-height: 1.3em;
+}
+.r_account_field_extra_explainer .btn {
+    float: left;
+}
+
+/** Table of Contents */
+/* height will be set by JS based on screen height */
+.bottom_sheet {
+    background: #ffffff;
+    z-index: 999999;
+    max-height: 50%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 0 5px #212121;
+    padding: 0px;
+    box-sizing: border-box;
+    max-width: 700px;
+    margin: auto;
+}
+
+.bottom_sheet h3 {
+    padding: 15px;
+    background: #b8b8b8;
+    color: white;
+}
+
+.bottom_sheet .pagelist {
+    margin-top: 0px;
+}
+
+.bottom_sheet ul.pagelist li:last-child {
+    box-shadow: none;
+}
+
+/* Prev. Next Wizard */
+.next_prev {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 99999;
+    background-color: #fae3e0;
+    color: #de3c2f;
+    display: none;
+    text-align: center;
+    font-size: 1em;
+    min-width: 320px;
+    max-height: 56px;
+}
+
+.next_prev_text,
+.next,
+.prev {
+    color: #de3c2f;
+}
+
+.next_prev_text {
+    float: left;
+    padding: 20px 0px 20px 16px;
+}
+
+.next_prev_container {
+    float: right;
+}
+
+.next_prev .next,
+.next_prev .prev {
+    float: left;
+    text-decoration: none;
+    display: inline;
+    padding: 20px 12px;
+}
+
+.next_prev .prev {
+    padding-right: 0px;
+}
+
+.next_prev .df-arrow-left,
+.next_prev .df-arrow-right {
+    font-size: 0.85em;
+    top: 1px;
+    position: relative;
+}
+/**
+ * @author:david because BottomSheet doesn't extend from BaseToobarNavPageLayout, we don't
+ * get this heightened automatically for free. Fortunately, we know the exact
+ * height it should be--for now; we'll probably end up having to make it dynamic.
+ */
+.bottom_sheet .bottom_sheet_body {
+    height: 355px;
+}
+
+.bottom_sheet .close_bottom_sheet {
+    position: absolute;
+    color: white;
+    right: 1px;
+    top: 0px;
+    padding: 11px 16px;
+    font-size: 1.5em;
+}
+
+.section_stats_list .navlink {
+    padding: 10px;
+}
+
+.section_stats_list .toc_section_status,
+.section_stats_list .toc_section_name {
+    display: block;
+}
+
+.section_stats_list .toc_section_name {
+    line-height: 32px;
+}
+
+.section_stats_list .toc_active_section {
+    background: #f5f5f5;
+}
+
+.section_stats_list .toc_active_section .toc_section_name {
+    font-weight: bold;
+}
+
+.section_stats_list .toc_section_status {
+    width: 90px;
+    min-height: 1px; /* makes sure that this always has a width */
+    float: right;
+    text-align: right;
+    margin-left: 10px;
+}
+
+.section_stats_list .toc_section_status .df-success {
+    color: #2ecc71;
+    top: 1px;
+    position: relative;
+}
+
+.section_stats_list .toc_section_status .df-success.toc_all_complete {
+    font-size: 16px;
+    right: 16px;
+    position: absolute;
+    top: 18px;
+}
+
+.section_stats_list .toc_required_complete_status {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.section_stats_list .toc_total_status {
+    font-size: 0.8em;
+    color: #757575;
+    margin-top: 2px;
+}
+
+.add_task_fields .form-field,
+.delete_field .form-field {
+    margin: 16px 0px;
+    padding: 0 16px;
+}
+
+.add_task_fields .form-field .form-field {
+    padding: 0px;
+}
+
+/**
+ * Sometimes we show "forms" that aren't Zenput forms but rather a list of input fields.
+ * We need to center these on larger displays, since they don't have titles like the actual Zenput forms.
+ */
+.add_task_fields #batch_generate_count .message_wrapper,
+.add_task_fields .field_value,
+.task_details .field_value,
+.edit_account_details .field_value,
+.delete_field .field_value {
+    max-width: 400px;
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    float: none;
+}
+
+.add_task_fields .add_task_fields_container,
+.add_task_fields #task_creation_fields .form-field.auto_archive {
+    border-bottom: 1px solid #d1d1d1;
+}
+
+.add_task_fields #task_creation_fields .form-field.auto_archive {
+    padding-bottom: 16px;
+    text-align: left !important;
+}
+
+.add_task_fields #task_creation_fields .form-field.auto_archive .title {
+    font-size: 16px;
+    text-align: left;
+    color: #757575;
+    margin: 16px 0px;
+    padding-bottom: 8px;
+}
+
+.add_task_fields #task_creation_fields .form-field.auto_archive .field_value label {
+    text-align: left !important;
+    display: inline-block;
+    margin-bottom: 32px;
+    clear: both;
+    width: 100%;
+    color: #6f6f6f;
+    line-height: 19px;
+}
+
+.add_task_fields #task_creation_fields .form-field.auto_archive .field_value input {
+    width: 16px;
+    text-align: left !important;
+    display: inline-block;
+    margin-right: 16px;
+}
+
+.add_task_fields #date_due_picker_for_task .form_element_icon,
+.add_task_fields #date_start_picker_for_task .form_element_icon {
+    left: 16px;
+    right: inherit;
+}
+
+.add_task_fields #account_typeahead_for_task .form_element_icon {
+    bottom: inherit;
+}
+
+.add_task_fields .form-field:not(:last-child) {
+    border-bottom: none;
+    padding-bottom: 0px;
+}
+.add_task_fields .add_title_image_field {
+    width: 100%;
+}
+.add_task_fields .add_title_image_field .field_title {
+    display: none;
+}
+
+.add_task_fields .btn_group {
+    min-width: 225px;
+}
+
+.add_task_fields .add_media_btn {
+    margin-bottom: 0px;
+}
+
+.full_btn {
+    display: block;
+    margin: 0px;
+    padding: 16px;
+}
+.full_btn[disabled],
+.full_btn.disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.full_btn.rounded {
+    margin: 16px;
+    border-radius: 4px;
+    line-height: 8px;
+}
+
+.fullscreen .full_btn.page_scrollable_height_ignore {
+    padding-bottom: calc(constant(safe-area-inset-bottom) + 16px); /* iOS 11.0 */
+    padding-bottom: calc(env(safe-area-inset-bottom) + 16px); /* iOS 11.2 */
+}
+
+.btn_floating {
+    box-shadow: 0 4px 11px 0 #c0c0c0;
+    border-radius: 4px;
+    background: #62bfe7;
+}
+
+.cannot_fulfill_message {
+    text-align: center;
+    line-height: 1.5em;
+    margin-top: 16px;
+    padding: 16px 0;
+    font-size: 0.875em;
+}
+.cannot_fulfill_message .df-lock-locked {
+    display: block;
+    font-size: 80px;
+    line-height: 80px;
+    color: #757575;
+}
+
+.toast_notification {
+    position: absolute;
+    font-size: 15px;
+    padding: 0px 5px;
+    color: #fff;
+    text-align: center;
+    background-color: #2ecc71;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    height: 50px;
+    z-index: 999;
+    box-shadow: 0 0 2px #cacaca;
+    display: none;
+    transition: background-color 0.5s ease;
+    -webkit-transition: background-color 0.5s ease;
+    -moz-transition: background-color 0.5s ease;
+    -ms-transition: background-color 0.5s ease;
+}
+
+.global_notif_wrapper .toast_notification {
+    position: fixed;
+    z-index: 99999;
+}
+.fullscreen .global_notif_wrapper .toast_notification {
+    height: 65px; /* fall back to pre-iOS 11 */
+    height: calc(constant(safe-area-inset-top) + 50px); /* iOS 11.0 */
+    height: calc(env(safe-area-inset-top) + 50px); /* iOS 11.2 */
+}
+
+.toast_notification.success {
+    background-color: #2ecc71;
+}
+.toast_notification.error {
+    background-color: #de3c2f;
+}
+
+.toast_notification .toast_body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.toast_notification .toast_height_specifier {
+    height: 50px;
+    width: 1px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.toast_notification i {
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 18px;
+    margin-right: 6px;
+    position: relative;
+    top: 1px;
+}
+
+.toast_notification .df-upload {
+    font-size: 22px;
+    margin-right: 11px;
+    top: 2px;
+}
+
+.toast_notification .msg {
+    font-size: 14px;
+    vertical-align: middle;
+    display: inline-block;
+    max-width: 88%;
+    line-height: 1em;
+}
+
+#image_uploading {
+    margin: 0 auto;
+    display: none;
+    max-height: 300px;
+    max-width: 250px;
+    min-height: 250px;
+    min-width: 200px;
+}
+
+#upload_status {
+    text-align: center;
+    font-size: 1.7em;
+    padding-top: 10px;
+    padding-bottom: 7px;
+    font-weight: 200;
+}
+
+.add_media_title {
+    padding-bottom: 0.7em;
+}
+
+/**
+ * Validation
+ */
+.invalid input:not(.file_upload):not(.checkbox_mod),
+.invalid textarea:not(.notes_field),
+.invalid select,
+.invalid .fake_input,
+.invalid .btn:not(.barcode_icon):not(.expand_instructions_btn),
+.invalid .btn:not(.yesno_btn):not(.expand_instructions_btn):not(.add_email),
+.invalid .yesno_buttons .btn,
+.invalid .fake_checkbox,
+.invalid .take_photo .add_media_placeholder,
+.invalid .add_media_btn .add_media_placeholder,
+.invalid .take_photo,
+.invalid .add_media_btn,
+.invalid .field_value .field_action_btn,
+.invalid .field_value .noUi-handle,
+.invalid .field_value .slider-wrapper .noUiSlider .noUi-origin {
+    outline: none;
+    border-color: #de3c2f;
+    color: #de3c2f;
+    background-color: #fae3e0;
+}
+.invalid .add_media_btn i,
+.invalid .bluetherm_field_value .temperature_units,
+.invalid select,
+.invalid .fake_placeholder {
+    color: #de3c2f !important;
+}
+.invalid input[type='email']::-webkit-input-placeholder,
+.invalid input[type='number']::-webkit-input-placeholder,
+.invalid input[type='text']::-webkit-input-placeholder,
+.invalid textarea[type='text']:not(.notes_field)::-webkit-input-placeholder,
+.invalid select[type='text']::-webkit-input-placeholder {
+    color: #de3c2f;
+}
+
+/**
+ * Login page
+ */
+#login_panel,
+#oia_dialog {
+    background: var(--gray-100);
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 16px;
+}
+
+#login_panel .fullscreen_filler {
+    margin-left: -100px;
+    padding-right: 200px;
+}
+
+#login_panel .errors {
+    color: #de3c2f;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 700;
+    text-shadow: 0 0 1px #fff;
+}
+
+#login_panel #signup_form {
+    padding-top: 16px;
+}
+
+#login_panel input,
+#login_panel .btn,
+#oia_dialog input,
+#login_panel select {
+    width: 100%;
+    padding: 16px;
+    border-radius: 4px;
+    font-size: 1.125em;
+    box-sizing: border-box;
+    margin: 16px auto;
+    max-width: 350px;
+}
+
+#login_panel .btn,
+#oia_dialog .btn {
+    text-align: center;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+#login_panel input[type='submit'].btn,
+input[type='button'].btn {
+    color: #fff !important;
+    display: block;
+    margin: 16px auto;
+}
+
+#login_panel input[type='button'].btn {
+    -webkit-appearance: button;
+}
+
+#login_panel input[type='text'],
+#login_panel input[type='email'],
+#login_panel input[type='number'],
+#login_panel input[type='password'],
+#login_panel input[type='tel'] {
+    color: var(--gray-600) !important;
+    display: block;
+    background: #fff;
+    border: none;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid var(--gray-400);
+}
+
+#login_panel select.option_flag {
+    background-position: 10px 50%;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    padding: 15px 50px;
+}
+
+#login_panel select {
+    color: var(--gray-900) !important;
+    margin-top: 24px;
+    border: 1px solid var(--gray-900);
+    border-radius: 4px;
+    display: block;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 16px;
+    margin-bottom: 16px;
+    height: 56px;
+}
+
+#login_panel input[type='email'].input_disabled,
+#login_panel input[type='tel'].input_disabled {
+    background-color: #b8b8b8;
+}
+
+#login_panel input[type='email']:read-only {
+    background-color: #b8b8b8;
+    cursor: not-allowed;
+}
+
+#login_panel input[type='text']::-webkit-input-placeholder,
+#login_panel input[type='email']::-webkit-input-placeholder,
+#login_panel input[type='password']::-webkit-input-placeholder,
+#login_panel input[type='tel']::-webkit-input-placeholder,
+#login_panel input[type='number']::-webkit-input-placeholder {
+    color: #757575;
+}
+
+#login_panel .wrapper,
+#oia_dialog .wrapper {
+    position: relative;
+    top: 5%;
+}
+
+#login_panel #disclaimer {
+    text-align: center;
+    font-size: 10px;
+    margin: 10px auto;
+    font-weight: normal;
+    line-height: 1.3;
+    color: var(--gray-900);
+    width: 264px;
+}
+#login_panel #disclaimer a {
+    text-decoration: underline;
+}
+
+#login_panel .logo,
+#oia_dialog .logo {
+    margin-bottom: 30px;
+    width: 189px;
+}
+
+#login_panel .login-text {
+    color: var(--gray-900);
+}
+
+#login_panel .oauth-login-error-sub-message {
+    padding-bottom: 16px;
+    font-style: italic;
+}
+
+#login_panel a.force_oauth_logout {
+    color: blue;
+}
+
+#login_panel .oauth-intermediary {
+    font-style: italic;
+}
+
+#show_signup_btn_wrapper {
+    bottom: 16px;
+}
+
+.forgot_password_btn,
+#show_login_btn_wrapper .login_btn,
+#show_signup_btn_wrapper .signup_btn,
+.change_email_btn {
+    margin-top: 16px;
+    padding: 16px;
+    color: var(--gray-900);
+    display: block;
+    box-sizing: border-box;
+    border: 1px solid var(--gray-900);
+}
+
+.forgot_password_btn,
+.change_email_btn {
+    background: transparent;
+    color: var(--primary-main);
+    border: none;
+}
+.change_email_btn {
+    margin-bottom: 16px;
+}
+
+#show_signup_btn_wrapper .signup_btn {
+    border-radius: 4px;
+    background: var(--gray-100);
+}
+#show_signup_btn_wrapper .signup_btn:hover {
+    background: var(--gray-900);
+    color: #fff;
+}
+
+.version_info {
+    margin: 10px;
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    color: var(--gray-900);
+}
+
+.dialog.image_preview_modal {
+    background: black;
+}
+
+.dialog.image_preview_modal .fullscreen_filler {
+    background: #212121;
+}
+
+.dialog.image_preview_modal .toolbarnav {
+    z-index: 99999999;
+    background: #212121;
+    color: #fff;
+    box-shadow: none;
+}
+
+.dialog.image_preview_modal .toolbarnav i {
+    color: #fff;
+}
+
+.image_preview_wrapper {
+    position: relative;
+    top: 50%;
+    width: 98%;
+    height: 98%;
+    margin: auto;
+}
+
+.image_preview_wrapper .loading_spinner {
+    z-index: 999999;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 80px;
+    margin-left: -40px;
+    margin-top: -40px;
+    display: none;
+}
+.image_preview_wrapper #image_preview {
+    top: 0;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 100%;
+    position: relative;
+    display: block;
+    border-radius: 3px;
+}
+.image_preview_wrapper .preview_failed {
+    position: absolute;
+    color: #fff;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    font-size: 16px;
+}
+.image_preview_wrapper .preview_failed p {
+    margin-top: 10px;
+}
+.image_preview_wrapper .preview_failed i {
+    font-size: 100px;
+}
+
+.image_preview_wrapper #close,
+.image_preview_wrapper #delete {
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    top: 2px;
+    padding: 15px 10px;
+    z-index: 999;
+    font-size: 18px;
+}
+
+/**
+ * Open in native app dialog
+ */
+#oia_dialog button {
+    display: block;
+    margin: 16px auto;
+    width: 280px;
+    border-radius: 3px;
+}
+
+#oia_dialog .native_benefits {
+    font-size: 13px;
+    margin: 30px 0 20px 0;
+    color: var(--gray-900);
+}
+
+#oia_dialog #oiw_btn {
+    font-size: 15px;
+    display: inline-block;
+    margin-top: 20px;
+    color: var(--gray-900);
+}
+
+/**
+ * Select accounts dialog
+ */
+
+/*.typeahead_modal {*/
+.typeahead_modal .results {
+    list-style: none outside none;
+}
+.typeahead_modal .search {
+    padding-left: 5px !important;
+}
+
+.address {
+    font-size: 0.8em;
+    color: #757575;
+    font-style: italic;
+}
+
+.pagelist .show_checkmark .typeahead_item_text_wrapper,
+.pagelist .show_radio .typeahead_item_text_wrapper {
+    padding-left: 40px;
+    line-height: 1.5em;
+}
+.pagelist .pagelist_item_selected_indicator {
+    display: none;
+}
+.pagelist .show_checkmark .pagelist_item_selected_indicator,
+.pagelist .show_radio .pagelist_item_selected_indicator {
+    display: block;
+    position: absolute;
+    border: 2px solid #757575;
+    width: 20px;
+    height: 20px;
+}
+.pagelist .show_checkmark .pagelist_item_selected_indicator {
+    top: 18px;
+    left: 16px;
+    border-radius: 3px;
+}
+.pagelist .show_radio .pagelist_item_selected_indicator {
+    width: 22px;
+    height: 22px;
+    top: 16px;
+    left: 16px;
+    border-radius: 50%;
+}
+
+.pagelist .show_radio .pagelist_item_selected_indicator.disabled {
+    border-color: #75757573;
+}
+
+.pagelist .show_checkmark .pagelist_item_selected_indicator.checked {
+    color: #ffffff;
+    background: var(--primary-main);
+    border-color: var(--primary-main);
+}
+.pagelist .show_checkmark .pagelist_item_selected_indicator.checked::before {
+    content: '\f1c7'; /* .df-success */
+    font-family: 'donkeyfont' !important;
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 16px;
+}
+
+.pagelist .show_radio .pagelist_item_selected_indicator.checked {
+    background: var(--primary-main);
+    border-color: var(--primary-main);
+}
+
+.pagelist .show_radio .pagelist_item_selected_indicator.checked.disabled {
+    background: #75757561;
+    border-color: #fff;
+}
+/**
+ * Create Account Dialog
+ */
+
+#create_account {
+    box-sizing: border-box;
+}
+
+#create_account .save_account {
+    display: block;
+    margin-left: 0px;
+    margin-right: 0px;
+    box-sizing: border-box;
+}
+
+.edit_account_details {
+}
+
+.edit_account_details input,
+.edit_account_details select,
+.edit_account_details .save_account {
+    width: 100%;
+}
+
+.edit_account_details input.invalid,
+.edit_account_details select.invalid {
+    border-color: #de3c2f;
+    background-color: #fae3e0;
+}
+.edit_account_details input.invalid::-webkit-input-placeholder,
+.edit_account_details select.invalid::-webkit-input-placeholder {
+    color: #de3c2f;
+}
+
+/** Search Bar **/
+.search_bar {
+    padding: 16px;
+    z-index: 9;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 2px 3px #cacaca;
+}
+.search_bar .search {
+    background: #fff;
+    display: inline-block;
+    margin: 0px;
+    padding: 13px 0 14px 29px;
+    width: 100%;
+    border: none;
+    font-size: 0.875em;
+    height: 22px;
+    background: #fff;
+    border-radius: 0px;
+    padding-left: 48px !important;
+    padding-right: 48px;
+}
+
+.search_has_val .search,
+.search_active .search {
+    text-align: left;
+    padding-left: 48px !important;
+    padding-right: 48px;
+}
+
+.search_bar .search_wrapper:before {
+    content: '\f1bc'; /* .df-search */
+    font-family: 'donkeyfont';
+    top: 32px;
+    position: absolute;
+    font-size: 1em;
+    margin-left: 0px;
+    left: 32px;
+}
+
+.tasks .search_bar,
+.projects .search_bar,
+.tasks_filtered_by_project .search_bar {
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid #cacaca;
+    padding: 0;
+    border-radius: 8px;
+}
+
+.dashboard_tab_body .tasks .search_bar {
+    margin-top: 4px;
+}
+
+.tasks .search_bar .search_wrapper:before,
+.tasks_filtered_by_project .search_bar .search_wrapper:before,
+.projects .search_bar .search_wrapper:before {
+    top: 16px;
+    left: 12px;
+}
+
+.tasks .search_bar .search,
+.tasks_filtered_by_project .search_bar .search,
+.projects .search_bar .search {
+    padding-left: 36px !important;
+}
+
+/**
+ * @author:david there's a bug in Safari where using 'display: none' here prevents the overflow menu
+ * from re-opening, every other time. Instead, we'll just set height and width to 0. >:(
+ */
+.search_bar:empty {
+    height: 0;
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.search_bar .df-remove-circle {
+    right: 16px;
+    top: 16px;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 1.5em;
+    position: absolute;
+    display: none;
+    height: 24px;
+    width: 24px;
+}
+
+.search_bar .search_wrapper.search_has_val:before,
+.search_bar .search_wrapper.search_active:before {
+    margin-left: 0px;
+    left: 32px;
+}
+
+.tasks .search_bar .search_wrapper.search_has_val:before,
+.tasks_filtered_by_project .search_bar .search_wrapper.search_has_val:before,
+.projects .search_bar .search_wrapper.search_has_val:before,
+.tasks .search_bar .search_wrapper.search_active:before,
+.tasks_filtered_by_project .search_bar .search_wrapper.search_active:before,
+.projects .search_bar .search_wrapper.search_active:before {
+    top: 16px;
+    left: 12px;
+}
+
+.search_has_val .df-remove-circle {
+    display: block;
+}
+
+/**
+ * Previous Submissions
+ */
+.historical_submission .take_photo,
+.historical_submission .barcode_icon,
+.historical_submission .add_media_btn:not(.show_datetime_picker):not(.stopwatch_field_timer),
+.historical_submission .clear_account,
+.historical_submission #submit_form {
+    display: none;
+}
+
+.submitted_data {
+    display: none;
+}
+
+.submitted_data .submitted_card_title,
+.alerts_and_tasks .submitted_card_title {
+    font-size: 1em;
+    margin: 0 -16px 10px;
+    padding: 0 16px 12px 16px;
+    border-bottom: 1px solid #ececec;
+    color: #3b4850;
+}
+
+.submitted_data .detail_item {
+    margin-bottom: 6px;
+}
+
+.submitted_data .detail_item i {
+    top: 1px;
+    position: relative;
+    margin-right: 5px;
+}
+
+.historical_submission .submitted_data {
+    display: block;
+    margin-top: 40px;
+}
+
+.historical_submission .alerts_and_tasks .rule_title {
+    margin: 8px 0px;
+    color: #3b4850;
+}
+
+.historical_submission .alerts_and_tasks .alert_task_text {
+    font-size: 0.8em;
+    margin: 2px 0px;
+}
+
+.historical_submission .alerts_and_tasks .detail_item {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ececec;
+}
+
+.historical_submission .alerts_and_tasks .detail_item:last-of-type {
+    border-bottom: none;
+}
+.historical_submission .alerts_and_tasks .detail_item i {
+    font-size: 20px;
+    margin-right: 3px;
+}
+
+.historical_submission .alerts_and_tasks .detail_item .alerts i {
+    color: #ffc857;
+    position: relative;
+    top: 1px;
+}
+
+.historical_submission .alerts_and_tasks .detail_item .tasks i {
+    color: var(--secondary-main);
+    position: relative;
+    top: 3px;
+}
+
+/* Block the user from changing anything */
+.historical_submission .form-field {
+    position: relative;
+}
+.historical_submission .form-field:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+/* Allow users to click the title_images on submitted forms*/
+.historical_submission .expand_instructions_btn {
+    position: relative;
+    z-index: 9999;
+}
+.historical_submission .form-field .thumbnails,
+.historical_submission .form-field .preview_signature {
+    /* allow clicking of thumbnails to preview */
+    position: relative;
+    z-index: 9999;
+}
+
+.historical_submission .form-field .file_field.view_pdf,
+.historical_submission .form-field .document_field.view_pdf {
+    z-index: 9999;
+}
+
+.form-field .section_field_title {
+    font-size: 1.125em;
+    line-height: 1.125em;
+    font-weight: 500;
+}
+
+.form-field .document_field.view_pdf {
+    border: 1px solid #eff3f6;
+    border-radius: 4px;
+    background-color: #f4f5f7;
+    height: 64px;
+    font-size: 12px;
+    color: #3b4850;
+    padding: 8px;
+    position: relative;
+    text-align: left;
+    width: 104px;
+}
+
+.form-field .allow_multiples.document_field.view_pdf {
+    float: left;
+    margin-right: 2%;
+    margin-bottom: 2%;
+}
+
+.form-field .document_field.view_pdf .buttons {
+    margin-top: 24px;
+    line-height: 16px;
+    color: #8a9297;
+}
+
+.form-field .document_field.view_pdf a {
+    color: #3b4850;
+    max-width: 100px;
+}
+
+.form-field .document_field.view_pdf .df-file {
+    font-size: 16px;
+    color: var(--secondary-main);
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.form-field .document_field.view_pdf .size {
+    height: 16px;
+}
+
+.historical_submission textarea {
+    position: relative;
+    z-index: 9999;
+    -webkit-text-fill-color: #757575;
+    opacity: 1;
+}
+
+.card {
+    margin: 16px 0px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 3px #cacaca;
+    color: #757575;
+}
+
+.card .card_body {
+    padding: 16px;
+}
+.card .card_body:empty {
+    display: none;
+}
+
+.nearby .card_title {
+    padding-bottom: 0px;
+}
+
+.date_due_green {
+    color: #2ecc71 !important;
+}
+.date_due_red {
+    color: #f33155 !important;
+}
+
+.add_task {
+    padding-left: 40px;
+}
+
+.task_details h3 {
+    font-size: 1.2em;
+    font-weight: normal;
+    margin: 12px 0px 10px;
+    color: #212121;
+    line-height: 1.2em;
+    float: none;
+    overflow: hidden;
+    display: block;
+}
+
+.task_details .card_body {
+    padding-top: 1px;
+}
+.task_details .historical_submission .field_title {
+    display: none;
+}
+.task_details .historical_submission .notes_field {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+.task_details .detail_items {
+    margin-top: 10px;
+}
+
+.task_details .detail_item {
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+.task_details .task_due_detailed {
+    font-size: 0.875em;
+}
+.task_details .task_account a {
+    color: var(--primary-main);
+}
+.task_details .detail_item i {
+    font-size: 1em;
+    margin-right: 3px;
+    line-height: 1em;
+    display: inline-block;
+}
+
+.task.thumbnails {
+    padding-top: 16px;
+}
+
+.add_title_image_field {
+    width: 275px;
+}
+.add_title_image_field .form-field {
+    padding-bottom: 0;
+}
+.add_title_image_field .add_image_value {
+    float: left;
+}
+
+.task_details .task_reason_header {
+    color: #757575;
+    font-size: 1.125em;
+    font-weight: 500;
+}
+
+.task_details .task_reason .task_reason_prefix {
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #757575;
+}
+
+.task_details .task_reason a {
+    padding: 0px;
+}
+
+.task_fulfilled_info {
+    padding: 16px;
+    color: #212121;
+}
+
+.task_fulfilled_info .fulfill_header {
+    clear: both;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.task_fulfilled_info .completed_by {
+    float: left;
+    font-size: 14px;
+}
+
+.task_fulfilled_info .fulfill_date {
+    float: right;
+    color: #757575;
+    font-size: 14px;
+}
+
+.task_fulfilled_info .add_media_btn.view_submission_button {
+    margin: 24px 0 0 0;
+    font-size: 14px;
+}
+
+.task_details .task_reason {
+    border-left: 4px solid #ececec;
+    padding-left: 12px;
+}
+
+.task_details .task_reason,
+.task_fulfilled_info {
+    position: relative;
+    display: block;
+}
+
+.task_details .task_reason p {
+    font-size: 0.75em;
+}
+
+.task_details .task_reason .pagelist {
+    margin: 0px;
+}
+
+.task_details .task_reason i,
+.task_fulfilled_info i {
+    font-size: 20px;
+    vertical-align: middle;
+    position: absolute;
+}
+
+.task_details .task_reason i {
+    top: 27px;
+    left: 16px;
+}
+
+.task_fulfilled_info i {
+    top: 19px;
+    left: 18px;
+}
+
+.task_details .pagelist {
+    box-shadow: none;
+}
+
+.task_details .fulfill_task_header {
+    font-size: 14px;
+    text-align: center;
+    margin: 0px 0px 15px 0px;
+    font-weight: 700;
+}
+
+.task_details .task_reason_report_header {
+    margin: 20px auto 7px;
+}
+
+.task_details .pagelist .listitem_subtitle {
+    margin-top: 6px;
+}
+
+.task_details .add_image_value .thumbnails {
+    padding: 16px 0 10px 0;
+}
+.task_details .add_image_value .thumbnails:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.pagelist .clear_filter {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 12px;
+    font-size: 24px;
+}
+
+.task_filter_page .pagelist {
+    margin-bottom: 10px;
+}
+
+/**
+ * Individual task page
+ */
+
+.task_details .account_name {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #757575;
+}
+
+.task_details .account_name i {
+    top: 2px;
+    position: relative;
+}
+
+.task_details .task_description {
+    line-height: 1.5em;
+    padding-bottom: 0px;
+    font-size: 16px;
+    margin: 15px auto;
+    color: #757575;
+}
+
+.task_description_text {
+    white-space: pre-line;
+}
+
+.task_details .task_description h3 {
+    font-weight: 700;
+    margin: 20px 0 10px 0;
+    font-size: 17px;
+}
+
+.task_details .display_name {
+    padding-bottom: 15px;
+    text-align: center;
+}
+.task_details .date_due_details {
+    margin-top: 5px;
+}
+
+.task_details .task_thumbnails {
+    border-top: none !important;
+    padding-top: 0px !important;
+}
+
+.task_details .form_container {
+    margin-top: 20px;
+}
+
+.task_details .add_media_title {
+    display: none;
+}
+.task_details .notes_field {
+    margin-bottom: 0px;
+}
+
+.expand_instructions_btn {
+    color: var(--secondary-main);
+    background: #fff;
+    padding: 0px 0px 0px 8px;
+    float: right;
+    position: relative;
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin-top: 0px;
+    margin-right: 2px;
+}
+.expand_instructions_btn i {
+    top: 0px;
+    position: absolute;
+    right: 0px;
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+    color: #3b4850;
+}
+
+.expand_instructions_btn i.df-remove-circle {
+    opacity: 0;
+}
+
+.expand_instructions_btn.expanded i.df-info {
+    opacity: 0;
+}
+
+.expand_instructions_btn.expanded i.df-remove-circle {
+    opacity: 1;
+    color: #757575;
+}
+
+.task_details_page .form_container .form-field,
+.add_title_image_field .form-field {
+    list-style-type: none;
+}
+.task_details_page .form_container .field_title {
+    margin-bottom: 10px;
+    padding: 0px;
+}
+.task_details_page .form_container .required_star {
+    display: none;
+}
+.task_details_page .form_container .form-field {
+    padding: 0px;
+}
+
+/* Thumbnails (@see gallery and tasks) */
+.image_detail_wrapper {
+    border-radius: 5px;
+    width: 80px;
+    height: 80px;
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 0px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px solid #cacaca;
+    box-sizing: border-box;
+}
+.image_detail_wrapper.available_image {
+    cursor: pointer;
+}
+
+/* Create Task */
+.task_reply_type {
+    max-width: 400px;
+    margin: auto;
+}
+#reply_tabs_for_task {
+    text-align: center;
+    margin: 15px auto;
+}
+#reply_tabs_for_task .reply_type {
+    width: 32%;
+    text-align: center;
+    display: inline-block;
+}
+
+#reply_tabs_for_task .reply_type:hover {
+    cursor: pointer;
+}
+
+#reply_tabs_for_task .reply_type i {
+    font-size: 1.5em;
+    position: relative;
+    top: 4px;
+    display: block;
+    margin-bottom: 10px;
+}
+#reply_tabs_for_task .active i {
+    color: inherit;
+}
+#reply_tabs_for_task .reply_type a {
+    font-size: 1em;
+    margin: 8px 0;
+    color: #757575;
+    display: block;
+}
+
+#reply_tabs_for_task .reply_type:not(:last-child) a {
+    border-right: 1px solid #ececec;
+}
+
+#reply_tabs_for_task .active a {
+    color: var(--primary-main);
+    font-weight: 500;
+}
+
+#task_creation_fields .account_address_hidden {
+    text-align: left;
+    font-size: 0.875em;
+}
+
+/* For tablets; overridden by mobile: */
+.field_value select.saveonchange {
+    float: left;
+    padding-right: 20px;
+}
+
+select.option_flag {
+    background-position: 10px 50%;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    padding: 11px 50px;
+}
+
+.flag_da_DK {
+    background-image: url('../i/flags/denmark.png') !important;
+}
+.flag_de_DE {
+    background-image: url('../i/flags/germany.png') !important;
+}
+.flag_en_US {
+    background-image: url('../i/flags/us.png') !important;
+}
+.flag_es_ES {
+    background-image: url('../i/flags/spain.png') !important;
+}
+.flag_es_CO {
+    background-image: url('../i/flags/colombia.png') !important;
+}
+.flag_fr_FR {
+    background-image: url('../i/flags/france.png') !important;
+}
+.flag_id_ID {
+    background-image: url('../i/flags/indonesia.png') !important;
+}
+.flag_nl_NL {
+    background-image: url('../i/flags/netherlands.png') !important;
+}
+.flag_no_NO {
+    background-image: url('../i/flags/norway.png') !important;
+}
+.flag_pl_PL {
+    background-image: url('../i/flags/poland.png') !important;
+}
+.flag_pt_PT {
+    background-image: url('../i/flags/portugal.png') !important;
+}
+.flag_pt_BR {
+    background-image: url('../i/flags/brazil.png') !important;
+}
+
+#batch_generate_count {
+    position: relative;
+    font-size: 14px;
+    color: #757575;
+    line-height: 16px;
+}
+
+#batch_generate_count .loading_spinner {
+    height: 20px;
+    width: 20px;
+    position: relative;
+    margin: auto;
+    left: auto;
+    top: auto;
+    display: block;
+}
+
+.flyout {
+    position: absolute;
+    background-color: white;
+    border: 1.25px solid #179bd5;
+    border-radius: 5px;
+    text-align: center;
+    margin: auto;
+    display: inline-block;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    z-index: 100000001;
+    left: 0px;
+    width: 50%;
+}
+
+.flyout.document {
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px 0 rgba(59, 72, 80, 0.1);
+}
+
+.modal_options_btn {
+    background-color: #179bd5;
+    color: white;
+    border: none;
+    margin: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 175px;
+    display: block;
+    border-radius: 2px;
+    font-size: 0.875em;
+    line-height: 1.1428571429em;
+    cursor: pointer;
+}
+
+.modal_options_btn.document {
+    border-radius: 4px;
+}
+
+.modal_options_btn.document.btn_1 {
+    color: #3b4850;
+    background-color: white;
+    opacity: 0.5;
+    border: 1px solid #9da3a7;
+}
+
+.modal_options_btn.document.btn_0 {
+    background-color: #f33155;
+}
+
+.modal_options_explanation {
+    color: black;
+    border: none;
+    margin: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 175px;
+    display: block;
+    font-size: 0.875em;
+    line-height: 1.1428571429em;
+    white-space: pre-wrap;
+}
+
+.modal_options_explanation,
+.modal_options_btn {
+    margin-left: auto;
+    margin-right: auto;
+}
+.flyout_touchblock {
+    display: block;
+    position: fixed;
+    z-index: 100000000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/**
+ * Filter Lists
+ */
+.filter_list {
+    text-align: left;
+    display: block;
+    padding: 16px 16px 16px 16px;
+    position: absolute;
+    bottom: 0px;
+    background-color: #757575;
+    width: 100%;
+    box-sizing: border-box;
+    color: #fff;
+}
+
+.filter_list.search_bar_filter_list {
+    position: absolute;
+    bottom: unset;
+    right: 0;
+    color: #757575;
+    background-color: #fff;
+    width: 48px;
+    height: 48px;
+    z-index: 10;
+    display: inline-block;
+    border-left: 1px solid #f2f7fa;
+}
+
+.dashboard_tab_body .tasks .filter_list {
+    top: 4px;
+}
+
+.filter_list .active_filters {
+    font-size: 0.75em;
+    padding-left: 25px;
+    padding-right: 64px;
+    padding-top: 2px;
+}
+
+.fullscreen .filter_list::after {
+    content: '';
+    display: block;
+    height: 0px; /* non-iPhone X */
+    height: constant(safe-area-inset-bottom); /* iOS 11.0 */
+    height: env(safe-area-inset-bottom); /* iOS 11.2 */
+    background: transparent;
+}
+
+.search_wrapper .active_filters {
+    font-size: 0.75em;
+    line-height: 1em;
+    padding: 8px 16px;
+    border-top: 1px solid #f2f7fa;
+    background-color: #fff;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    white-space: normal;
+    color: #8a9297;
+}
+
+.search_wrapper .active_filters:empty {
+    padding: 0px;
+}
+
+.filter_list .filter_item {
+    font-size: 1.25em;
+    line-height: 1em;
+    float: left;
+    cursor: pointer;
+    margin-left: -2px;
+}
+
+.filter_list .filter_list_edit_text {
+    text-transform: uppercase;
+    font-size: 0.875em;
+    line-height: 1.1428571429em;
+    float: right;
+    padding-top: 2px;
+}
+
+/**
+ * Devices List Page
+ */
+
+.bluetooth_devices .scan_btn {
+    position: relative;
+}
+
+.bluetooth_devices .scan_btn .loading_spinner {
+    position: absolute;
+    top: 13px;
+}
+
+.bluetooth_devices .scan_btn.scanning {
+    background: rgba(46, 204, 113, 0.6);
+}
+
+.bluetooth_devices .scan_btn:not(.scanning) .scanning_msg {
+    display: none;
+}
+
+.bluetooth_devices .scan_btn.scanning .scan_msg {
+    display: none;
+}
+
+.bluetooth_devices .device_list_press_button_msg {
+    padding: 16px 10px 0px;
+    text-align: center;
+    font-weight: bold;
+    line-height: 1.5em;
+}
+
+/** Dashboard V2 */
+.tabbed_nav_container {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+    z-index: 9;
+    position: relative;
+}
+
+.tabbed_nav {
+    background: white;
+    position: relative;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+}
+
+.tabbed_nav.is_tabs_full_width {
+    text-align: center;
+    /* tab widths will be set dynamically by JS based on how many there are */
+}
+
+.tabbed_nav::-webkit-scrollbar,
+.tabbed_nav::-webkit-scrollbar-thumb,
+.tasks_creator .task_title::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    display: none;
+}
+
+/* Fix bug on Safari where scrollbar still shows up: https://stackoverflow.com/a/46589019/477632; */
+.tabbed_nav::-webkit-scrollbar-track,
+.tabbed_nav::-webkit-scrollbar,
+.tabbed_nav::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+
+.tabbed_nav .nav_marker {
+    width: 72px;
+    height: 3px;
+    background: var(--secondary-main-active);
+    position: absolute;
+    left: 13px;
+    bottom: 0;
+    -webkit-transition: width 0.2s, left 0.2s;
+    -moz-transition: width 0.2s, left 0.2s;
+    -ms-transition: width 0.2s, left 0.2s;
+    transition: width 0.2s, left 0.2s;
+}
+.tabbed_nav .tabbed_nav_item {
+    padding: 16px;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    color: inherit;
+    -webkit-transition: color 0.2s;
+    -moz-transition: color 0.2s;
+    -ms-transition: color 0.2s;
+    transition: color 0.2s;
+    box-sizing: border-box;
+}
+.tabbed_nav .tabbed_nav_item.active {
+    color: var(--secondary-main);
+    font-weight: 500;
+}
+
+.tabbed_nav .tabbed_nav_item.has_unread_comments span:after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #de3c2f;
+    border-radius: 50%;
+    top: 12px;
+}
+
+.tabbed_layout_pages > div {
+    display: flex;
+}
+.tabbed_layout_page {
+    flex: 0 0 100%;
+    width: 100%;
+}
+
+.is_tabs_full_width .tabs_list {
+    display: flex;
+}
+.is_tabs_full_width .tabbed_nav_item {
+    flex: 1;
+}
+
+/* Brandhub iframe style for web */
+
+body.brandhub {
+    background-color: #ececec;
+}
+
+.brandhub #content #leftmenu {
+    display: none;
+}
+
+.brandhub #content .toolbarnav {
+    display: none;
+}
+
+.brandhub .main_content {
+    box-shadow: none;
+}
+
+.brandhub .brandhub_iframe_header {
+    padding: 16px;
+    color: #000;
+    background-color: #fff;
+    margin-bottom: 16px;
+}
+
+.brandhub .brandhub_iframe_header h1 {
+    font-size: 1.25em;
+    font-weight: normal;
+    line-height: 1.6em;
+}
+
+.brandhub .form_outer_container .card:first-child {
+    margin: 0 0 16px 0;
+}
+
+.brandhub .form_outer_container .card:last-child {
+    margin: 0 0 22px 0;
+}
+
+.brandhub .form_outer_container .card:first-child:last-child {
+    margin: 0;
+}
+
+.brandhub .page_scrollable .form_outer_container {
+    width: 97%;
+    border: 1px solid #cacaca;
+    margin: 0 auto 16px;
+}
+
+.brandhub #submit_form {
+    display: none;
+}
+
+.brandhub .fake_input {
+    display: none;
+}
+
+.brandhub .products_typeahead {
+    display: none;
+}
+
+/*End brandhub iframe for web styles*/
+
+.debug_options .df-success,
+.device_btn .df-temp {
+    display: none;
+}
+
+.debug_options .checked .df-success,
+.device_btn.checked .df-temp {
+    display: block;
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    font-size: 22px;
+    color: var(--secondary-main);
+}
+
+a.device_btn {
+    -webkit-transition: background-color 0.5s;
+    -ms-transition: background-color 0.5s;
+    transition: background-color 0.5s;
+}
+
+a.device_btn.discovered {
+    background-color: var(--secondary-main);
+    -webkit-transition: background-color 0.5s;
+    -ms-transition: background-color 0.5s;
+    transition: background-color 0.5s;
+}
+
+.debug_options .debug_details_segment {
+    margin-bottom: 10px;
+}
+
+.debug_options .debug_detail_segment_value {
+    font-weight: bold;
+}
+
+#tasks_legend_modal,
+#users_to_notify_modal,
+#email_selector_legend_modal {
+    z-index: 999999;
+}
+
+#tasks_legend_modal,
+.flyout.document,
+#users_to_notify_modal,
+#email_selector_legend_modal {
+    position: absolute;
+    max-width: 650px;
+    top: 20%;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 3px 0 rgba(59, 72, 80, 0.1);
+    box-sizing: border-box;
+    padding: 0px;
+    margin: auto;
+    background-color: #ffffff;
+    border-radius: 4px;
+    width: 90%;
+    height: auto;
+}
+
+#tasks_legend_modal .modal_header,
+#tasks_legend_modal .modal_footer,
+#users_to_notify_modal .modal_header,
+#users_to_notify_modal .modal_footer,
+#email_selector_legend_modal .modal_header,
+#email_selector_legend_modal .modal_footer {
+    text-align: center;
+    line-height: 24px;
+    font-size: 16px;
+}
+
+#tasks_legend_modal .modal_header,
+#users_to_notify_modal.modal_header,
+#email_selector_legend_modal.modal_header {
+    margin-bottom: 16px;
+}
+
+#tasks_legend_modal .modal_header .title,
+#users_to_notify_modal .modal_header .title,
+#email_selector_legend_modal .modal_header .title {
+    color: #3b4850;
+    font-weight: 500;
+    padding-top: 16px;
+}
+
+#tasks_legend_modal .modal_footer,
+#users_to_notify_modal .modal_footer,
+#email_selector_legend_modal .modal_footer {
+    color: var(--secondary-main);
+    border-top: 1px solid #f2f7fa;
+    padding: 8px;
+}
+
+#tasks_legend_modal .modal_footer .close_modal,
+#users_to_notify_modal .modal_footer .close_modal,
+#email_selector_legend_modal .modal_footer .close_modal {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#tasks_legend_modal .modal_body,
+#users_to_notify_modal .modal_body,
+#email_selector_legend_modal .modal_body {
+    padding-left: 16px;
+    padding-right: 32px;
+}
+
+#tasks_legend_modal .modal_body .description {
+    margin-bottom: 16px;
+}
+
+#tasks_legend_modal .modal_body .description .text {
+    color: #3b4850;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+}
+
+#tasks_legend_modal .modal_body .status_icons {
+    list-style: none;
+}
+
+#tasks_legend_modal .modal_body .status_icons .title {
+    display: inline-block;
+    height: 32px;
+    color: #3b4850;
+    font-size: 13px;
+    line-height: 20px;
+    padding-left: 8px;
+    vertical-align: middle;
+}
+
+#email_selector_legend_modal .modal_body {
+    padding-top: 24px;
+    padding-bottom: 32px;
+    line-height: 150%;
+}
+
+.df-status-open,
+.df-unavailable,
+.df-status-completed,
+.df-status-overdue,
+.df-status-overdue-and-closed,
+.df-status-processing {
+    font-size: 1.5em;
+}
+
+.df-status-open {
+    color: var(--primary-main);
+}
+
+.df-status-completed {
+    color: #33cc99;
+}
+
+.status-processing {
+    color: #d1d1d1;
+    font-style: italic;
+}
+
+.df-unavailable {
+    color: #d1d1d1;
+}
+
+.df-status-overdue,
+.df-status-overdue-and-closed {
+    color: #f33155;
+}
+
+.projects_list .navlink.unstarted {
+    cursor: default;
+}
+
+/**
+ * Device specific
+ */
+
+/* for cell phones in portrait mode */
+@media (max-width: 450px) {
+    #login_panel .logo,
+    #oia_dialog .logo {
+        padding: 0;
+        margin-top: 10%;
+    }
+
+    .notification_settings .notification_category,
+    .field_title {
+        width: 100%;
+        float: left;
+        padding-top: 12px;
+        padding-right: 7px;
+    }
+
+    /**
+     * @author:david A note on .field_value and .field_title alignment for wide views:
+     *
+     * Ideally, the title (left) should fill up whatever space is not taken up by the
+     * field value (right). This can be done by a) placing the .field_value element
+     * above the .field_title element in HTML, and b) using the following CSS:
+     *
+     * .field_value {
+     *     float: right;
+     *     margin-left: 15px;
+     * }
+     *
+     * .field_title {
+     *     width: 100%;
+     *     float: none;
+     * }
+     *
+     * However, this doesn't work because when the page is widened, the element
+     * order is reversed. Someday, it would be nice to find a good CSS fix for this.
+     */
+
+    .field_value {
+        width: 100%;
+    }
+
+    .field_value select {
+        width: 100%;
+    }
+    .field_value .btn-group .btn {
+        float: none;
+    }
+    .field_value.add_image_value {
+        max-width: none;
+    }
+
+    .expand_instructions_btn {
+        float: right;
+    }
+
+    .thumbnails .thumbnail {
+        width: 31%;
+        height: auto;
+        padding-bottom: 31%;
+    }
+
+    .thumbnails .thumbnail:nth-child(3n) {
+        margin-right: 0px;
+    }
+
+    .fake_checkbox {
+        float: none;
+    }
+
+    #oia_dialog img {
+        width: 50%;
+    }
+
+    .add_title_image_field {
+        width: 100%;
+    }
+
+    .form_container .form-field .field_instructions {
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+
+    .ingredient_equipment_temperatures_list .field_value {
+        width: 100%;
+    }
+}
+
+@media (max-height: 325px) {
+    #login_form .logo,
+    #oia_dialog .logo {
+        margin-bottom: 15px;
+        margin-top: 0;
+    }
+
+    .stopwatch_display .stopwatch_modal_timer {
+        margin-bottom: 20px;
+        font-size: 13vw;
+    }
+    .stopwatch_display .stopwatch_wrapper {
+        top: 10%;
+    }
+}
+
+@media (max-width: 320px) {
+    .next_prev {
+        font-size: 0.82em;
+    }
+}
+
+@media (max-width: 360px) {
+    #tasks_legend_modal .modal_body {
+        padding-left: 16px;
+    }
+
+    #tasks_legend_modal .modal_body .status_icons .title {
+        font-size: 11px;
+    }
+}
+
+@media (max-height: 580px) {
+    #leftmenu #logo {
+        display: none;
+    }
+    #leftmenu #leftmenu_scroller {
+        top: 0px;
+    }
+    #leftmenu ul#main {
+        margin-top: 16px;
+    }
+
+    .stopwatch_display .stopwatch_wrapper {
+        top: 20%;
+    }
+}
+
+@media (min-width: 768px) {
+    .statcard_item .statitem_num {
+        font-size: 2.5em;
+        line-height: 80px;
+    }
+}
+
+@media (min-width: 650px) {
+    #login_panel .wrapper,
+    #oia_dialog .wrapper {
+        position: relative;
+        top: 10%;
+    }
+}
+
+/**
+ * some specific features we turn on and off based on view
+ */
+#content.marketing .toolbarnav,
+#content.marketing .section_sticky_header {
+    display: none;
+}
+
+#content.marketing .card {
+    margin: 0;
+}
+
+#content.marketing .form_outer_container {
+    padding-top: 0;
+}
+
+html.form_builder_preview .toolbarnav_btn,
+html.form_builder_preview .unread_comments_notification {
+    visibility: hidden; /* using visibility to keep the layout space */
+}
+
+html.form_builder_preview .image_preview_modal .toolbarnav_btn {
+    visibility: visible; /* show back button on image preview modal*/
+}
+
+/** Animations
+ *
+ * Spinning (taken from Font Awesome)
+ */
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(359deg);
+    }
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+    }
+}
+@-o-keyframes spin {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(359deg);
+    }
+}
+@-ms-keyframes spin {
+    0% {
+        -ms-transform: rotate(0deg);
+    }
+    100% {
+        -ms-transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+@-moz-keyframes material-load-dash {
+    0% {
+        -moz-stroke-dasharray: 1, 200;
+        -moz-stroke-dashoffset: 0;
+    }
+    50% {
+        -moz-stroke-dasharray: 89, 200;
+        -moz-stroke-dashoffset: -35px;
+    }
+    100% {
+        -moz-stroke-dasharray: 89, 200;
+        -moz-stroke-dashoffset: -124px;
+    }
+}
+
+@-webkit-keyframes material-load-dash {
+    0% {
+        -webkit-stroke-dasharray: 1, 200;
+        -webkit-stroke-dashoffset: 0;
+    }
+    50% {
+        -webkit-stroke-dasharray: 89, 200;
+        -webkit-stroke-dashoffset: -35px;
+    }
+    100% {
+        -webkit-stroke-dasharray: 89, 200;
+        -webkit-stroke-dashoffset: -124px;
+    }
+}
+
+@-o-keyframes material-load-dash {
+    0% {
+        -o-stroke-dasharray: 1, 200;
+        -o-stroke-dashoffset: 0;
+    }
+    50% {
+        -o-stroke-dasharray: 89, 200;
+        -o-stroke-dashoffset: -35px;
+    }
+    100% {
+        -o-stroke-dasharray: 89, 200;
+        -o-stroke-dashoffset: -124px;
+    }
+}
+
+@-ms-keyframes material-load-dash {
+    0% {
+        -ms-stroke-dasharray: 1, 200;
+        -ms-stroke-dashoffset: 0;
+    }
+    50% {
+        -ms-stroke-dasharray: 89, 200;
+        -ms-stroke-dashoffset: -35px;
+    }
+    100% {
+        -ms-stroke-dasharray: 89, 200;
+        -ms-stroke-dashoffset: -124px;
+    }
+}
+
+@keyframes material-load-dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+    }
+}
+
+.status_message_wrapper {
+    padding: 80px 20px 20px 20px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 16px;
+    color: #3b4850;
+    height: 100%;
+    display: block;
+    background-color: #ececec;
+}
+
+.status_message_wrapper h1 {
+    font-size: 30px;
+    padding-bottom: 20px;
+}
+
+.dashboard_tab_message_below_content {
+    margin-top: -60px;
+    padding: 1em;
+    text-align: center;
+}
+
+.sensor_temperature_value {
+    background-color: #50b5e2;
+    color: white;
+    font-weight: 300;
+    height: 18px;
+    border-radius: 4px;
+    padding: 16px;
+    line-height: normal;
+    position: relative;
+    margin-top: 8px;
+}
+
+.sensor_not_connected_container {
+    display: flex;
+}
+
+.sensor_not_connected_temp {
+    flex: 1;
+    position: relative;
+}
+
+.sensor_not_connected_temp .fake_input,
+.sensor_not_connected_temp input {
+    height: 48px;
+}
+
+.sensor_not_connected_temp > .temperature_units {
+    top: 15px;
+    right: 16px;
+}
+
+.sensor_not_connected {
+    display: flex;
+    flex-grow: 1;
+    background-color: #f4f5f7;
+    color: #606163;
+    font-weight: 300;
+    height: 18px;
+    border: 1px solid #bcbdbf;
+    border-radius: 4px;
+    padding: 14px;
+    line-height: normal;
+    position: relative;
+    margin-top: 8px;
+}
+
+.sensor_not_connected_container .sensor_not_connected {
+    margin-top: unset;
+}
+
+.sensor_refresh {
+    margin-left: 16px;
+}
+
+.sensor_refresh i {
+    color: #b81f4a;
+    font-size: 26px !important;
+    top: 10px !important;
+    left: 10px !important;
+}
+
+.sensor_probe {
+    margin-left: 16px;
+}
+
+.sensor_status_info_box {
+    background-color: #fff9c4;
+    color: #414244;
+    font-weight: 300;
+    height: 18px;
+    border: 1px solid #bcbdbf;
+    border-radius: 4px;
+    padding: 16px;
+    line-height: normal;
+    position: relative;
+    margin-top: 8px;
+}
+
+.sensor_status_info_box.retry_action {
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sensor_status_info_box.retry_action button {
+    font-weight: 500;
+}
+
+.sensor_status_info_box.retry_action .loading_spinner {
+    position: absolute;
+    right: 10%;
+    margin-left: unset;
+    margin-top: unset;
+    left: unset;
+    top: unset;
+}
+
+.sensor_status_info_box.retry_action i {
+    font-size: 16px;
+}
+
+.sensor_status_info_box .sensor_status_alert i {
+    height: 20px;
+    width: 20px;
+    padding-right: 8px;
+    color: #f58016;
+}
+
+.sensor_status_info_box button {
+    padding: 4px;
+    background: none;
+    border: none;
+}
+
+.sensor_status_info_box button:hover {
+    background-color: FFF7AD;
+}
+
+.sensor_temperature_value .temperature_units {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-size: 1em;
+}
+
+.form_container li.sensor_readings {
+    padding-left: 0px;
+    padding-right: 0px;
+    line-height: 20px;
+}
+
+.sensor_temperature_name {
+    color: #414244;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+}
+
+.sensor_temperature_placement {
+    color: #747577;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+}
+
+.sensor_temperature_timestamp {
+    font-style: italic;
+    color: #747577;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+}
+
+.oil_quality_container {
+    display: block;
+}
+
+.oil_quality_field {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.oil_quality_field .oil_quality_input {
+    flex: 1;
+    position: relative;
+}
+
+.oil_quality_input > .percentage_units {
+    position: absolute;
+    top: 15px;
+    right: 16px;
+}
+
+.oil_quality_input > input {
+    -moz-appearance: textfield;
+}
+
+.oil_quality_input input::-webkit-outer-spin-button,
+.oil_quality_input input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.oil_quality_validation {
+    display: flex;
+    align-items: center;
+}
+
+.oil_quality_validation.warning {
+    background-color: rgba(255, 253, 231, 1);
+}
+
+.oil_quality_validation.failure {
+    background-color: rgba(252, 227, 233, 1);
+}
+
+.oil_quality_validation > i.df-alert,
+.oil_quality_validation > div.failure-alert {
+    padding: 16px 14px;
+    font-size: 22px;
+}
+
+.oil_quality_validation.warning > i.df-alert {
+    color: rgba(242, 105, 33, 1);
+}
+
+.oil_quality_validation.failure > .failure-alert > svg {
+    color: rgba(184, 31, 74, 1);
+}
+
+.oil_quality_field .warning {
+    background-color: rgba(255, 245, 157, 1) !important;
+}
+
+.oil_quality_field .failure,
+.oil_quality_field .failure + div.percentage_units,
+.oil_quality_field .neutral,
+.oil_quality_field .neutral + div.percentage_units {
+    color: #fff !important;
+}
+
+.oil_quality_field .failure,
+.oil_quality_field .failure + div.percentage_units {
+    background-color: #f33155 !important;
+}
+
+.oil_quality_field .neutral,
+.oil_quality_field .neutral + div.percentage_units {
+    background-color: #1eb871 !important;
+}
+
+.oil_quality_message {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    justify-content: space-between;
+    line-height: 20px;
+}
+
+.oil_quality_message > * {
+    color: rgba(32, 33, 35, 1);
+}
+
+.oil_quality_message > .title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.oil_quality_message > .subtitle {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* Zendesk Web Widget */
+/* We can remove #webWidget selector after removing 'zendesk_messenger_upgrade' flag */
+.ios iframe#webWidget,
+.ios iframe[name='Messaging window'] {
+    margin-top: env(safe-area-inset-top) !important;
+    max-height: calc(100% - env(safe-area-inset-top)) !important;
+}
+
+.ios #home > iframe {
+    margin-top: env(safe-area-inset-top) !important;
+    max-height: calc(100% - env(safe-area-inset-top)) !important;
+}

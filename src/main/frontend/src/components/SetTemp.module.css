@@ -1,0 +1,47 @@
+.product {
+  display: flex;
+  justify-content: space-between;
+  color: var(--navbar-background-color);
+  margin-bottom: 3rem;
+  border-bottom: 1px solid var(--navbar-background-color);
+  padding: 0 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+  width: 18rem;
+}
+
+.initTemp {
+  font-size: 0.9rem;
+}
+
+.slider {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  width: 25rem;
+}
+
+.temp {
+  white-space: nowrap;
+  font-size: 1rem;
+  margin: 0 1rem;
+}
+
+.missing {
+  margin-left: 10px;
+  color: var(--color-missing);
+}
+
+.disabled {
+  color: var(--color-missing);
+}

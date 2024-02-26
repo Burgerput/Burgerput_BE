@@ -1,0 +1,21 @@
+.box {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0.7rem;
+  right: 1rem;
+  justify-content: space-between;
+}
+
+.select {
+  width: 11rem;
+  font-size: 1.2rem;
+}
+
+.list {
+  position: relative;
+}
+
+.dropDown {
+  display: none;
+}

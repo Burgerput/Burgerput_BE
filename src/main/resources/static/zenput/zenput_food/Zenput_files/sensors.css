@@ -1,0 +1,805 @@
+.mobile_dashboard_page.sensors .empty_list_message_wrapper img {
+    margin-top: 50px;
+    max-width: 200px;
+}
+
+.sensor {
+    display: inline-block;
+    float: left;
+    height: 50px;
+}
+
+.sensor.title {
+    padding-right: 6px;
+    width: 30%;
+}
+
+.sensor.title.equipment {
+    width: 40%;
+    height: 60px;
+    line-height: 1em;
+}
+
+.sensor p.equipment,
+.sensor p.placement {
+    color: #747577;
+}
+
+.sensor p.name,
+.sensor p.equipment,
+.sensor p.placement {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.sensor.data {
+    padding-right: 8px;
+    width: 40%;
+}
+
+.sensor.data.equipment {
+    width: 30%;
+}
+
+.sensor.current_status {
+    width: 20%;
+    float: right;
+    text-align: right;
+}
+
+.sensor_status.offline {
+    color: #f33155;
+}
+
+.sensor .last_reading {
+    font-weight: 500;
+    color: #3b4850;
+}
+.gateway,
+.cooldown_item.left,
+.stage.left,
+.status .left {
+    display: inline-block;
+    float: left;
+}
+.gateway.left,
+.cooldown_item.left,
+.stage.left,
+.status .left {
+    width: 75%;
+}
+
+.gateway.right,
+.cooldown_item.right,
+.stage.right,
+.status .right {
+    width: 25%;
+}
+
+.gateway.right .listitem_datetime {
+    float: none;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.gateway.right .battery {
+    font-size: 24px;
+}
+
+.gateway.right .df-circle {
+    margin-right: 4px;
+    font-size: 8px;
+    vertical-align: middle;
+}
+
+.gateway.right .status .df-circle {
+    font-size: 11px;
+}
+
+.gateway.right .listitem_datetime .offline {
+    color: #f33155;
+}
+
+.gateway.right .listitem_datetime .online,
+.cooldown_item .status .df-circle.success {
+    color: #33cc99;
+}
+
+.df-battery-good,
+.df-battery-full,
+.df-battery-low,
+.df-battery-half,
+.df-battery-dead {
+    color: #485465;
+}
+
+.wizard {
+    background: #ffffff;
+    height: 100%;
+    position: relative;
+    font-size: 16px;
+}
+
+.step_text {
+    padding: 24px;
+    color: #3b4850;
+}
+
+.step_number {
+    font-weight: 500;
+}
+
+.step_image {
+    margin: auto;
+    display: block;
+    padding: 20px 20px;
+}
+
+.flex {
+    display: flex;
+    display: -ms-flexbox;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.flex label {
+    display: flex;
+    display: -ms-flexbox;
+}
+
+.flex .row {
+    display: flex;
+    display: -ms-flexbox;
+    justify-content: center;
+}
+
+.flex .row .type {
+    position: absolute;
+    left: 16px;
+    width: 20px;
+    height: 20px;
+    align-self: center;
+}
+
+.flex .row img {
+    transform: scale(0.7);
+    -ms-transform: scale(0.7);
+}
+
+.flex .row img#senet_image {
+    transform: scale(1);
+    -ms-transform: scale(1);
+}
+
+.barcode_fields input,
+.cooldown .fields input {
+    width: 100%;
+    max-height: 200px;
+}
+
+.barcode_fields {
+    padding: 16px;
+}
+
+.next_button_container {
+    width: 100%;
+    position: absolute;
+    bottom: 40px;
+}
+
+.enter_barcode_manually,
+.skip_step {
+    color: var(--primary-main);
+    background: #ffffff;
+    font-weight: 500;
+}
+
+.btn_done.next_step,
+.btn_done.click_action,
+.btn_done.display_wizard,
+.start_cooldown {
+    background: var(--primary-main);
+}
+
+.next_step.grayed_out,
+.display_wizard.grayed_out {
+    background: #cacaca;
+    pointer-events: none;
+}
+
+.sensor_placement,
+.r_status_select,
+.cooldown .fields .cool_down_sensor_typeahead {
+    position: relative;
+}
+
+.sensor_nickname {
+    color: #8a9297;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.sensor_nickname .watched_input,
+.cooldown .fields .food .food_input,
+.cooldown .fields .select_sensor .fake_input {
+    margin-top: 4px;
+}
+
+.wizard .sensor_device_success {
+    display: grid;
+    justify-content: center;
+}
+
+.wizard .sensor_device_success > * {
+    text-align: center;
+}
+
+.wizard .sensor_device_success .step_title {
+    font-size: 36px;
+}
+
+.wizard .sensor_device_success .df-success {
+    font-size: 300px;
+    color: #42cc99;
+}
+
+.sensor_detail_page,
+.cooldown_detail_page {
+    background-color: #ffffff;
+}
+
+.sensor_detail {
+    display: flow-root;
+    margin-bottom: 8px;
+}
+
+.sensor_detail.lines {
+    box-shadow: inset 0px -1px 0px #f2f7fa;
+    margin-bottom: initial;
+    padding-bottom: 8px;
+}
+
+.sensor_detail .chart,
+.sensor_detail .header,
+.sensor_detail .last_reading {
+    margin: 8px;
+    margin-left: 16px;
+    margin-right: 16px;
+}
+
+.sensor_detail .chart {
+    margin: 6px;
+}
+
+.sensor_detail .header .title {
+    float: left;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+.sensor_detail .header .title .name {
+    color: #354057;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.sensor_detail .status {
+    color: #8a9297;
+    float: right;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+}
+
+.sensor_detail .status .battery-not-shown {
+    margin-top: 25px;
+}
+
+.sensor_detail .status .battery {
+    color: #485465;
+    font-size: 24px;
+    height: 16px;
+    width: 16px;
+}
+
+.sensor_detail .status .offline,
+.sensor_detail .status .online {
+    height: 8px;
+    width: 8px;
+}
+
+.sensor_detail .status .offline {
+    color: #f33155;
+}
+
+.sensor_detail .status .online,
+.cooldown_detail .stages .stage_item .sensor_reading.success,
+.status .sensor_reading.success {
+    color: #33cc99;
+}
+
+.sensor_detail .last_reading {
+    clear: both;
+    color: #747577;
+    font-size: 12px;
+    line-height: 16px;
+    min-height: 48px;
+}
+
+.sensor_detail .last_reading .value {
+    color: #242a33;
+    font-size: 20px;
+    line-height: 32px;
+}
+
+.sensor_detail .chart_selectors {
+    color: #3b4850;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    font-size: 16px;
+    justify-content: space-around;
+    line-height: 48px;
+    list-style-type: none;
+    text-align: center;
+}
+
+.sensor_detail .chart_selectors > li {
+    width: 25%;
+}
+
+.sensor_detail .chart_selectors > .selected {
+    border-bottom: solid 3px;
+    color: #169dd9;
+}
+
+.sensor_settings_page {
+    background: #ffffff;
+    height: 100%;
+}
+
+.sensor_settings_page > input {
+    background: #f5f5f5;
+}
+
+.sensor_settings_page > .save {
+    display: none;
+}
+
+.sensor_settings_page > .save > .footer {
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+}
+
+.sensor_settings_page > .fields > input {
+    max-height: 200px;
+    width: 100%;
+}
+
+.sensor_settings_page > .fields {
+    padding: 16px;
+}
+
+.sensor_settings_page > .fields > .field_title {
+    color: #959da1;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 6px;
+}
+
+.sensor_settings_page > .fields > .field_value {
+    margin-bottom: 16px;
+}
+
+.sensor_settings_page .field_tip {
+    margin-top: 8px;
+    color: #959da1;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.devices_layout,
+.dashboard_card_component_down_state .no_devices {
+    padding-bottom: 16px;
+}
+
+.r_placement_typeahead .sensor_placement,
+.r_status_select,
+.fake_input,
+.sensor_settings_page .name {
+    color: #3b4850 !important;
+}
+
+.sensor_settings_page input:disabled {
+    color: #b8b8b8 !important;
+}
+
+.cooldown {
+    padding: 16px;
+    background-color: #ffffff;
+    height: 100%;
+}
+
+.cooldown .title,
+.cooldown .description,
+.cooldown .instructions {
+    margin: 16px 0px;
+}
+
+.cooldown .title {
+    color: #3b4850;
+    border-bottom: 1px solid #f2f7fa;
+    line-height: 24px;
+    margin-top: 0px;
+    font-weight: 500;
+}
+
+.cooldown .description,
+.cooldown .instructions {
+    font-size: 14px;
+    color: #485465;
+}
+
+.cooldown .instructions {
+    padding-left: 16px;
+    margin-top: 24px;
+}
+
+.cooldown .fields .field {
+    font-size: 14px;
+    color: #8a9297;
+    line-height: 16px;
+}
+
+.cooldown .fields .field .red {
+    color: #e02020;
+}
+
+.cooldown .food .food_input.error {
+    border-color: #de3c2f;
+    color: #de3c2f;
+    background-color: #fae3e0;
+}
+
+.cooldown .fields .field.select_sensor {
+    margin-top: 16px;
+}
+
+.cooldown_item.right,
+.stage.right {
+    float: right;
+    text-align: end;
+}
+
+.cooldown_item .listitem_title {
+    margin-bottom: 0px;
+}
+
+.cooldown_item .listitem_subtitle,
+.cooldown_item .status {
+    font-size: 12px;
+    color: #9fa7ab;
+}
+
+.cooldown_item .status {
+    margin-top: 20px;
+}
+
+.cooldown_item .status .df-circle.failed,
+.cooldown_stages .stage_item .sensor_reading.failed,
+.cooldown_detail .stages .stage_item .sensor_reading.failed,
+.status .sensor_reading.failed {
+    color: #f33155;
+}
+
+.cooldown_item .status .df-circle.in_progress {
+    color: #169dd9;
+}
+
+.cooldown_item .status .df-circle {
+    font-size: 8px;
+    margin-right: 4px;
+}
+
+.cooldown_stages .stage_item td {
+    padding: 8px 8px 8px 0px !important;
+    border: 0px;
+}
+
+.cooldown_stages .stage_item .listitem_title {
+    margin-bottom: 0px;
+}
+
+.cooldown_stages .stage_item .listitem_subtitle {
+    margin-top: 0px;
+}
+
+.cooldown_stages .stage_item .stage .name {
+    font-size: 14px;
+    color: #757575;
+}
+
+.cooldown_stages .stage_item .stage .description {
+    font-size: 12px;
+}
+
+.cooldown_stages .stage_item .stage .sensor_reading,
+.stauts .sensor_reading {
+    font-size: 14px;
+}
+
+.cooldown_stages .empty_list_message_wrapper {
+    padding: 0px;
+    text-align: left;
+}
+
+.cooldown_detail {
+    margin: 16px;
+}
+
+.cooldown_detail .header {
+    border-bottom: 1px solid #f2f7fa;
+    padding-bottom: 8px;
+}
+
+.cooldown_detail .header .name {
+    color: #3b4850;
+    font-size: 16px;
+}
+
+.cooldown_detail .header .sensor_name {
+    color: #8a9297;
+    font-size: 12px;
+}
+
+.cooldown_detail .started,
+.cooldown_detail .stages .stage_item td {
+    padding: 16px 0px 0px 0px !important;
+}
+
+.cooldown_detail .started .name,
+.cooldown_detail .stages .stage_item td .name,
+.cooldown_detail .status .name,
+.cooldown_detail .stages .stage_item td .description {
+    color: #3b4850;
+    font-size: 14px;
+}
+
+.cooldown_detail .started .date_started,
+.cooldown_detail .stages .stage_item td .description,
+.cooldown_detail .status .date_ended,
+.cooldown_detail .status .duration,
+.stage_item .duration,
+.stage_item .date_reading {
+    color: #8a9297;
+    font-size: 12px;
+}
+
+.cooldown_detail .stages .stage_item td .description {
+    color: #3b4850;
+}
+
+.cooldown_detail .stages .stage_item .sensor_reading,
+.status .sensor_reading {
+    font-size: 14px;
+}
+
+.cooldown_detail .stages .zp_table {
+    margin-bottom: 0px;
+}
+.cooldown_detail .status {
+    margin-top: 16px;
+}
+
+.cooldown_detail .status .duration,
+.stage_item .duration {
+    margin-left: 4px;
+}
+
+.cooldown_detail .status .date_time,
+.stage_item .date_time {
+    display: flex;
+}
+
+.cooldown_detail .stages .zp_table td {
+    border-top: none;
+}
+
+.cooldown_detail .status .right {
+    float: right;
+    text-align: right;
+}
+
+.device_wizard {
+    background-color: #edeef0;
+    height: 100%;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.device_wizard .toolbarnav {
+    box-shadow: none;
+}
+
+.device_wizard__container {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100% - 64px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+}
+
+.device_wizard__container header,
+.device_wizard__container .device_wizard__content {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.step_placement__list {
+    max-height: calc(100% - 80px);
+}
+
+.device_wizard__container .btn_link {
+    background-color: #edeef0;
+}
+
+.device_wizard .step_title {
+    height: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 8px 4px 16px;
+    color: #202123;
+    font-weight: 500;
+}
+
+.device_wizard .step_description {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 12px 24px;
+    color: #202123;
+    font-weight: 400;
+}
+
+.device_wizard .step_content {
+    flex: 2;
+    overflow-y: auto;
+}
+
+.device_wizard .device_wizard__buttons > a {
+    margin: 16px 12px 16px 12px;
+}
+
+.border__bottom {
+    box-shadow: inset 0px -1px 0px #edeef0;
+}
+
+.bg_white {
+    background-color: white;
+}
+
+.step_content .placement_option {
+    height: 48px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 12px 0px 12px 26px;
+}
+
+.placement_option > input {
+    width: 20px;
+}
+
+.placement_option > label {
+    margin-left: 26px;
+    color: #202123;
+}
+
+.placement_option:last-child {
+    filter: drop-shadow(0px 4px 4px rgba(202, 202, 202, 0.25)) drop-shadow(0px 1px 3px rgba(202, 202, 202, 0.12));
+}
+
+.device_name {
+    padding: 8px 24px 12px;
+    background-color: white;
+    position: relative;
+}
+
+.device_name input {
+    display: block;
+    width: 100%;
+}
+
+.device_name select {
+    display: block;
+    width: 100%;
+}
+
+.step_content > .device_name > .form_element_icon {
+    display: block;
+    font-size: 1.5em;
+    position: absolute;
+    height: 24px;
+    pointer-events: none;
+    top: 20px;
+    right: 32px;
+}
+
+.device_scan_image {
+    background-color: white;
+}
+
+.device_scan_code {
+    background-color: white;
+}
+
+.device_scan_image img {
+    margin: auto;
+    display: block;
+    padding: 20px 20px;
+}
+
+.equipment_typeahead {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 64px);
+}
+
+.equipment_typeahead .equipment_list {
+    flex: 2;
+    overflow-y: auto;
+    background-color: white;
+}
+
+.equipment_typeahead .search_bar {
+    background-color: white;
+    box-shadow: none;
+}
+
+.equipment_typeahead .search_bar .search_wrapper:before {
+    font-size: 1.25em;
+    top: 36px;
+}
+
+.equipment_typeahead .search_bar .df-remove-circle {
+    top: 20px;
+}
+
+.equipment_typeahead ul.pagelist li:last-child {
+    box-shadow: none;
+}
+
+.equipment_typeahead .search_bar .search_wrapper > input {
+    height: 56px;
+    border: 1px solid #bcbdbf;
+    border-radius: 4px;
+    background: #f4f5f7;
+}
+
+.equipment_typeahead_item a {
+    display: flex;
+    height: 64px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.equipment_typeahead_item a > .typeahead_item_text_title {
+    font-size: 16px;
+    color: #202123;
+    letter-spacing: 0.15px;
+    margin-bottom: 2px;
+}
+
+.equipment_typeahead_item a > .typeahead_item_subtitle {
+    font-size: 14px;
+    color: #606163;
+    letter-spacing: 0.15px;
+    margin-top: 2px;
+}

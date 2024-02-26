@@ -1,0 +1,497 @@
+.tasks_creator .add_task_fields {
+    list-style: none;
+    background-color: #fff;
+    position: relative;
+}
+
+.tasks_creator .task_title {
+    background-color: #fff;
+    font-size: 16px;
+    width: 100%;
+    border-top: none;
+    border-right: none;
+    border-bottom: 1px solid #f2f7fa !important;
+    border-radius: 0px;
+    padding: 12px 48px 12px 16px;
+    line-height: 24px;
+    height: 48px;
+}
+
+.tasks_creator .task_title.form_submission {
+    padding-left: 40px;
+}
+.tasks_creator .task_title::placeholder {
+    color: #757575 !important;
+}
+
+.tasks_creator .clear_title.remove_title {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 40px;
+    height: 48px;
+}
+
+.tasks_creator .clear_title.df-form {
+    position: absolute;
+    top: 14px;
+    font-size: 20px;
+    color: #c6ccd1;
+}
+
+.tasks_creator .clear_title.df-remove-circle {
+    text-align: center;
+    color: #c6ccd1;
+    font-size: 20px;
+    top: 15px;
+    position: relative;
+}
+
+.tasks_creator .clear_title.df-form {
+    left: 16px;
+}
+
+.tasks_creator .form-field .add_media_title {
+    padding: 0px 0px;
+}
+
+.tasks_creator .form-field .add_media_btn {
+    border: 1px solid #cacaca;
+    background-color: #f5f5f5;
+    font-size: 14px;
+    color: #8a9297;
+}
+
+.tasks_creator .form-field .add_media_btn .df-photo {
+    font-size: 20px;
+    color: #8a9297;
+}
+
+.tasks_creator .r_form_task_typeahead {
+    position: absolute;
+    top: 48px;
+    left: 8px;
+    right: 8px;
+    z-index: 9999999;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
+    box-sizing: border-box;
+    border-radius: 4px;
+    max-height: 144px;
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    will-change: overflow;
+    background: white;
+}
+
+.tasks_creator .r_form_task_typeahead .autocomplete_list {
+    background-color: white;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 4px;
+    list-style: none;
+}
+
+.tasks_creator .r_form_task_typeahead .autocomplete_list:empty {
+    display: none;
+    border: none;
+}
+
+.tasks_creator .r_form_task_typeahead .autocomplete_item {
+    text-align: left;
+}
+
+.tasks_creator .r_form_task_typeahead .autocomplete_item .title {
+    color: #3b4850;
+    vertical-align: middle;
+    width: 100%;
+    padding: 16px 8px;
+}
+
+.tasks_creator .task_fields {
+    padding-bottom: 16px;
+    margin: 0px 16px;
+    display: flex;
+    text-align: center;
+}
+
+.tasks_creator .task_fields.form_submission {
+    padding-top: 16px;
+}
+.tasks_creator .add_task_fields .form-field .task_fields {
+    margin: 0px 0px;
+}
+
+.tasks_creator .add_task_fields .form-field .field_value .btn {
+    float: none;
+}
+
+.tasks_creator .task_fields .task_field {
+    display: inline-block;
+    background-color: #fff;
+    color: #8a9297;
+    font-size: 12px;
+    min-width: 70px;
+    height: 18px;
+    flex: 1;
+    margin-right: 8px;
+    text-align: left;
+}
+
+.tasks_creator .task_fields .task_field:nth-child(2n) {
+    text-align: center;
+}
+
+.tasks_creator .task_fields .task_field:nth-child(3n) {
+    margin-right: 0;
+    text-align: right;
+}
+
+.tasks_creator .task_fields .task_field a {
+    background-color: #fff;
+    color: #485465;
+    font-size: 12px;
+    padding: 0px;
+    margin: auto;
+    width: 100%;
+}
+
+.tasks_creator .task_fields .task_field i {
+    font-size: 14px;
+    margin-right: 4px;
+    position: relative;
+    top: 1px;
+}
+
+.tasks_creator .btn_done.disabled,
+.tasks_creator .clear_title.remove_title.disabled,
+.tasks_creator .btn_assign_tasks.disabled,
+.clear_title.df-form.disabled,
+.tasks_creator .r_form_task_typeahead.disabled,
+.tasks_creator .btn_save_task.disabled {
+    display: none;
+}
+
+.tasks_creator .btn_done.grayed_out {
+    background: #cacaca;
+    pointer-events: none;
+}
+
+.tasks_creator .fast_tasks_list {
+    background: #fff;
+    margin-top: 16px;
+    list-style: none;
+    margin-bottom: 52px;
+}
+
+.tasks_creator .fast_tasks_list .fast_task_item {
+    display: block;
+}
+
+.tasks_creator .fast_tasks_list .fast_task_item a {
+    position: relative;
+    border-bottom: 1px solid #ececec;
+    display: block;
+}
+
+.tasks_creator .fast_tasks_list .fast_task_item .title {
+    font-size: 16px;
+    color: #3b4850;
+    padding: 16px 16px;
+    vertical-align: middle;
+    width: 80%;
+}
+
+.tasks_creator .fast_tasks_list .fast_task_item .title.form_submission {
+    padding-left: 46px;
+}
+
+.tasks_creator .fast_tasks_list .fast_task_item .df-arrow-right {
+    color: #b8b8b8;
+    font-size: 1.5em;
+    position: absolute;
+    right: 16px;
+    top: 12px;
+}
+
+.tasks_creator .btn_done,
+.tasks_creator .btn_assign_tasks,
+.tasks_creator .btn_save_task {
+    font-weight: 500;
+    font-size: 16px;
+    color: #fff;
+    background: var(--primary-main);
+}
+
+.tasks_creator .btn_done {
+    padding: 16px 0px;
+}
+
+.tasks_creator .btn_delete_task {
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #f33155;
+    border-radius: 4px;
+    color: #f33155;
+    background-color: rgba(255, 255, 255, 0);
+    height: 48px;
+}
+
+.tasks_creator .btn_add_followers {
+    border: 1px solid #cacaca;
+    background-color: #f5f5f5;
+    color: #8a9297;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    border-radius: 4px;
+    height: 48px;
+    margin-bottom: 16px;
+}
+
+.tasks_creator .add_task_fields .form-field.followers_title {
+    margin: 0px 0px;
+}
+
+.tasks_creator .add_task_fields .followers_title {
+    padding-bottom: 16px;
+    color: #485465;
+    text-align: left;
+    font-size: 14px;
+}
+
+.tasks_creator .add_task_fields .followers_list {
+    background-color: #ffffff;
+    list-style: none;
+}
+
+.tasks_creator .followers_list .form-field {
+    margin: 0px 0px;
+}
+
+.tasks_creator .followers_list .follower_item {
+    padding: 8px 0px 0px;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.tasks_creator .followers_list .follower_item a {
+    color: #6f6f6f;
+    font-size: 14px;
+}
+
+.tasks_creator .followers_list .follower_item .title {
+    width: 90%;
+}
+
+.tasks_creator .followers_list .follower_item .df-remove-circle {
+    color: #485465;
+    font-size: 20px;
+    position: absolute;
+    right: 0px;
+    opacity: 0.5;
+}
+
+.tasks_list.pagelist .taskitem_container {
+    display: flex !important;
+}
+
+.tasks_list .taskitem_details {
+    margin-left: 20px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.tasks_list .taskitem_datetime {
+    width: 5em;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 12px;
+}
+
+.tasks_list .taskitem_datetime .date_start {
+    margin-bottom: 0.4em;
+    color: #8a9297;
+}
+
+.tasks_list .taskitem_datetime .date_due_or_complete {
+    margin-bottom: 0.4em;
+}
+
+.tasks_list .taskitem_datetime .time_zone {
+    color: #8a9297;
+}
+
+.tasks_list .show_strikeout {
+    text-decoration: line-through;
+}
+
+.tasks_list .tasks_account {
+    display: flex;
+    margin-left: auto;
+    align-items: flex-end;
+    font-size: 12px;
+    color: #8a9297;
+    float: right;
+    text-align: right;
+}
+
+.tasks_list .tag {
+    background: #ffc857;
+    border-radius: 10px;
+    color: #3b4850;
+    display: table;
+    padding: 0 10px 0 10px;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.tasks_list .df-status-open,
+.tasks_list .df-unavailable,
+.tasks_list .df-status-completed,
+.tasks_list .df-status-overdue,
+.tasks_list .df-status-overdue-and-closed {
+    font-size: 14px;
+    font-style: normal;
+}
+
+.tasks_list .status-completed-with-exception {
+    color: #33cc99;
+    font-size: 14px;
+}
+
+.tasks_list .img-status-completed-with-exception {
+    height: 16px;
+}
+
+.tasks_list .listitem_subtitles {
+    display: flex;
+}
+
+.task_complete_with_exceptions {
+    width: 28px;
+}
+
+.tasks_list .status {
+    display: inline-block;
+    line-height: 1em;
+    float: left;
+    min-width: 60px;
+}
+
+.tasks_list .status > img {
+    height: 16px;
+    vertical-align: bottom;
+}
+
+.tasks_list .task_date {
+    color: #414244;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.tasks_list .listitem_information {
+    display: flex;
+    flex-direction: column;
+}
+
+.tasks_list .tasks_location {
+    font-size: 12px;
+    color: #8a9297;
+    margin-bottom: 12px;
+}
+
+.tasks_list .overdue {
+    color: #f33155;
+}
+
+.tasks_list .taskitem_title,
+.taskitem_status {
+    margin-bottom: 12px;
+}
+
+.tasks_bucket_see_more {
+    display: block;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--primary-main);
+}
+
+.tasks_bucket_see_more.disabled {
+    opacity: 0.5;
+}
+
+.r_tasks_buckets .dashboard_card_header {
+    display: block;
+}
+
+.r_tasks_overdue .tasks_bucket_count {
+    color: #de3c2f;
+}
+
+.tasks_account_bucket:first-child .account_bucket_header {
+    padding-top: 18px;
+}
+
+.tasks_account_bucket .account_bucket_header {
+    padding: 4px 16px;
+    font-weight: 500;
+    color: #3b4850;
+    line-height: 24px;
+}
+
+.sticky_header .dashboard_card_header {
+    background: #ffffff;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.sticky_header .dashboard_card_header .dashboard_card_title i,
+.account_bucket_header i {
+    position: absolute;
+    right: 8px;
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+}
+
+.tasks_account_bucket:first-child .account_bucket_header {
+    top: -12px;
+}
+
+.tasks_account_bucket .account_bucket_header {
+    display: block;
+    background: #ececec;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.tasks_account_bucket .sticky_header .dashboard_card_header {
+    top: 24px;
+}
+
+.tasks_account_bucket .collapsed_location_bucket {
+    margin-bottom: 16px;
+    box-shadow: 0 2px 3px #cacaca;
+}
+
+@media (max-width: 320px) {
+    .tasks_creator .task_fields .task_field {
+        margin-right: 6px;
+        width: 84px;
+    }
+}
+
+@media (min-width: 768px) {
+    .tasks_creator .task_fields .task_field {
+        width: 240px;
+    }
+}
