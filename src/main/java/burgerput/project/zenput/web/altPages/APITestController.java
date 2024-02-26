@@ -40,7 +40,10 @@ public class APITestController {
     }
 
 
-
+    @GetMapping("/cicd")
+    public String cicd() {
+        return "Success!!";
+    }
 
 
 
