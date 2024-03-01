@@ -59,8 +59,9 @@ jobs:
       #Transfer to EC2 Instance
       - name: Transfer to EC2 Instance
         run : |
-          aws deploy create-deployment \
-          --application-name burgerput \
-          --deployment-group-name burgerput-group \  
-          --file-exists-behavior OVERWRITE \
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=burgerput.zip
+          aws deploy help
+#          aws deploy create-deployment \
+#          --application-name burgerput \
+#          --deployment-group-name burgerput-group \
+#          --file-exists-behavior OVERWRITE \
+#          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=burgerput.zip
