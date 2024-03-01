@@ -29,5 +29,13 @@ jobs:
         shell: bash
       
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build -x test
         shell: bash
+
+      - name: make Directory for deliver # make directory for jar file
+        run: mkdir deploy
+
+      - name: Copy jar file
+        run: cp ./build/libs/burgerputProject-0.0.2-SNAPSHOT.jar ./deploy/
+
+
