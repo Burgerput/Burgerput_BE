@@ -44,7 +44,7 @@ jobs:
       - name : Make zip file and transmit it
         run: zip -r -qq -j ./burgerput.zip ./deploy
 
-      # Upload S3 Bucket
+      # Configurre AWs credientials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -52,10 +52,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      # upload jar zip file to S3
       - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./burgerput.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/burgerput.zip
+
+      #Transfer to EC2 Instance
+      - name: Transfer to EC2 Instance
         run : |
-          aws deploy create-deployment \
-          --application-name burgerput \
-          --deployment-group-name burgerput-group \
-          --file-exists-behavior OVERWRITE \  
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=burgerput.zip \
+          aws deploy create-deployment 
+          --application-name burgerput 
+          --deployment-group-name burgerput-group 
+          --file-exists-behavior OVERWRITE   
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=burgerput.zip
