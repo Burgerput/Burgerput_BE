@@ -10,6 +10,8 @@ on:
 env:
   S3_BUCKET_NAME: burgerput
   PROJECT_NAME: burgerput_cicd
+  APPLICATION_NAME : codeDeploy
+  DEPLOYMENTGROUPS : burgerput-back
 
 # workflow는 한개 이상의 job을 가지며, 각 job은 여러 step에 따라 단계를 나눌 수 있습니다.
 jobs:
@@ -60,7 +62,7 @@ jobs:
       - name: Transfer to EC2 Instance
         run : |
           aws deploy create-deployment \
-          --application-name burgerput \
-          --deployment-group-name burgerput-group \
+          --application-name $APPLICATION_NAME \
+          --deployment-group-name $DEPLOYMENTGROUPS  \
           --file-exists-behavior OVERWRITE \
-#          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=burgerput.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=burgerput.zip
