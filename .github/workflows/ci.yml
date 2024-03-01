@@ -55,7 +55,7 @@ jobs:
       - name: Upload to S3
         run : |
           aws deploy create-deployment \
-          --application-name springboot-intro \
-          --deployment-group-name springboot-intro-deploy-group \
+          --application-name burgerput \
+          --deployment-group-name burgerput-group \
           --file-exists-behavior OVERWRITE \  
-          aws s3 cp --region ap-northeast-2 ./burgerput.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/burgerput.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=burgerput.zip \
