@@ -61,7 +61,7 @@ jobs:
       #Transfer to EC2 Instance
       - name: Transfer to EC2 Instance
         run : |
-          sudo aws deploy create-deployment \
+           aws deploy create-deployment \
           --application-name $APPLICATION_NAME \
           --deployment-group-name $DEPLOYMENTGROUPS  \
           --file-exists-behavior OVERWRITE \
