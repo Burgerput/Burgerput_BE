@@ -11,8 +11,8 @@ env:
   S3_BUCKET_NAME: burgerput
   PROJECT_NAME: burgerput_cicd
 
-  APPLICATION_NAME : codeDeploy #Created from step 5-2 (AWS codeDeploy Application Name)
-  DEPLOYMENTGROUPS : burgerput-back #Create from step 5-3 (Aws CodeDeploy Application Deployment group name)
+  APPLICATION_NAME : codeDeployApplication #Created from step 5-2 (AWS codeDeploy Application Name)
+  DEPLOYMENTGROUPS : burgerput-deployment-group #Create from step 5-3 (Aws CodeDeploy Application Deployment group name)
 
 # workflow는 한개 이상의 job을 가지며, 각 job은 여러 step에 따라 단계를 나눌 수 있습니다.
 jobs:
