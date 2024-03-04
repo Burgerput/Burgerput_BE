@@ -42,7 +42,10 @@ jobs:
         run: mkdir deploy
 
       - name: Copy jar file
-        run: cp ./build/libs/burgerputProject-0.0.2-SNAPSHOT.jar ./deploy/
+        run: cp ./build/libs/burgerputProject-0.0.2-SNAPSHOT.jar ./deploy
+
+      - name: copy appsepc.yml file
+        run: cp ./appspec.yml ./deploy
 
       - name : Make zip file and transmit it
         run: zip -r -qq -j ./burgerput.zip ./deploy
