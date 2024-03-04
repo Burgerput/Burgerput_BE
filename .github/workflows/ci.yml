@@ -66,4 +66,4 @@ jobs:
           --application-name $APPLICATION_NAME \
           --deployment-group-name $DEPLOYMENTGROUPS  \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=burgerput.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=/$PROJECT_NAME/burgerput.zip
