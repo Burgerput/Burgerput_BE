@@ -11,7 +11,8 @@ permissions:
     owner: ubuntu
     group: ubuntu
 
-ApplicationStart:
-  - location: script.sh # Start the script
-    timeout: 60
-    runas: ubuntu
+hooks:
+  ApplicationStart:
+    - location: script.sh # Start the script
+      timeout: 60
+      runas: ubuntu
