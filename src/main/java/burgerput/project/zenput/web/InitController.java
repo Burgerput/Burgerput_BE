@@ -29,27 +29,27 @@ public class InitController {
     //임시로 init 하는 컨트롤러 main의 로직은 아직 짜지 않음
     @GetMapping("/initData")
     public void saveMachineAndFood() {
-
-        //임시로 다지우고 시작 -> 변경해야하는 로직
-        machineRepository.deleteAllMIne();
-
-
-        Map<Integer, Machine> machineInfo = machineLoadingAndEnterZenput.getInfo();
-        for (Integer key : machineInfo.keySet()) {
-            Machine machine = machineInfo.get(key);
-
-            machineRepository.save(machine);
-        }
-
-        //임시로 다지우고 시작 -> 변경해야하는 로직
-        foodRepository.deleteAllMIne();
-
-        Map<Integer, Food> foodinfo = foodLoadingAndEnterZenput.getInfo();
-        for (Integer key : foodinfo.keySet()) {
-            Food food = foodinfo.get(key);
-
-            foodRepository.save(food);
-        }
+//
+//        //임시로 다지우고 시작 -> 변경해야하는 로직
+//        machineRepository.deleteAllMIne();
+//
+//
+//        Map<Integer, Machine> machineInfo = machineLoadingAndEnterZenput.getInfo();
+//        for (Integer key : machineInfo.keySet()) {
+//            Machine machine = machineInfo.get(key);
+//
+//            machineRepository.save(machine);
+//        }
+//
+//        //임시로 다지우고 시작 -> 변경해야하는 로직
+//        foodRepository.deleteAllMIne();
+//
+//        Map<Integer, Food> foodinfo = foodLoadingAndEnterZenput.getInfo();
+//        for (Integer key : foodinfo.keySet()) {
+//            Food food = foodinfo.get(key);
+//
+//            foodRepository.save(food);
+//        }
     }
 
     @GetMapping("delCookie")
