@@ -28,7 +28,6 @@ public class MachineLoadingAndEnterZenputV2Test implements MachineLoadingAndEnte
 
 //Optimize version!
     //Using saved html file data
-
     private final MovePageService movePageService;
     private final MyJsonParser myJsonParser;
     private final MachineRepository machineRepository;

@@ -33,7 +33,7 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
     private final FoodDriverRepository foodDriverRepository;
 
     @Override
-    public Map<Integer, Food> getInfo() {//get from am info
+    public Map<Integer, Food> getInfo() throws Exception {//get from am info
         log.info("Food Get Info Logic Start f rom FoodLoadingAndEnterZenputV2");
 
         Map<Integer, Food> result = new LinkedHashMap<>();
@@ -90,6 +90,7 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
         } catch (Exception e) {
             log.info("Food GetInfo Error occurred !");
             log.info(e.toString());
+            throw new Exception(e);
         }
 //         log.info("result = {}", result);
         return result;
@@ -258,7 +259,7 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
     }
 
     @Override
-    public Food extractIdTitle(WebElement field) {
+    public Food extractIdTitle(WebElement field) throws Exception {
         Food food = new Food();
         try {
             WebElement input = field.findElement(By.tagName("input"));
@@ -273,8 +274,9 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
                 food = extractTitle(title);
                 food.setId(Integer.parseInt(id));
             }
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             log.info("Error LoadFood={}", e.toString());
+            throw new Exception(e);
         }
         return food;
     }

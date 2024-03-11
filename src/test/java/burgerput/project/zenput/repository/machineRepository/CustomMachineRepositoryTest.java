@@ -78,19 +78,19 @@ class CustomMachineRepositoryTest {
     @Transactional
     public void machineSave() {
         //given
-        Map<Integer, Machine> machineList = machineLoadiing.getInfo();
+//        Map<Integer, Machine> machineList = machineLoadiing.getInfo();
         //ArrayList<Map> foodList = foodLoading.getInfo();
 
         //SAVE IT
-        for (Integer integer : machineList.keySet()) {
-            machineRepository.save(machineList.get(integer));
-        }
-
-        Iterable<Machine> all = machineRepository.findAll();
-        for (Machine machine : all) {
-            log.info("machine into ={}", machine);
-
-        }
+//        for (Integer integer : machineList.keySet()) {
+//            machineRepository.save(machineList.get(integer));
+//        }
+//
+//        Iterable<Machine> all = machineRepository.findAll();
+//        for (Machine machine : all) {
+//            log.info("machine into ={}", machine);
+//
+//        }
 
     }
 

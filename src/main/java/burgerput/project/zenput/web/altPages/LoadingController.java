@@ -49,57 +49,71 @@ public class LoadingController {
         //loading zenput Page's Data first
         Map<String, String> resultMap = new LinkedHashMap<>();
         resultMap.put("result", "true");
-        try {
+
+        try{
             log.info("MACHINE DATA GET STASRT");
             Map<Integer, Machine> machineInfo = machineLoadingAndEnterZenput.getInfo();
             log.info("loaded Machine Map info : {}", machineInfo);
 
-            log.info("FOOD DATA GET STASRT");
-            Map<Integer, Food> foodInfo = foodLoadingAndEnterZenput.getInfo();
-            log.info("Loaded Food Map info : {}", foodInfo);
-
-            if (machineInfo.size() == 1 || foodInfo.size() ==1) {
+            if (machineInfo.size() == 1) {
+                //page loading fail case
                 //false
-                log.info("FALSE RESULT RETURN = false");
+                log.info("Machine Enter Page = false");
                 resultMap.put("result", "false");
 
                 return resultMap;
             }
-            //====================loading logic================================
-//        addMachine Logic=================================================
-            ArrayList<Map> addMap = alertLoading.addMachine(machineInfo);
-//
-//        //del Machine logic
-            ArrayList<Map> delMap = alertLoading.delMachine(machineInfo);
-//
-//        //editMachine logic=====================================
-            ArrayList<Map> editMap = alertLoading.editMachine(machineInfo);
-//
-            //machine data를 로딩한 것으로 변경함
-//      saveData.machinezenputdatasave(machineInfo);
 
-            //====================Food logic start===========================
+            ArrayList<Map> addMap = alertLoading.addMachine(machineInfo);
+            ArrayList<Map> delMap = alertLoading.delMachine(machineInfo);
+            ArrayList<Map> editMap = alertLoading.editMachine(machineInfo);
+
+            log.info("Add map Info :", addMap);
+            log.info("Del MAP Info : ", delMap);
+            log.info("Edited Map Info", editMap);
+
+            log.info("Machine DB set-up ");
+            alertMachineInfoToDb(delMap);
+            saveData.machinezenputdatasave(machineInfo);
+
+        }catch(Exception e){
+            log.info("Machine getInfo logic False");
+            log.info(e.toString());
+            resultMap.put("result", "false");
+
+            return resultMap;
+        }
+
+        try {
+            log.info("FOOD DATA GET STASRT");
+            Map<Integer, Food> foodInfo = foodLoadingAndEnterZenput.getInfo();
+            log.info("Loaded Food Map info : {}", foodInfo);
+
+            if (foodInfo.size() ==1) {
+                //false
+                log.info("Food Enter Page = false");
+                resultMap.put("result", "false");
+
+                return resultMap;
+            }
+
             ArrayList<Map> addFoodMap = alertLoading.addFood(foodInfo);
             ArrayList<Map> delFoodMap = alertLoading.delFood(foodInfo);
             ArrayList<Map> editFoodMap = alertLoading.editFood(foodInfo);
 
             ArrayList<Map> foodMaps = alertInfo(addFoodMap, delFoodMap, editFoodMap);
 
-//=============save result To DB
-//apply to DB -//only execute deleteMap(delete from customMachine and save whole machine data
+            log.info("Food DB set-up ");
+
             alertFoodInfoToDb(delFoodMap);
-            alertMachineInfoToDb(delMap);
-
-            saveData.machinezenputdatasave(machineInfo);
             saveData.foodZenputDataSave(foodInfo);
-
-            log.info("Db Set-up END ");
-//            response.sendRedirect(BURGERPUTSITE);
 
         } catch (Exception e) {
             resultMap.put("result", "false");
-            log.info("Error from loading Controller!!! ");
+            log.info("Food getInfo logic false");
             log.info(e.toString());
+
+            return resultMap;
         }
 
         log.info("return value ={}", resultMap.get("result"));
@@ -114,55 +128,16 @@ public class LoadingController {
 
         Map<String, String> resultMap = new LinkedHashMap<>();
         resultMap.put("result", "true");
-
-        Map<Integer, Food> foodInfo = foodLoadingAndEnterZenput.getInfo();
-        log.info("Loaded Food Map info : {}", foodInfo);
-
-        if ( foodInfo.size() ==1) {
-            //false
-            log.info("FALSE RESULT RETURN = false");
-            resultMap.put("result", "false");
-
-            return resultMap;
-        }
-
 //
-//////        addMachine Logic=================================================
-//        ArrayList<Map> addMap = alertLoading.addMachine(machineInfo);
+//        Map<Integer, Food> foodInfo = foodLoadingAndEnterZenput.getInfo();
+//        log.info("Loaded Food Map info : {}", foodInfo);
 //
-//        //del Machine logic
-//        ArrayList<Map> delMap = alertLoading.delMachine(machineInfo);
+//        if ( foodInfo.size() ==1) {
+//            //false
+//            log.info("FALSE RESULT RETURN = false");
+//            resultMap.put("result", "false");
 //
-//        //editMachine logic=====================================
-//        ArrayList<Map> editMap = alertLoading.editMachine(machineInfo);
-//
-//        //machine data를 로딩한 것으로 변경함
-////        saveData.machinezenputdatasave(machineInfo);
-//
-//        ArrayList<Map> maps = alertInfo(addMap, delMap, editMap);
-//
-//        log.info("machine alert info list ={}", maps);
-//
-////        //to Machine DB
-//        alertMachineInfoToDb(delMap);
-//
-//        //machine data를 로딩한 것으로 변경함
-////      saveData.machinezenputdatasave(machineInfo);
-//
-//        //====================Food logic start===========================
-//        ArrayList<Map> addFoodMap = alertLoading.addFood(foodInfo);
-//        ArrayList<Map> delFoodMap = alertLoading.delFood(foodInfo);
-//        ArrayList<Map> editFoodMap = alertLoading.editFood(foodInfo);
-//
-//        ArrayList<Map> foodMaps = alertInfo(addFoodMap, delFoodMap, editFoodMap);
-//
-//        alertFoodInfoToDb(delFoodMap);
-//
-//        if (!addMap.isEmpty()) {
-//            saveData.machinezenputdatasave(machineInfo);
-//        }
-//        if (!addFoodMap.isEmpty()) {
-//            saveData.foodZenputDataSave(foodInfo);
+//            return resultMap;
 //        }
 //
         return resultMap;

@@ -38,7 +38,7 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
     //get info 는 무조건 AM 으로만 받아온다.
     // Only am list
     @Override
-    public Map<Integer, Machine> getInfo() {
+    public Map<Integer, Machine> getInfo() throws Exception {
         log.info("Food Get Info Logic Start f rom MachineLoadingAndEnterZenputV2");
 
         Map<Integer, Machine> result = new LinkedHashMap<>();
@@ -92,6 +92,7 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
         } catch (Exception e) {
             log.info("Machine GetInfo Error occurred !");
             log.info(e.toString());
+            throw new Exception(e);
         }
         return result;
     }
@@ -327,7 +328,7 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
     }
 
     @Override
-    public Machine extractIdTitle(WebElement field) {
+    public Machine extractIdTitle(WebElement field) throws Exception {
         Machine machine = new Machine();
         try {
             WebElement input = field.findElement(By.tagName("input"));
@@ -349,6 +350,8 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
 
         } catch (Exception e) {
             log.info("Error LoadMachine={}", e.toString());
+
+            throw new Exception(e);
         }
         return machine;
     }

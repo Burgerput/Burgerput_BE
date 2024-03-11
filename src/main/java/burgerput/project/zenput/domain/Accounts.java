@@ -11,6 +11,7 @@ public class Accounts {
 
     @Id
     @JsonIgnore
+    @Column(name="num")
     @GeneratedValue(strategy = GenerationType.IDENTITY)//생성을 Db에 위임
     private int num;
 

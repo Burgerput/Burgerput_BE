@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 import java.util.Map;
 
 public interface MachineLoadingAndEnterZenput {
-    public Machine extractIdTitle(WebElement field);
+    public Machine extractIdTitle(WebElement field) throws Exception;
 
-    public Map<Integer,Machine> getInfo();
+    public Map<Integer,Machine> getInfo() throws Exception;
 
     public void sendValue(String param);
 
