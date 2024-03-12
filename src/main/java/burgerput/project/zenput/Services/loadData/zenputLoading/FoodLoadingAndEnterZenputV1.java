@@ -198,7 +198,6 @@ public class FoodLoadingAndEnterZenputV1 implements FoodLoadingAndEnterZenput {
 
     }
 
-    @Override
     public Food extractIdTitle(WebElement field) {
         Food food = new Food();
 
@@ -226,6 +225,7 @@ public class FoodLoadingAndEnterZenputV1 implements FoodLoadingAndEnterZenput {
 
         Food food = new Food();
 
+        log.info("extractTitle = {}", title);
         if (!title.equals("")) {
             //title is not null
             if (title.contains("-")) {

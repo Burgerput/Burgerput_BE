@@ -2,11 +2,8 @@ package burgerput.project.zenput.Services.loadData;
 
 import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
 import burgerput.project.zenput.Services.jsonObject.MyJsonParserV1;
-import burgerput.project.zenput.Services.loadData.zenputLoading.MachineLoadingAndEnterZenput;
-import burgerput.project.zenput.Services.loadData.zenputLoading.MachineLoadingAndEnterZenputV2Test;
 import burgerput.project.zenput.Services.movePage.MovePageService;
 import burgerput.project.zenput.Services.movePage.MovePageServiceV1;
-import burgerput.project.zenput.domain.Machine;
 import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import burgerput.project.zenput.repository.zenputAccount.ZenputAccountRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +11,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.Map;
 
 @Slf4j
 @DataJpaTest

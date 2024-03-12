@@ -221,7 +221,6 @@ public class FoodLoadingAndEnterZenputV1Test implements FoodLoadingAndEnterZenpu
 
     }
 
-    @Override
     public Food extractIdTitle(WebElement field) {
         Food food = new Food();
 

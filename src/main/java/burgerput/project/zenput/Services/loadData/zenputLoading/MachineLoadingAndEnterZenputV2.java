@@ -45,11 +45,9 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
 
         System.setProperty("java.awt.headless", "false");
 
+        WebDriver driver = movePageService.clickAmMachine();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         try {
-            //test를 위해 pm으로 변경한다.
-            WebDriver driver = movePageService.clickAmMachine();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
             //li class group
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
@@ -90,8 +88,12 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
             driver.quit();
 
         } catch (Exception e) {
-            log.info("Machine GetInfo Error occurred !");
+
+            driver.close();
+            driver.quit();
+            log.info("Machine GetInfo Error occurred ! And the Driver quit() executed!");
             log.info(e.toString());
+
             throw new Exception(e);
         }
         return result;

@@ -7,7 +7,7 @@ import org.openqa.selenium.json.Json;
 import java.util.Map;
 
 public interface FoodLoadingAndEnterZenput {
-    public Food extractIdTitle(WebElement field) throws Exception;
+//    public Food extractIdTitle(WebElement field) throws Exception;
 
     public  Map<Integer, Food> getInfo() throws Exception;
 
