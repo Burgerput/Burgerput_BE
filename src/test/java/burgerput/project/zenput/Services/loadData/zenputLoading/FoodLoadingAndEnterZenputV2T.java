@@ -4,18 +4,15 @@ import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
 import burgerput.project.zenput.Services.movePage.MovePageService;
 import burgerput.project.zenput.domain.Food;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepository;
-import burgerput.project.zenput.repository.driverRepository.FoodDriverRepositoryV1;
 import burgerput.project.zenput.repository.foodRepository.FoodRepository;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -23,43 +20,43 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static burgerput.project.zenput.Const.FOODURL;
+import static burgerput.project.zenput.ConstT.FOODURL_T;
 
-//Optimize version!
 @Slf4j
-@RequiredArgsConstructor
+@DataJpaTest
+public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput{
 
-public class FoodLoadingAndEnterZenputV2Test implements FoodLoadingAndEnterZenput {
-
-
-    private final MovePageService movePageService;
-    private final MyJsonParser myJsonParser;
-    private final FoodRepository foodRepository;
-    private final FoodDriverRepository foodDriverRepository;
+    @Autowired
+    private MovePageService movePageService;
+    @Autowired
+    private MyJsonParser myJsonParser;
+    @Autowired
+    private FoodRepository foodRepository;
+    @Autowired
+    private FoodDriverRepository foodDriverRepository;
 
     @Override
     public Map<Integer, Food> getInfo() {//get from am info
         Map<Integer, Food> result = new LinkedHashMap<>();
 
         System.setProperty("java.awt.headless", "false");
+        WebDriverManager.chromedriver().setup();
+
+        //remove being controlled option information bar
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+
+        options.addArguments("--no-sandbox");
+//            options.addArguments("--headless=new");
+
+        WebDriver driver = new ChromeDriver(options);
 
         try {
 //            System.setProperty("webdriver.chrome.driver", DRIVERLOCATION);
             //chrome driver use
             //automatic web driver management through webdrivermanager
 
-            WebDriverManager.chromedriver().setup();
-
-            //remove being controlled option information bar
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-
-            options.addArguments("--no-sandbox");
-            options.addArguments("--headless=new");
-
-            WebDriver driver = new ChromeDriver(options);
-
-            driver.get(FOODURL);
+            driver.get(FOODURL_T);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
             //==============================Scrape LOGIC START============================
 
@@ -104,6 +101,8 @@ public class FoodLoadingAndEnterZenputV2Test implements FoodLoadingAndEnterZenpu
             driver.quit();
 
         } catch (Exception e) {
+            driver.close();
+            driver.quit();
             log.info(e.toString());
         }
 //         log.info("result = {}", result);
@@ -147,7 +146,7 @@ public class FoodLoadingAndEnterZenputV2Test implements FoodLoadingAndEnterZenpu
             //==============================Scrape LOGIC START============================
 
             //GO TO PAGE
-            driver.get(FOODURL);
+            driver.get(FOODURL_T);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
             // 1. Enter Manager Name
@@ -276,9 +275,9 @@ public class FoodLoadingAndEnterZenputV2Test implements FoodLoadingAndEnterZenpu
 
     }
 
-    @Override
     public Food extractIdTitle(WebElement field) {
         Food food = new Food();
+
         try {
             WebElement input = field.findElement(By.tagName("input"));
             WebElement fieldTitle = field.findElement(By.className("field_title"));
@@ -314,7 +313,6 @@ public class FoodLoadingAndEnterZenputV2Test implements FoodLoadingAndEnterZenpu
 
             //temp setup
             String s = split[split.length - 1].replaceAll("[a-zA-Z가-힣* ]", "");
-
             tempLogic(s, food);
 
 //            log.info(minS);
@@ -324,21 +322,21 @@ public class FoodLoadingAndEnterZenputV2Test implements FoodLoadingAndEnterZenpu
             String sample = split[0];
             food.setName(sample);
             String s = split[1].replaceAll("[a-zA-Z가-힣* ]", "");
-
             tempLogic(s, food);
         }
 
         return food;
     }
 
-    private void tempLogic(String s, Food food) {
+    private void tempLogic(String temp, Food food) {
 
-        if (s.contains("~")) {
-            String[] split = s.split("~");
+        if (temp.contains("~")) {
+            String[] split = temp.split("~");
             food.setMax(Integer.parseInt(split[1]));
             food.setMin(Integer.parseInt(split[0]));
         }else{
-            food.setMin(Integer.parseInt(s));
+            temp = temp.trim();
+            food.setMin(Integer.parseInt(temp));
             food.setMax(185);
         }
 

@@ -6,12 +6,14 @@ import burgerput.project.zenput.domain.Machine;
 import burgerput.project.zenput.repository.driverRepository.MachineDriverRepository;
 import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -19,19 +21,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static burgerput.project.zenput.Const.MACHINEURL;
+import static burgerput.project.zenput.ConstT.MACHINEURL_T;
 
 @Slf4j
-@RequiredArgsConstructor
-//Service
-public class MachineLoadingAndEnterZenputV2Test implements MachineLoadingAndEnterZenput {
+@DataJpaTest
+public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZenput{
 
-//Optimize version!
     //Using saved html file data
-    private final MovePageService movePageService;
-    private final MyJsonParser myJsonParser;
-    private final MachineRepository machineRepository;
-    private final MachineDriverRepository machineDriverRepository;
+    @Autowired
+    private MyJsonParser myJsonParser;
+    @Autowired
+    private MachineRepository machineRepository;
+    @Autowired
+    private MachineDriverRepository machineDriverRepository;
 
     //get info 는 무조건 AM 으로만 받아온다.
     // Only am list
@@ -57,7 +59,7 @@ public class MachineLoadingAndEnterZenputV2Test implements MachineLoadingAndEnte
 
 
             //GO TO PAGE
-            driver.get(MACHINEURL);
+            driver.get(MACHINEURL_T);
 
             //li class group
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
@@ -133,7 +135,7 @@ public class MachineLoadingAndEnterZenputV2Test implements MachineLoadingAndEnte
             //==============================Scrape LOGIC START============================
 
             //GO TO PAGE
-            driver.get(MACHINEURL);
+            driver.get(MACHINEURL_T);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 
             //b. Enter the manager textbox
@@ -226,7 +228,7 @@ public class MachineLoadingAndEnterZenputV2Test implements MachineLoadingAndEnte
             //==============================Scrape LOGIC START============================
 
             //GO TO PAGE
-            driver.get(MACHINEURL);
+            driver.get(MACHINEURL_T);
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 
             //b. Enter the manager textbox

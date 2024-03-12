@@ -144,8 +144,8 @@ public class MovePageServiceV1 implements MovePageService {
         options.addArguments("--headless=new");
         options.addArguments("--single-process");
         options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
 
-//            options.addArguments("--disable-dev-shm-usage");
 //            options.addArguments("--single-process");
 //            options.addArguments("--remote-allow-origins=*");
 //            options.setBinary("/opt/google/chrome/");
@@ -312,10 +312,10 @@ public class MovePageServiceV1 implements MovePageService {
                         listTitle.click();
                         log.info("list Title Clicked = {} and sleep 2000", listName);
 
-                        log.info("list clicked pictrue created");
-                        File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
-                        File file = new File("/home/ubuntu/burgerput/img/move/Dirverpic:"+listName+LocalDateTime.now()+".png");
-                        FileUtils.copyFile(screenshotAs, file);
+//                        log.info("list clicked pictrue created");
+//                        File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
+//                        File file = new File("/home/ubuntu/burgerput/img/move/Dirverpic:"+listName+LocalDateTime.now()+".png");
+//                        FileUtils.copyFile(screenshotAs, file);
 
                         Thread.sleep(1000);
 
@@ -325,10 +325,10 @@ public class MovePageServiceV1 implements MovePageService {
 
                         Thread.sleep(1000);
 
-                        log.info("Clicked submitForm and take a screenshot");
-                        screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
-                        file = new File("/home/ubuntu/burgerput/img/move/form:"+listName+LocalDateTime.now()+".png");
-                        FileUtils.copyFile(screenshotAs, file);
+//                        log.info("Clicked submitForm and take a screenshot");
+//                        screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
+//                        file = new File("/home/ubuntu/burgerput/img/move/form:"+listName+LocalDateTime.now()+".png");
+//                        FileUtils.copyFile(screenshotAs, file);
 
                         return driver;
                     }

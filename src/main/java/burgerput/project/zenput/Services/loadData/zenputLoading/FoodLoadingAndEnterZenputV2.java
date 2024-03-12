@@ -39,14 +39,9 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
         Map<Integer, Food> result = new LinkedHashMap<>();
 
         System.setProperty("java.awt.headless", "false");
-
+        WebDriver driver = movePageService.clickAmFood();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         try {
-            //test를 위해 pm으로 변경한다.
-            WebDriver driver = movePageService.clickAmFood();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
-            //==============================Scrape LOGIC START============================
-
             //li class groups
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
@@ -88,6 +83,8 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
             driver.quit();
 
         } catch (Exception e) {
+            driver.close();
+            driver.quit();
             log.info("Food GetInfo Error occurred !");
             log.info(e.toString());
             throw new Exception(e);
@@ -152,8 +149,6 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
                     }
                 }
             }
-            //===================dummy setup END =======================
-
 //            log.info("dummyMap final ={}", dummyStore);
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
@@ -258,7 +253,6 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
 
     }
 
-    @Override
     public Food extractIdTitle(WebElement field) throws Exception {
         Food food = new Food();
         try {
@@ -314,14 +308,15 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
         return food;
     }
 
-    private void tempLogic(String s, Food food) {
+    private void tempLogic(String temp, Food food) {
 
-        if (s.contains("~")) {
-            String[] split = s.split("~");
+        if (temp.contains("~")) {
+            String[] split = temp.split("~");
             food.setMax(Integer.parseInt(split[1]));
             food.setMin(Integer.parseInt(split[0]));
         }else{
-            food.setMin(Integer.parseInt(s));
+            temp = temp.trim();
+            food.setMin(Integer.parseInt(temp));
             food.setMax(185);
         }
 
