@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -166,7 +167,7 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
             }
 
             File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
-            File file = new File("/home/ubuntu/burgerput/img/zenputMachine"+ LocalDate.now()+".png");
+            File file = new File("/home/ubuntu/burgerput/img/zenputMachine"+ LocalDate.now()+ LocalTime.now()+".png");
             FileUtils.copyFile(screenshotAs, file);
 
             WebElement button = driver.findElement(By.xpath("//*[@id=\"submit_form\"]"));

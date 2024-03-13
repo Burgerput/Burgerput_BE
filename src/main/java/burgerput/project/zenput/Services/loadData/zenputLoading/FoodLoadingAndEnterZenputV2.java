@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -167,7 +168,7 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
             }
 
             File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
-            File file = new File("/home/ubuntu/burgerput/img/zenputFood.png"+ LocalDate.now()+".png");
+            File file = new File("/home/ubuntu/burgerput/img/zenputFood"+ LocalDate.now()+ LocalTime.now() +".png");
             FileUtils.copyFile(screenshotAs, file);
 
             log.info("button clicked in the SendValue()");
