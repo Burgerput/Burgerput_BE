@@ -13,8 +13,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Slf4j
-public class PrintDataV1 implements PrintData {
-
+public class PrintDataV2 implements PrintData{
     private final MachineRepository machineRepository;
     private final CustomMachineRepository customMachineRepository;
     private final FoodRepository foodRepository;
@@ -22,30 +21,35 @@ public class PrintDataV1 implements PrintData {
 
     private final MgrListRepository mgrListRepository;
 
-
     @Override
     public ArrayList<Map> zenputMachine() {
-        //[id, JSON(MAP)] 으로 리턴
+        log.info("[PrintDataV2] ZenputMachine method start");
 
-        //for saving result
         ArrayList<Map> result = new ArrayList<>();
 
-        //Read Data from the DB(select * from machine;)
+        //1. Machine Data List를 가져오기
         List<Machine> machineList = machineRepository.findAll();
 
-        List<CustomMachine> customAll = customMachineRepository.findAll();
+        //2. Custommachine List 가져오기
+        List<CustomMachine> customMachineList = customMachineRepository.findAll();
 
-        for (Machine macihne : machineList) {
+        //3. is checked 확인을 위해 for문으로 확인 n(logn)
+        for (Machine machine : machineList) {
+            //result에 값을 넣을 임시 맵 생성
+            // Id, name, min ,max, ischecked값을 가진다.
             Map<String, String> machineMap = new LinkedHashMap<>();
-            machineMap.put("id", String.valueOf(macihne.getId()));
-            machineMap.put("name", macihne.getName());
-            machineMap.put("min", String.valueOf(macihne.getMin()));
-            machineMap.put("max", String.valueOf(macihne.getMax()));
+
+            machineMap.put("id", String.valueOf(machine.getId()));
+            machineMap.put("name", machine.getName());
+            machineMap.put("min", String.valueOf(machine.getMin()));
+            machineMap.put("max", String.valueOf(machine.getMax()));
             machineMap.put("isChecked", "false");
 
-            for (Iterator<CustomMachine> iterator = customAll.iterator(); iterator.hasNext();) {
+            //is 이중 for문의 시작 customMachine에 해당 machine객체가 있으면 true로 표시한다.
+            //
+            for (Iterator<CustomMachine> iterator = customMachineList.iterator(); iterator.hasNext();) {
                 int idCustom = iterator.next().getId();
-                int idMachine = macihne.getId();
+                int idMachine = machine.getId();
 
 //                log.info("idCusomt's id ={}   |  idMachine 's id ={}", idCustom, idMachine);
                 if (idMachine == idCustom) {
@@ -56,28 +60,20 @@ public class PrintDataV1 implements PrintData {
             result.add(machineMap);
         }
 
-//        List<MgrList> mgrList = mgrListRepository.findAll();
-//        for (MgrList list : mgrList) {
-//            Map<String, String> mgrMap = new LinkedHashMap<>();
-//            mgrMap.put("id", Integer.toString(list.getId()));
-//            mgrMap.put("mgrname", list.getMgrName());
-//
-//            result.add(mgrMap);
-//        }
-
         return result;
     }
 
     @Override
     public ArrayList<Map> zenputFood() {
-        //[id, JSON(MAP)] 으로 리턴
+        log.info("[PrintDataV2] zenputFood method start");
 
-        //for Saving Result
+        //1. 결과를 저장할 result생성하기
         ArrayList<Map> result = new ArrayList<>();
 
-        //Read Data from the DB(select * from Food;)
+        //food list와 customFoodList를 가져온다.
         List<Food> foodList = foodRepository.findAll();
-        List<CustomFood> foodAll = customFoodRepository.findAll();
+
+        List<CustomFood> customFoodList = customFoodRepository.findAll();
 
         for (Food food : foodList) {
             Map<String, String> foodMap = new LinkedHashMap<>();
@@ -87,7 +83,7 @@ public class PrintDataV1 implements PrintData {
             foodMap.put("max", String.valueOf(food.getMax()));
             foodMap.put("isChecked", "false'");
 
-            for (Iterator<CustomFood> iterator = foodAll.iterator(); iterator.hasNext();) {
+            for (Iterator<CustomFood> iterator = customFoodList.iterator(); iterator.hasNext();) {
                 int idCustom = iterator.next().getId();
                 int idFood = food.getId();
 
@@ -97,30 +93,25 @@ public class PrintDataV1 implements PrintData {
             }
             result.add(foodMap);
         }
-//
-//        List<MgrList> mgrList = mgrListRepository.findAll();
-//        for (MgrList list : mgrList) {
-//            Map<String, String> mgrMap = new LinkedHashMap<>();
-//            mgrMap.put("id", Integer.toString(list.getId()));
-//            mgrMap.put("mgrname", list.getMgrName());
-//
-//            result.add(mgrMap);
-//        }
+
 
         return result;
     }
 
     @Override
     public ArrayList<Map> customMachine() {
-        //for Saving Result
+        log.info("[PrintDataV2] customMachine method start");
+        //DTO @Id를 변경하고 새로 작성한 로직
         ArrayList<Map> result = new ArrayList<>();
 
         //Get the customId
-        List<CustomMachine> customId = customMachineRepository.findAll();
+        List<CustomMachine> customMachineList= customMachineRepository.findAll();
 
-        for (CustomMachine customMachine : customId) {
-//            log.info("custommachine id ={}", customMachine.getId());
-            Machine foundMachine = machineRepository.findMachineById(Integer.toString(customMachine.getId()));
+        for(CustomMachine customMachine : customMachineList){
+            // @id를 기준으로 Macihne 찾기
+            Machine foundMachine = machineRepository.findById(customMachine.getId()).get();
+
+            //찾은 결과를 임시저장소에 저장하고 출력
             Map<String, String> customMachineMap = new LinkedHashMap<>();
             customMachineMap.put("id", Integer.toString(foundMachine.getId()));
             customMachineMap.put("name", foundMachine.getName());
@@ -135,16 +126,16 @@ public class PrintDataV1 implements PrintData {
 
     @Override
     public ArrayList<Map> customFood() {
-
+        log.info("[PrintDataV2] customFood method start");
         //for Saving Result
         ArrayList<Map> result = new ArrayList<>();
 
         //Get the customId
-        List<CustomFood> customId = customFoodRepository.findAll();
+        List<CustomFood> customFoodList = customFoodRepository.findAll();
 
-        for (CustomFood customFood : customId) {
-//            log.info("custommachine id ={}", customFood.getId());
-            Food foundFood = foodRepository.findFoodById(Integer.toString(customFood.getId()));
+        for(CustomFood customFood : customFoodList){
+            Food foundFood = foodRepository.findById(customFood.getId()).get();
+
             Map<String, String> customFoodMap = new LinkedHashMap<>();
             customFoodMap.put("id", Integer.toString(foundFood.getId()));
             customFoodMap.put("name", foundFood.getName());
@@ -152,57 +143,7 @@ public class PrintDataV1 implements PrintData {
             customFoodMap.put("max", String.valueOf(foundFood.getMax()));
 
             result.add(customFoodMap);
-        }
 
-        return result;
-    }
-
-
-    @Override
-    public ArrayList<Map> customCheatMachine() {
-        ArrayList<Map> result = new ArrayList<>();
-
-        //Get the customId
-        List<CustomMachine> customId = customMachineRepository.findAll();
-
-        for (CustomMachine customCheatMachine : customId) {
-//            log.info("customCheatMachine INFO ={}",customCheatMachine);
-
-            Machine foundCheatMachine = machineRepository.findMachineById(Integer.toString(customCheatMachine.getId()));
-            Map<String, String> customCheatMachineMap = new LinkedHashMap<>();
-
-            customCheatMachineMap.put("id", Integer.toString(foundCheatMachine.getId()));
-            customCheatMachineMap.put("name", foundCheatMachine.getName());
-            customCheatMachineMap.put("min", Integer.toString(customCheatMachine.getMin()));
-            customCheatMachineMap.put("max", Integer.toString(customCheatMachine.getMax()));
-            customCheatMachineMap.put("initMin", Integer.toString(foundCheatMachine.getMin()));
-            customCheatMachineMap.put("initMax", Integer.toString(foundCheatMachine.getMax()));
-
-            result.add(customCheatMachineMap);
-        }
-        return result;
-    }
-
-    @Override
-    public ArrayList<Map> customCheatFood() {
-        ArrayList<Map> result = new ArrayList<>();
-
-        List<CustomFood> customId = customFoodRepository.findAll();
-
-        for (CustomFood customCheatFood : customId) {
-//            log.info("customCheatFood INFO = {}", customCheatFood);
-
-            Food foundCheatFood = foodRepository.findFoodById(Integer.toString(customCheatFood.getId()));
-            Map<String, String> customCheatFoodMap = new LinkedHashMap<>();
-
-            customCheatFoodMap.put("id", Integer.toString(foundCheatFood.getId()));
-            customCheatFoodMap.put("name", foundCheatFood.getName());
-            customCheatFoodMap.put("min", Integer.toString(customCheatFood.getMin()));
-            customCheatFoodMap.put("max", Integer.toString(customCheatFood.getMax()));
-            customCheatFoodMap.put("initMin", Integer.toString(foundCheatFood.getMin()));
-            customCheatFoodMap.put("initMax", Integer.toString(foundCheatFood.getMax()));
-
-            result.add(customCheatFoodMap);
         }
 
         return result;
@@ -225,4 +166,60 @@ public class PrintDataV1 implements PrintData {
         return result;
     }
 
+
+    @Override
+    public ArrayList<Map> customCheatMachine() {
+        log.info("[PrintDataV2] customCheatMachine method start");
+
+        //1. 결과를 저장할 배열 생성
+        ArrayList<Map> result = new ArrayList<>();
+
+        // customMachineRepository에 List를 가져온다.
+        List<CustomMachine> customMachineList = customMachineRepository.findAll();
+
+        for(CustomMachine customCheatMachine : customMachineList){
+            //machine Repository에서 조인해서 가져오기
+            Machine machine = machineRepository.findById(customCheatMachine.getId()).get();
+
+            Map<String, String> customCheatMachineMap = new LinkedHashMap<>();
+
+            customCheatMachineMap.put("id", Integer.toString(machine.getId()));
+            customCheatMachineMap.put("name", machine.getName());
+            customCheatMachineMap.put("min", Integer.toString(customCheatMachine.getMin()));
+            customCheatMachineMap.put("max", Integer.toString(customCheatMachine.getMax()));
+            customCheatMachineMap.put("initMin", Integer.toString(machine.getMin()));
+            customCheatMachineMap.put("initMax", Integer.toString(machine.getMax()));
+
+            result.add(customCheatMachineMap);
+
+        }
+
+        return result;
+    }
+
+    @Override
+    public ArrayList<Map> customCheatFood() {
+        log.info("[PrintDataV2] customCheatFood method start");
+
+        ArrayList<Map> result = new ArrayList<>();
+
+        List<CustomFood> customFoodList = customFoodRepository.findAll();
+
+        for(CustomFood customCheatFood : customFoodList){
+            Food foundCheatFood = foodRepository.findById(customCheatFood.getId()).get();
+            Map<String, String> customCheatFoodMap = new LinkedHashMap<>();
+
+            customCheatFoodMap.put("id", Integer.toString(foundCheatFood.getId()));
+            customCheatFoodMap.put("name", foundCheatFood.getName());
+            customCheatFoodMap.put("min", Integer.toString(customCheatFood.getMin()));
+            customCheatFoodMap.put("max", Integer.toString(customCheatFood.getMax()));
+            customCheatFoodMap.put("initMin", Integer.toString(foundCheatFood.getMin()));
+            customCheatFoodMap.put("initMax", Integer.toString(foundCheatFood.getMax()));
+
+            result.add(customCheatFoodMap);
+
+        }
+
+        return result;
+    }
 }

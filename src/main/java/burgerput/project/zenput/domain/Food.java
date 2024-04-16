@@ -11,11 +11,11 @@ import lombok.Data;
 @Entity
 //Table(name="")
 public class Food {
-    @Id
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)//생성을 Db에 위임
     private Long num;
 
+    @Id
     private int id;
     private String name;
     private  int max;

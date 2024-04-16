@@ -9,6 +9,7 @@ import burgerput.project.zenput.Services.movePage.MovePageService;
 import burgerput.project.zenput.Services.movePage.MovePageServiceV1;
 import burgerput.project.zenput.Services.printData.PrintData;
 import burgerput.project.zenput.Services.printData.PrintDataV1;
+import burgerput.project.zenput.Services.printData.PrintDataV2;
 import burgerput.project.zenput.Services.saveData.SaveData;
 import burgerput.project.zenput.Services.saveData.SaveDataV1;
 import burgerput.project.zenput.intercepter.checkSession.CheckSessionInterceptor;
@@ -122,7 +123,7 @@ public class Config implements WebMvcConfigurer {
                         FoodRepository foodRepository,
                         CustomFoodRepository customFoodRepository,
                         MgrListRepository mgrListRepository) {
-        return new PrintDataV1(machineRepository,
+        return new PrintDataV2(machineRepository,
                 customMachineRepository,
                 foodRepository,
                 customFoodRepository, mgrListRepository);
