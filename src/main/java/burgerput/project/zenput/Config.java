@@ -2,17 +2,15 @@ package burgerput.project.zenput;
 
 import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
 import burgerput.project.zenput.Services.jsonObject.MyJsonParserV1;
-import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoading;
-import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoadingV1;
+import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoading2;
+import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoadingV2;
 import burgerput.project.zenput.Services.loadData.zenputLoading.*;
 import burgerput.project.zenput.Services.movePage.MovePageService;
 import burgerput.project.zenput.Services.movePage.MovePageServiceV1;
-import burgerput.project.zenput.Services.printData.PrintData;
-import burgerput.project.zenput.Services.printData.PrintDataV1;
-import burgerput.project.zenput.Services.printData.PrintDataV2;
+import burgerput.project.zenput.Services.printDatafromDB.PrintData;
+import burgerput.project.zenput.Services.printDatafromDB.PrintDataV2;
 import burgerput.project.zenput.Services.saveData.SaveData;
 import burgerput.project.zenput.Services.saveData.SaveDataV1;
-import burgerput.project.zenput.intercepter.checkSession.CheckSessionInterceptor;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepository;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepositoryV1;
 import burgerput.project.zenput.repository.driverRepository.MachineDriverRepository;
@@ -24,14 +22,9 @@ import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import burgerput.project.zenput.repository.mgrList.MgrListRepository;
 import burgerput.project.zenput.repository.zenputAccount.ZenputAccountRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -134,12 +127,20 @@ public class Config implements WebMvcConfigurer {
         return new MyJsonParserV1();
     }
 
+    //Loading Alert
     @Bean
-    AlertLoading alertLoading(MachineRepository machineRepository,
-                              FoodRepository foodRepository
+    AlertLoading2 alertLoading(MachineRepository machineRepository,
+                               FoodRepository foodRepository,
+                               CustomMachineRepository customMachineRepository,
+                               CustomFoodRepository customFoodRepository,
+                               SaveData saveData
     ) {
-        return new AlertLoadingV1(machineRepository,
-                foodRepository
+
+        return new AlertLoadingV2(machineRepository,
+                foodRepository,
+                customMachineRepository,
+                customFoodRepository,
+                saveData
         );
     }
 

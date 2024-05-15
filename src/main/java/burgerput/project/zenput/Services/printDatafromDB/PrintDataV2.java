@@ -1,4 +1,4 @@
-package burgerput.project.zenput.Services.printData;
+package burgerput.project.zenput.Services.printDatafromDB;
 
 import burgerput.project.zenput.domain.*;
 import burgerput.project.zenput.repository.foodRepository.CustomFoodRepository;
@@ -11,6 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
+
+/*
+* DB에서 데이터를 가져와 뿌려주는 서비스 계층
+* */
 @RequiredArgsConstructor
 @Slf4j
 public class PrintDataV2 implements PrintData{
@@ -18,7 +22,6 @@ public class PrintDataV2 implements PrintData{
     private final CustomMachineRepository customMachineRepository;
     private final FoodRepository foodRepository;
     private final CustomFoodRepository customFoodRepository;
-
     private final MgrListRepository mgrListRepository;
 
     @Override

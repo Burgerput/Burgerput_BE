@@ -1,19 +1,13 @@
 package burgerput.project.zenput.web.manager.machine;
 
-import burgerput.project.zenput.Services.printData.PrintData;
+import burgerput.project.zenput.Services.printDatafromDB.PrintData;
 import burgerput.project.zenput.Services.saveData.SaveData;
-import burgerput.project.zenput.domain.CustomMachine;
-import burgerput.project.zenput.domain.Machine;
-import burgerput.project.zenput.repository.machineRepository.CustomMachineRepository;
-import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller

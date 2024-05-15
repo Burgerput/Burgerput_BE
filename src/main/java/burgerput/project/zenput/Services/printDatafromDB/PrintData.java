@@ -1,11 +1,11 @@
-package burgerput.project.zenput.Services.printData;
-
-import burgerput.project.zenput.domain.Food;
-import burgerput.project.zenput.domain.Machine;
+package burgerput.project.zenput.Services.printDatafromDB;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+
+/*
+ * DB에서 데이터를 가져와 뿌려주는 서비스 계층
+ * */
 
 public interface PrintData {
 

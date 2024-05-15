@@ -337,7 +337,7 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput{
         }else{
             temp = temp.trim();
             food.setMin(Integer.parseInt(temp));
-            food.setMax(185);
+            food.setMax(190);
         }
 
 

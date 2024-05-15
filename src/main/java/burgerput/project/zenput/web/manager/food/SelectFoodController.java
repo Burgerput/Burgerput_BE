@@ -1,9 +1,7 @@
 package burgerput.project.zenput.web.manager.food;
 
-import burgerput.project.zenput.Services.printData.PrintData;
+import burgerput.project.zenput.Services.printDatafromDB.PrintData;
 import burgerput.project.zenput.Services.saveData.SaveData;
-import burgerput.project.zenput.domain.CustomFood;
-import burgerput.project.zenput.domain.Food;
 import burgerput.project.zenput.repository.foodRepository.CustomFoodRepository;
 import burgerput.project.zenput.repository.foodRepository.FoodRepository;
 import lombok.RequiredArgsConstructor;

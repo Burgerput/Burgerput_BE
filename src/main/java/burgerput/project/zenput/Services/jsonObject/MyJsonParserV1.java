@@ -10,8 +10,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/*Json Data를 전달 받았을 때 사용한다.
+* frontend단에서 zenput의 데이터를 전달받았을 때 String형식으로 받아오기 때문에 JSON 형식으로
+* Parsing해서 사용한다.
+* */
 @Slf4j
 public class MyJsonParserV1 implements MyJsonParser {
+
     @Override
     public ArrayList<Map> jsonStringToArrayList(String param) {
 

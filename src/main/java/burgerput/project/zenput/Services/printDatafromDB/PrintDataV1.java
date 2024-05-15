@@ -1,4 +1,4 @@
-package burgerput.project.zenput.Services.printData;
+package burgerput.project.zenput.Services.printDatafromDB;
 
 import burgerput.project.zenput.domain.*;
 import burgerput.project.zenput.repository.foodRepository.CustomFoodRepository;

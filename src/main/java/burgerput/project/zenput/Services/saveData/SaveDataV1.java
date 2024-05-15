@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 
+//DB에 데이터를 저장할 때 사용하는 서비스 계층
 @Slf4j
 @RequiredArgsConstructor
 public class SaveDataV1 implements SaveData {

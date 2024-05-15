@@ -1,7 +1,6 @@
 package burgerput.project.zenput.web.manager.zenputAccounts;
 
 
-import burgerput.project.zenput.Services.printData.PrintData;
 import burgerput.project.zenput.domain.Accounts;
 import burgerput.project.zenput.repository.zenputAccount.ZenputAccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
