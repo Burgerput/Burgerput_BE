@@ -24,7 +24,7 @@ public class Const {
 //    public static final String BURGERPUTSITE="burgerput.co.kr";
     public static final String BURGERPUTSITE="https://localhost:8080/";
 
-    public static final String JSONPATH = "file://"+"/home/ubuntu/burgerput/loading/";
+    public static final String JSONPATH = "/home/ubuntu/burgerput/loading/";
 
 }
 
