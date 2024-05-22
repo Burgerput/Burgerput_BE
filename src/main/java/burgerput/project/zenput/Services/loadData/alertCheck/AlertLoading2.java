@@ -29,7 +29,7 @@ public interface AlertLoading2 {
 
     //기존 ProcessAlert로 분리되어 있던 기능을 통합
     //add, del, edit을 추출해서 API형태로 변환해주는 역할
-    public ArrayList<Map<String, String>> alertInfo(ArrayList<Map> addMap, ArrayList<Map> delMap, ArrayList<Map> editMap);
+    public ArrayList<Map<String, Object>> alertInfo(ArrayList<Map> addMap, ArrayList<Map> delMap, ArrayList<Map> editMap);
 
 
 }

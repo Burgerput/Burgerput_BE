@@ -1,6 +1,7 @@
 package burgerput.project.zenput.web.altPages;
 
 import burgerput.project.zenput.Const;
+import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
 import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoading2;
 import burgerput.project.zenput.Services.loadData.zenputLoading.FoodLoadingAndEnterZenput;
 import burgerput.project.zenput.Services.loadData.zenputLoading.MachineLoadingAndEnterZenput;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +46,7 @@ public class LoadingController {
     private final CustomMachineRepository customMachineRepository;
     private final FoodLoadingAndEnterZenput foodLoadingAndEnterZenput;
     private final CustomFoodRepository customFoodRepository;
+    private final MyJsonParser myJsonParser;
 
     @GetMapping
     public Map<String,String> loadingV2(){
@@ -170,9 +173,10 @@ public class LoadingController {
 
     @GetMapping("/result")
     @ResponseBody
-    public String readResult(){
+    public List<Map<String,Object>> readResult(){
         // JSON 파일 읽기
         String path = Const.JSONPATH;
+//        String path = "C:/Users/bbubb/Desktop/Burgerput/jsonFiles/";
         Date now = Calendar.getInstance().getTime();
         // 현재 날짜/시간 출력
         System.out.println(now); // Thu May 03 14:50:24 KST 2022
@@ -182,16 +186,22 @@ public class LoadingController {
         // 포맷팅 적용
         String formatedNow = formatter.format(now);
 
-
-        String finalPath = path + formatedNow + ".json";
+        String finalPath = path + formatedNow+ ".json";
         String result = "";
+
+        List<Map<String, Object>> list = new ArrayList<>();
         try {
             result = new String(Files.readAllBytes(Paths.get(finalPath)));
-        } catch (IOException e) {
-            return result;
-        }
 
-        return result;
+        } catch (IOException e) {
+            //에러인 경우
+            log.info("No file exist");
+            return list;
+        }
+        list = myJsonParser.stringToJSONArray(result);
+
+        log.info("result Arr  = {}", list.toString());
+        return list;
     }
 
 

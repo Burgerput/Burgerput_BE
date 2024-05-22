@@ -1,48 +1,49 @@
 package burgerput.project.zenput.web.altPages;
 
 import burgerput.project.zenput.ConstT;
+import com.github.dockerjava.core.MediaType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
-@SpringBootTest
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @Slf4j
 @RequiredArgsConstructor
+@SpringBootTest
+@AutoConfigureMockMvc//이거뺴니까 mockMVC bean없다고 헀음
 //@DataJpaTest
 class LoadingControllerTest {
 
     @Autowired
     private LoadingController loadingController;
 
-    public void load(LoadingController loadingController){
-        this.loadingController = loadingController;
-    }
+    @Autowired
+    private MockMvc mockMvc;
 
-    static MockHttpServletRequest request;
-     static MockHttpServletResponse response;
+    @Test
+    @DisplayName("loading/result Get Test")
+    public void getTest() throws Exception {
 
-    @BeforeAll
-    public static void mockSetup() {
-        request = new MockHttpServletRequest();
-        response = new MockHttpServletResponse();
+        mockMvc.perform(
+                get("/loading/result"))
+                .andExpect(status().isOk()) // 응답 status를 ok로 테스트
+                .andDo(print()); // 응답값 print
+
     }
 
     @Test
@@ -66,7 +67,7 @@ class LoadingControllerTest {
 
         } catch (IOException e) {
             //파일이 없경우
-            log.info(result);
+            log.info("No file exist");
         }
     }
 

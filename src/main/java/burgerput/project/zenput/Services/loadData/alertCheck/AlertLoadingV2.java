@@ -422,10 +422,10 @@ public class AlertLoadingV2 implements AlertLoading2 {
 
 
         //추출한 데이터를 alertInfo를 이용해 통합한다.
-        ArrayList<Map<String, String>> maps = alertInfo(add, edit, del);
+        ArrayList<Map<String, Object>> maps = alertInfo(add, edit, del);
 
         //뽑혀진 데이터List를 전달받은 JSONArray에 저장한다.
-        for (Map<String, String> map : maps) {
+        for (Map<String, Object> map : maps) {
             jsonArray.put(map.toString());
         }
         //Custom DB에 del 데이터 적용(del에 있는 값을 똑같이 지운다.)
@@ -446,11 +446,11 @@ public class AlertLoadingV2 implements AlertLoading2 {
 
 
         //추출한 데이터를 alertInfo를 이용해 통합한다.
-        ArrayList<Map<String, String>> maps = alertInfo(add, edit, del);
+        ArrayList<Map<String, Object>> maps = alertInfo(add, edit, del);
 
         //뽑혀진 데이터List를 전달받은 JSONArray에 저장한다.
-        for (Map<String, String> map : maps) {
-            jsonArray.put(map.toString());
+        for (Map<String, Object> map : maps) {
+            jsonArray.put(map);
         }
 
         //Custom DB에 del 데이터 적용(del에 있는 값을 똑같이 지운다.)
@@ -460,7 +460,6 @@ public class AlertLoadingV2 implements AlertLoading2 {
         }
         //전체 변환 값을 DB에 추가(DB 컨텐츠를 모두 지웠다가 저장한다.)
         saveData.foodZenputDataSave(info);
-
     }
 
     @Override
@@ -493,10 +492,9 @@ public class AlertLoadingV2 implements AlertLoading2 {
     //API 형태로 변환해주는 메소드 기존 ProcessAlert기능을 통합했다.
     //현재 ProcessAlert는 사용하지 않아 제거되었다.
     @Override
-    public ArrayList<Map<String, String>> alertInfo
+    public ArrayList<Map<String, Object>> alertInfo
     (ArrayList<Map> addMap, ArrayList<Map> editMap, ArrayList<Map> delMap) {
-        ArrayList<Map<String, String>> result = new ArrayList<>();
-
+        ArrayList<Map<String, Object>> result = new ArrayList<>();
 
         log.info("addMap Result= {}",addMap.toString());
 
@@ -504,7 +502,7 @@ public class AlertLoadingV2 implements AlertLoading2 {
         if (!addMap.isEmpty() && !addMap.get(0).containsValue("all"))  {
 
             for (Map<String, String> map : addMap) {
-                Map<String, String> tempMap = new LinkedHashMap<>();
+                Map<String, Object> tempMap = new LinkedHashMap<>();
                 tempMap.put("id", map.get("id").toString());
                 tempMap.put("name", map.get("name"));
                 tempMap.put("min", map.get("min").toString());
@@ -520,7 +518,7 @@ public class AlertLoadingV2 implements AlertLoading2 {
         if (!editMap.isEmpty() && !editMap.get(0).containsValue("all")) {
             for (Map<String, String> map : editMap) {
 
-                Map<String, String> tempMap = new LinkedHashMap<>();
+                Map<String, Object> tempMap = new LinkedHashMap<>();
 
                 String id = map.get("id").toString();
                 String name = map.get("name");
@@ -557,7 +555,7 @@ public class AlertLoadingV2 implements AlertLoading2 {
 
 
                 if (!diffList.isEmpty()) {
-                    tempMap.put("diff", diffList.toString());
+                    tempMap.put("diff", diffList);
                 }
 
                 result.add(tempMap);
@@ -568,7 +566,7 @@ public class AlertLoadingV2 implements AlertLoading2 {
         if (!delMap.isEmpty()) {
             // del parsing start
             for (Map<String, String> map : delMap) {
-                Map<String, String> tempMap = new LinkedHashMap<>();
+                Map<String, Object> tempMap = new LinkedHashMap<>();
                 tempMap.put("id", map.get("id").toString());
                 tempMap.put("name", map.get("name"));
                 tempMap.put("min", map.get("min").toString());
@@ -589,8 +587,8 @@ public class AlertLoadingV2 implements AlertLoading2 {
         //온도를 새롭게 저장할 ArrayList
         List<String> temperList = new ArrayList<>();
 
-        temperList.add(temp[0]);
-        temperList.add(temp[1]);
+        temperList.add(temp[0].trim());
+        temperList.add(temp[1].trim());
 
         // { key : [ temp1 ,temp2  ]} 의 구조에서 가장 바깥 Map
         Map<String, List<String>> tempMap = new LinkedHashMap<>();

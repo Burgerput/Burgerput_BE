@@ -12,6 +12,7 @@ import burgerput.project.zenput.repository.foodRepository.FoodRepository;
 import burgerput.project.zenput.repository.machineRepository.CustomMachineRepository;
 import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.json.JSONArray;
@@ -47,6 +48,14 @@ class AlertLoadingV2ITest {
 
     @Autowired
     private CustomFoodRepository customFoodRepository;
+
+    @Autowired //Autowired해서 위에서 주입받은 Repository들을 사용할 수 있도록 설정해야
+    //에러가 나지 않는다.
+    AlertLoading2 alertLoading = new AlertLoadingV2(machineRepository, foodRepository, customMachineRepository, customFoodRepository, saveData);
+    private FoodLoadingAndEnterZenput foodLoadingAndEnterZenput = new FoodLoadingAndEnterZenputV2T();
+
+    private MachineLoadingAndEnterZenputV2T machineLoadingAndEnterZenput = new MachineLoadingAndEnterZenputV2T();
+
 
     @Test
 //    @Transactional //Transactional을 붙이면 DB에 실제 적용되지 않는다.
@@ -96,12 +105,7 @@ class AlertLoadingV2ITest {
 //        return resultMap;
     }
 
-    @Autowired //Autowired해서 위에서 주입받은 Repository들을 사용할 수 있도록 설정해야
-    //에러가 나지 않는다.
-    AlertLoading2 alertLoading = new AlertLoadingV2(machineRepository, foodRepository, customMachineRepository, customFoodRepository, saveData);
-    private FoodLoadingAndEnterZenput foodLoadingAndEnterZenput = new FoodLoadingAndEnterZenputV2T();
 
-    private MachineLoadingAndEnterZenputV2T machineLoadingAndEnterZenput = new MachineLoadingAndEnterZenputV2T();
 
 
 }
