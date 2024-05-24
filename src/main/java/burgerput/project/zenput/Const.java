@@ -1,7 +1,7 @@
 package burgerput.project.zenput;
 public class Const {
 
-    //chrome driver location
+//chrome driver location
 //    local TEST driver location
 //    public static final String DRIVERLOCATION = "C:/Users/bbubb/Desktop/Burgerput/chromeDriver/chromedriver.exe";
 //    public static final String MACHINEURL="C://Users/bbubb/Desktop/Burgerput/burgerput-main/burgerputClone4/BURGERPUT/src/main/resources/static/zenput/zenput_machine/Zenput.html";
@@ -24,6 +24,7 @@ public class Const {
 //    public static final String BURGERPUTSITE="burgerput.co.kr";
     public static final String BURGERPUTSITE="https://localhost:8080/";
 
+    public static final String JSONPATH = "/home/ubuntu/burgerput/loading/";
 
 }
 

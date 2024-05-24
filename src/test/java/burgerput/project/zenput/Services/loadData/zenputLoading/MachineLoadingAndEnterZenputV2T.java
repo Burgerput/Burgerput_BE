@@ -1,13 +1,11 @@
 package burgerput.project.zenput.Services.loadData.zenputLoading;
 
 import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
-import burgerput.project.zenput.Services.movePage.MovePageService;
 import burgerput.project.zenput.domain.Machine;
 import burgerput.project.zenput.repository.driverRepository.MachineDriverRepository;
 import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.asm.Advice;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -460,7 +458,7 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                         break;
 
                     default:
-                        machine.setMax(185);
+                        machine.setMax(190);
                         break;
                 }
 //                log.info("name ={}", machine);

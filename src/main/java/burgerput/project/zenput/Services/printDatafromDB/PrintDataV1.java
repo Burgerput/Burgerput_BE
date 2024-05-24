@@ -1,4 +1,4 @@
-package burgerput.project.zenput.Services.printData;
+package burgerput.project.zenput.Services.printDatafromDB;
 
 import burgerput.project.zenput.domain.*;
 import burgerput.project.zenput.repository.foodRepository.CustomFoodRepository;
@@ -21,6 +21,7 @@ public class PrintDataV1 implements PrintData {
     private final CustomFoodRepository customFoodRepository;
 
     private final MgrListRepository mgrListRepository;
+
 
     @Override
     public ArrayList<Map> zenputMachine() {
@@ -47,7 +48,6 @@ public class PrintDataV1 implements PrintData {
                 int idMachine = macihne.getId();
 
 //                log.info("idCusomt's id ={}   |  idMachine 's id ={}", idCustom, idMachine);
-
                 if (idMachine == idCustom) {
                     machineMap.put("isChecked", "true");
                     iterator.remove();

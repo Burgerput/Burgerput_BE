@@ -1,6 +1,6 @@
 package burgerput.project.zenput.web.cheat;
 
-import burgerput.project.zenput.Services.printData.PrintData;
+import burgerput.project.zenput.Services.printDatafromDB.PrintData;
 import burgerput.project.zenput.Services.saveData.SaveData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -36,7 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-#Const.java
+Const.java
 
 #src/main/java/burgerput/project/zenput/Const.java
 

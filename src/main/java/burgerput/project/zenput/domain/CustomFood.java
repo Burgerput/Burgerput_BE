@@ -9,11 +9,11 @@ import lombok.Data;
 @Data
 public class CustomFood {
     //pk
-    @Id
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)//생성을 Db에 위임
     private Long num;
 
+    @Id
     private int id;
 
     private int min;

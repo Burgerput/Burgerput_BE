@@ -9,11 +9,11 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Entity(name="Custom_Machine")
 public class CustomMachine {
 
-    @Id
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)//생성을 Db에 위임
     private Long num;
 
+    @Id
     private int id;
 
     private int min;
