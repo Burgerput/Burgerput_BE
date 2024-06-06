@@ -44,9 +44,12 @@ public class Config implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         WebMvcConfigurer.super.addCorsMappings(registry);
         registry.addMapping("/**")
-                .allowedOrigins("https://localhost:3000")
-                .allowedOrigins("http://burgerput.co.kr.s3-website.ap-northeast-2.amazonaws.com/")
-                .allowedOrigins("https://burgerput.co.kr/")
+                .allowedOrigins(
+                        "https://localhost:3000",
+                        "http://localhost:3000",
+                        "http://burgerput.co.kr.s3-website.ap-northeast-2.amazonaws.com/",
+                        "https://burgerput.co.kr/"
+                )
                 .allowedMethods("GET", "POST")
                 .allowedHeaders("*");
     }

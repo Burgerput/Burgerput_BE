@@ -78,6 +78,13 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
                 }
             }
 
+
+            //take a pickture log for test
+            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
+            File file = new File("/home/ubuntu/burgerput/img/loading/zenputFood"+ LocalDate.now()+ LocalTime.now() +".png");
+            FileUtils.copyFile(screenshotAs, file);
+            //take a pickture logi end
+
             log.info("quit the Food getInfo driver");
             //End process
             driver.close();

@@ -43,9 +43,7 @@ import java.util.*;
 public class LoadingController {
     private final AlertLoading2 alertLoading;
     private final MachineLoadingAndEnterZenput machineLoadingAndEnterZenput;
-    private final CustomMachineRepository customMachineRepository;
     private final FoodLoadingAndEnterZenput foodLoadingAndEnterZenput;
-    private final CustomFoodRepository customFoodRepository;
     private final MyJsonParser myJsonParser;
 
     @GetMapping
@@ -178,7 +176,6 @@ public class LoadingController {
 //        String path = "C:/Users/bbubb/Desktop/Burgerput/jsonFiles/";
         Date now = Calendar.getInstance().getTime();
         // 현재 날짜/시간 출력
-        System.out.println(now); // Thu May 03 14:50:24 KST 2022
         // 포맷팅 정의
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -206,39 +203,29 @@ public class LoadingController {
 
     @ResponseBody
     @GetMapping("/test")
-    public Map<String,String> loadingTest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        Map<Integer, Machine> machineInfo = machineLoadingAndEnterZenput.getInfo();
-        log.info("LoadingTest Logic Start(only Food)  ={}", LocalDateTime.now());
+    public List<Map<String,Object>> loadingTest () {
+        // JSON 파일 읽기
+//        String path = Const.JSONPATH;
+//        String path = "C:/Users/bbubb/Desktop/Burgerput/jsonFiles/";
+        String path = "/home/ubuntu/burgerput/dump/";
 
-        Map<String, String> resultMap = new LinkedHashMap<>();
-        resultMap.put("result", "true");
-//
-//        Map<Integer, Food> foodInfo = foodLoadingAndEnterZenput.getInfo();
-//        log.info("Loaded Food Map info : {}", foodInfo);
-//
-//        if ( foodInfo.size() ==1) {
-//            //false
-//            log.info("FALSE RESULT RETURN = false");
-//            resultMap.put("result", "false");
-//
-//            return resultMap;
-//        }
-//
-        return resultMap;
-    }
+        String finalPath = path + "2024-05-22"+ ".json";
+        String result = "";
 
-    private void alertFoodInfoToDb (ArrayList < Map > delMap) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        try {
+            result = new String(Files.readAllBytes(Paths.get(finalPath)));
 
-        for (Map<String, String> map : delMap) {
-            customFoodRepository.deleteBymineId(map.get("id"));
-            log.info("deleted Food data ={}", map);
+        } catch (IOException e) {
+            //에러인 경우
+            log.info("No file exist");
+            return list;
         }
-    }
-    private void alertMachineInfoToDb(ArrayList<Map> delMap) {
 
-        for (Map<String, String> map : delMap) {
-            customMachineRepository.deleteBymineId(map.get("id"));
-            log.info("deleted Machine data ={}", map);
-        }
+        list = myJsonParser.stringToJSONArray(result);
+
+        log.info("result Arr  = {}", list.toString());
+        return list;
     }
+
 }
