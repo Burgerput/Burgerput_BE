@@ -47,6 +47,7 @@ public class Config implements WebMvcConfigurer {
                 .allowedOrigins("https://localhost:3000")
                 .allowedOrigins("http://burgerput.co.kr.s3-website.ap-northeast-2.amazonaws.com/")
                 .allowedOrigins("https://burgerput.co.kr/")
+                .allowedOrigins("https://burgerput-test.netlify.app/")
                 .allowedMethods("GET", "POST")
                 .allowedHeaders("*");
     }

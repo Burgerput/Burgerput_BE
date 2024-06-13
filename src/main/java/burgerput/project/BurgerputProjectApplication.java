@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import burgerput.project.zenput.Config;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @SpringBootApplication
