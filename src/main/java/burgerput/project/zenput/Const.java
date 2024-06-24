@@ -20,6 +20,8 @@ public class Const {
     //real zenput page
     public static final String zenputPageStart="https://www.zenput.com/mobile/";
 
+    //cookie name
+    public static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
     //request link - burgerput domain
 //    public static final String BURGERPUTSITE="burgerput.co.kr";
     public static final String BURGERPUTSITE="https://localhost:8080/";

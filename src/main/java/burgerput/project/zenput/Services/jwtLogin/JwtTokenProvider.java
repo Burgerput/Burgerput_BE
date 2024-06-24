@@ -21,10 +21,13 @@ public class JwtTokenProvider {
     @Value("${security.jwt.token.expire-length:3600000}")
     private long validityInMilliseconds = 3600000; // 1h
 
+    @Value("${security.jwt.token.refresh-expire-length:7200000}") // 2 hours
+    private long refreshValidityInMilliseconds = 7200000;
+
+
     @PostConstruct
     protected void init() {
         //secretKey의 길이가 32이하인 경우 weakKey Exception이 발생할 수있다.
-
         if(secretKey.length() < 32){
             //키의 길이가 짧은 경우 새로운 키를 생성한다.
             secretKey = Base64.getEncoder().encodeToString(Keys.secretKeyFor(SignatureAlgorithm.HS256).getEncoded());
@@ -52,6 +55,20 @@ public class JwtTokenProvider {
                 .compact();// JWT문자열을 생성하고 반환한다. dot(.)으로 구분 되는 헤더, 페이로드, 시그니처로 나뉨
     }
 
+    //refresh-token을 만드는 과정
+    public String createRefreshToken(String username) {
+        Claims claims = Jwts.claims().setSubject(username);
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + refreshValidityInMilliseconds);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
     //토큰에서 subject를 추출하여 반환한다.
     public String getUsername(String token){
         return Jwts.parser().setSigningKey(secretKey)//JWT파서를 생성하고 서명검증에 사용할 비밀키를 설정한다.
@@ -70,6 +87,11 @@ public class JwtTokenProvider {
             //유효하지 않으면 false를 리턴한다.
             return false;
         }
+    }
+
+    //refresh-token의 만료 시간을 반환
+    public long getRefreshValidityInMilliseconds() {
+        return refreshValidityInMilliseconds;
     }
 
 }
