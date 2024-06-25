@@ -130,8 +130,10 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput{
             System.setProperty("java.awt.headless", "false");
 
             //chrome driver use
-
+            //for Debugger
+            WebDriverManager.chromedriver().config().setLogLevel(LogLevel.DEBUG);
             WebDriverManager.chromedriver().setup();
+//            WebDriverManager.chromedriver().setup();
 
 
             //remove being controlled option information bar
