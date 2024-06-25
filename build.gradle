@@ -27,62 +27,37 @@ repositories {
 test{
     useJUnitPlatform()
 }
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'junit:junit:4.13.1'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    //selenium setting
-//	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version:
-    // https://mavenlibs.com/maven/dependency/org.seleniumhq.selenium/selenium-devtools-v86
-//Thanks for using https://jar-download.com
-
-    //	implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.15.0'
-
-    //webDriverManger
-    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.6.2'
-
-    //Spring test Sl4fj
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 
-    //JSON Data parsing dependency
-    implementation('org.springframework.boot:spring-boot-starter-web')
+    // Selenium and WebDriverManager
+    implementation 'org.seleniumhq.selenium:selenium-java:4.15.0'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
 
-    //=========DB셋
-    //JPA, 스프링 데이터 JPA 추가
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-    //H2 데이터베이스 추가
-    runtimeOnly 'com.h2database:h2'
-
-//	//For using mysql
-    implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    //thymeleaf
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
-    //without tomcat reload
-    implementation group: 'org.springframework', name: 'springloaded', version: '1.2.6.RELEASE'
-
-
-    //json
+    // JSON Data parsing dependency
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.json:json:20211205'
 
-//	//For using mysql
-//	implementation 'mysql:mysql-connector-java'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Database dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+    implementation 'mysql:mysql-connector-java:8.0.33'
 
+    // Thymeleaf layout dialect
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+    // Without Tomcat reload
+    implementation 'org.springframework:springloaded:1.2.6.RELEASE'
 }
+
 //
 //tasks.named('test') {
 //    useJUnitPlatform()
