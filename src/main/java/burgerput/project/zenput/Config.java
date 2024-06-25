@@ -2,6 +2,7 @@ package burgerput.project.zenput;
 
 import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
 import burgerput.project.zenput.Services.jsonObject.MyJsonParserV1;
+import burgerput.project.zenput.Services.jwtLogin.JwtTokenProvider;
 import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoading2;
 import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoadingV2;
 import burgerput.project.zenput.Services.loadData.zenputLoading.*;
@@ -11,6 +12,7 @@ import burgerput.project.zenput.Services.printDatafromDB.PrintData;
 import burgerput.project.zenput.Services.printDatafromDB.PrintDataV2;
 import burgerput.project.zenput.Services.saveData.SaveData;
 import burgerput.project.zenput.Services.saveData.SaveDataV1;
+import burgerput.project.zenput.intercepter.TokenInterceptor;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepository;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepositoryV1;
 import burgerput.project.zenput.repository.driverRepository.MachineDriverRepository;
@@ -22,10 +24,13 @@ import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import burgerput.project.zenput.repository.mgrList.MgrListRepository;
 import burgerput.project.zenput.repository.zenputAccount.ZenputAccountRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -66,14 +71,32 @@ public class Config implements WebMvcConfigurer {
 //                        , "/index.html", "/static/**", "/logo/*", "/logo192.png", "/*.json", "/data/*");
 //
 //    }
+
+
+    //JWT Token Interceptor Bean 설정
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    public Config(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new TokenInterceptor(jwtTokenProvider))
+                .addPathPatterns("/**")
+                .excludePathPatterns("/signin", "/signin/**", "/refresh-token", "/refresh-token/**");
+
+    }
+
 // load machine list from zenput page
 
-        @Bean
+    @Bean
     public MachineLoadingAndEnterZenput LoadMachine(MovePageService movePageService,
                                                     MyJsonParser myJsonParser,
                                                     MachineRepository machineRepository,
                                                     MachineDriverRepository machineDriverRepository) {
-        return new MachineLoadingAndEnterZenputV2(movePageService,myJsonParser,machineRepository, machineDriverRepository
+        return new MachineLoadingAndEnterZenputV2(movePageService, myJsonParser, machineRepository, machineDriverRepository
         );
     }
 
@@ -99,10 +122,10 @@ public class Config implements WebMvcConfigurer {
     //Save Data for the Saving data to DB
     @Bean
     SaveData saveData(
-                      MachineRepository machineRepository,
-                      FoodRepository foodRepository,
-                      CustomFoodRepository customFoodRepository,
-                      CustomMachineRepository customMachineRepository) {
+            MachineRepository machineRepository,
+            FoodRepository foodRepository,
+            CustomFoodRepository customFoodRepository,
+            CustomMachineRepository customMachineRepository) {
         return new SaveDataV1(
                 machineRepository,
                 foodRepository,
@@ -155,5 +178,6 @@ public class Config implements WebMvcConfigurer {
     MachineDriverRepository machineDriverRepository() {
         return new MachineDriverRepositoryV1();
     }
+
 
 }

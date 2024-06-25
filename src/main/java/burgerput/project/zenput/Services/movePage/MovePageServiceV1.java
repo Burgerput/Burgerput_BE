@@ -4,9 +4,7 @@ import burgerput.project.zenput.domain.Accounts;
 import burgerput.project.zenput.repository.zenputAccount.ZenputAccountRepository;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -30,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 import static burgerput.project.zenput.Const.*;
 
+
 @Slf4j
 @RequiredArgsConstructor
 public class MovePageServiceV1 implements MovePageService {
@@ -51,7 +50,6 @@ public class MovePageServiceV1 implements MovePageService {
 
     @Override
     public WebDriver sampleMachine() {
-
 
         System.setProperty("java.awt.headless", "false");
 
@@ -134,9 +132,13 @@ public class MovePageServiceV1 implements MovePageService {
         zenputAccountSetting();
 
         System.setProperty("java.awt.headless", "false");
-        WebDriverManager.chromedriver().setup();
+
+//        WebDriverManager.chromedriver().setup();
 
         //remove being controlled option information bar
+//        WebDriverManager.chromedriver().config().setLogLevel(io.github.bonigarcia.wdm.config.LogLevel.DEBUG);
+        WebDriverManager.chromedriver().setup();
+
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
 
@@ -158,6 +160,7 @@ public class MovePageServiceV1 implements MovePageService {
             //chrome driver use
 
             driver.manage().window().setSize(new Dimension(1024, 6000));
+
 //            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             //==============================Scrape LOGIC START============================
 

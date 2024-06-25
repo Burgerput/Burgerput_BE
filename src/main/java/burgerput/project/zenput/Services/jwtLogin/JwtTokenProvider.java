@@ -1,8 +1,6 @@
 package burgerput.project.zenput.Services.jwtLogin;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -92,6 +90,18 @@ public class JwtTokenProvider {
     //refresh-token의 만료 시간을 반환
     public long getRefreshValidityInMilliseconds() {
         return refreshValidityInMilliseconds;
+    }
+
+    public boolean isTokenExpired(String token) {
+        try {
+            JwtParser parser = Jwts.parser().setSigningKey(secretKey);
+            Jws<Claims> claimsJws = parser.parseClaimsJws(token);
+            Claims claims = claimsJws.getBody();
+            Date expiration = claims.getExpiration();
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            return true; // 유효하지 않은 토큰은 만료된 것으로 간주
+        }
     }
 
 }
