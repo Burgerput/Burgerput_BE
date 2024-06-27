@@ -61,7 +61,7 @@ public class MasterLoginController {
                     .path("/")
                     .sameSite("None")
                     .httpOnly(true).secure(true).maxAge(refreshTokenValidityInSeconds)
-                    .domain(".burback2.shop")
+                    .domain(".burback.shop")
                     .build();
 
             response.addHeader("Set-Cookie", refreshTokenCookie.toString());
