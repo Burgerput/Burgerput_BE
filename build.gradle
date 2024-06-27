@@ -35,9 +35,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
 
-    //JWT토큰을 위해 필요한 의존성들
+    // JWT 토큰을 위해 필요한 의존성들
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'  // 추가된 의존성
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
 
@@ -46,11 +47,9 @@ dependencies {
 
     annotationProcessor 'org.projectlombok:lombok'
 
-    //Test라이브러리
-
+    // Test 라이브러리
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -76,6 +75,7 @@ dependencies {
     // Without Tomcat reload
     implementation 'org.springframework:springloaded:1.2.6.RELEASE'
 }
+
 
 //
 //tasks.named('test') {

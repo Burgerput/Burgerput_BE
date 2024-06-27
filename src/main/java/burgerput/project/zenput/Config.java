@@ -45,16 +45,16 @@ public class Config implements WebMvcConfigurer {
 
     //SSL cross-origin set-up ======================
 //
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        WebMvcConfigurer.super.addCorsMappings(registry);
-        registry.addMapping("/**")
-                .allowedOrigins("https://localhost:3000", "http://localhost:3000",
-                        "https://burgerput-test.netlify.app/")
-                .allowedMethods("GET", "POST")
-                .allowedHeaders("*")
-                .allowCredentials(true);
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        WebMvcConfigurer.super.addCorsMappings(registry);
+//        registry.addMapping("/**")
+//                .allowedOrigins("https://localhost:3000", "http://localhost:3000",
+//                        "https://burgerput-test.netlify.app/")
+//                .allowedMethods("GET", "POST")
+//                .allowedHeaders("Content-Type", "Accept", "X-Requested-With", "Authorization", "cache-control")
+//                .allowCredentials(true);
+//    }
 
     //Interceptor Settions===========================================
 //    @Bean

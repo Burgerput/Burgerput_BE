@@ -26,47 +26,50 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //헤더에서 String 값 가져오기 이거는
-        String requestUri = request.getRequestURI();
-        String authorizationHeader = request.getHeader("Authorization");
+            //이건 뜯어야 하는 옵션 인터셉트나 필터를 하나 설정해서 지정하도록 하자
 
-        log.info("Request URI: " + requestUri); // 경로 디버깅을 위해 로그 추가
-        if (requestUri.startsWith("/signin") || requestUri.startsWith("/refresh-token")) {
-            return true; // 특정 경로는 제외
-        }
-        // Bearer는 OAuth2.0 및 인증 스키마에서 사용하는 인증 토큰 유형을 나타낸다.
-        //우리는 JWT토큰이라서 OAuth를 사용함
-        //Bearer키워드는 토큰의 유형을 지정하고 이 키워드 뒤에 오는 문자열은 실제 인증 토큰임
-        //Bearer토큰은 액세스 토큰의 한 유형이다.
+            //헤더에서 String 값 가져오기 이거는
+            String requestUri = request.getRequestURI();
+            String authorizationHeader = request.getHeader("Authorization");
 
-        //토큰이 먼저 존재하는 지확인
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            //이후의 토큰을 가져온다. 즉 AccessToken부분을 가져온다.
-            String token = authorizationHeader.substring(7);
-            if (jwt.validateToken(token)) {
-                //token이 유효한경우
-                if (!jwt.isTokenExpired(token)) {
-                    //토큰이 만료되지 않은 경우
-                    //API수행
-                    return true;
-                } else {
+            log.info("Request URI: " + requestUri); // 경로 디버깅을 위해 로그 추가
+            if (requestUri.startsWith("/signin") || requestUri.startsWith("/refresh-token")) {
+                return true; // 특정 경로는 제외
+            }
+            // Bearer는 OAuth2.0 및 인증 스키마에서 사용하는 인증 토큰 유형을 나타낸다.
+            //우리는 JWT토큰이라서 OAuth를 사용함
+            //Bearer키워드는 토큰의 유형을 지정하고 이 키워드 뒤에 오는 문자열은 실제 인증 토큰임
+            //Bearer토큰은 액세스 토큰의 한 유형이다.
+            log.info("TOKEN CONTENTS = {}", authorizationHeader == null? "NULL" : authorizationHeader);
+            //토큰이 먼저 존재하는 지확인
+            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                //이후의 토큰을 가져온다. 즉 AccessToken부분을 가져온다.
+                String token = authorizationHeader.substring(7);
+
+                if(jwt.isTokenExpired(token)){//토큰만료
                     //Token의 만료시간이 지난경우
-                    log.info("Interceptor : 토큰 만료시간 지남");
+                    log.info("Interceptor : 액세스 토큰 > 토큰 만료시간 지남");
                     sendError(response, HttpServletResponse.SC_UNAUTHORIZED, "TokenExpired");
                     return false;
                 }
+
+                if (jwt.validateToken(token)) {
+                    //token이 유효한경우
+                    return true;
+
+                } else {
+                    //token이 유효하지 않은 경우
+                    log.info("Interceptor :액세스 토큰 > 토큰 유효하지 않음");
+                    //토큰이 유효하지 않을때에는 지워버려야 함
+                    sendError(response, HttpServletResponse.SC_UNAUTHORIZED, "InvalidToken");
+                    return false;
+                }
             } else {
-                //token이 유효하지 않은 경우
-                log.info("Interceptor : 토큰 유효하지 않음");
+                //no AccessToken
+                log.info("Interceptor : 액세스 토큰 > 토큰 없음");
                 sendError(response, HttpServletResponse.SC_UNAUTHORIZED, "InvalidToken");
                 return false;
             }
-        } else {
-            //no AccessToken
-            log.info("Interceptor : 토큰 없음");
-            sendError(response, HttpServletResponse.SC_UNAUTHORIZED, "InvalidToken");
-            return false;
-        }
 
     }
 

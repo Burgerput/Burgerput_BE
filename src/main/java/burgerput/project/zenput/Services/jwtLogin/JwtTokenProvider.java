@@ -16,12 +16,11 @@ public class JwtTokenProvider {
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey;
 
-    @Value("${security.jwt.token.expire-length:3600000}")
-    private long validityInMilliseconds = 3600000; // 1h
+    @Value("${security.jwt.token.expire-length}")
+    private long validityInMilliseconds; // 1h
 
-    @Value("${security.jwt.token.refresh-expire-length:7200000}") // 2 hours
-    private long refreshValidityInMilliseconds = 7200000;
-
+    @Value("${security.jwt.token.refresh-expire-length}") // 2 hours
+    private long refreshValidityInMilliseconds;
 
     @PostConstruct
     protected void init() {
@@ -99,8 +98,10 @@ public class JwtTokenProvider {
             Claims claims = claimsJws.getBody();
             Date expiration = claims.getExpiration();
             return expiration.before(new Date());
+        } catch (ExpiredJwtException  e) {
+            return true; // 토큰만료 true;
         } catch (Exception e) {
-            return true; // 유효하지 않은 토큰은 만료된 것으로 간주
+            return false; // 유효하지 않은 토큰은 유효하지 않다고 처리하기 위해 false로 반환
         }
     }
 
