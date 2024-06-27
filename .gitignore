@@ -38,6 +38,9 @@ out/
 
 Const.java
 
+# properties file 주석
+resources/application.properties
+
 #src/main/java/burgerput/project/zenput/Const.java
 
 #zenput.html (machine)

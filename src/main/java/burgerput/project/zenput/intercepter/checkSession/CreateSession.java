@@ -31,8 +31,6 @@ public class CreateSession {
     //session system store
     private Map<String, Object> sessionStore = new ConcurrentHashMap<>();
 
-
-
     //세션 생성
     public void createSession(LocalDate date, HttpServletResponse response) {
         String sessionID =UUID.randomUUID().toString();

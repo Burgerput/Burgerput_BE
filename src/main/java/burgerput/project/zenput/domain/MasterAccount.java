@@ -15,6 +15,6 @@ public class MasterAccount {
     private String masterId;
 
     @Column(name="master_pw")
-    private  String master;
+    private  String master_pw;
 
 }
