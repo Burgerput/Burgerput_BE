@@ -2,15 +2,19 @@ package burgerput.project.zenput.intercepter;
 
 import burgerput.project.zenput.Services.jwtLogin.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+
+import static burgerput.project.zenput.Const.REFRESH_TOKEN_COOKIE_NAME;
 
 @Slf4j
 @Component// Spring bean 주입을
@@ -33,7 +37,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             String authorizationHeader = request.getHeader("Authorization");
 
             log.info("Request URI: " + requestUri); // 경로 디버깅을 위해 로그 추가
-            if (requestUri.startsWith("/signin") || requestUri.startsWith("/refresh-token")) {
+            if (requestUri.startsWith("/signin") || requestUri.startsWith("/refresh-token") || requestUri.startsWith("/loading")) {
                 return true; // 특정 경로는 제외
             }
             // Bearer는 OAuth2.0 및 인증 스키마에서 사용하는 인증 토큰 유형을 나타낸다.
@@ -58,9 +62,20 @@ public class TokenInterceptor implements HandlerInterceptor {
                     return true;
 
                 } else {
-                    //token이 유효하지 않은 경우
+                    //token이 유효하지 않은 경우 // refresh-token도 함께 삭제
                     log.info("Interceptor :액세스 토큰 > 토큰 유효하지 않음");
                     //토큰이 유효하지 않을때에는 지워버려야 함
+
+                    ResponseCookie refreshTokenCookie = ResponseCookie.from(REFRESH_TOKEN_COOKIE_NAME, "")
+                            .path("/")
+                            .sameSite("None")
+                            .httpOnly(true)
+                            .secure(true)
+                            .maxAge(0) // 쿠키의 만료 시간 설정 (0으로 설정하여 즉시 삭제)
+                            .domain(".burback.shop")
+                            .build();
+                    response.addHeader("Set-Cookie", refreshTokenCookie.toString()); // 응답에 쿠키 추가
+
                     sendError(response, HttpServletResponse.SC_UNAUTHORIZED, "InvalidToken");
                     return false;
                 }
