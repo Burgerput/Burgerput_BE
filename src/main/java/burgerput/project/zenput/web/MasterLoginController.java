@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 //Spring 2.대는 javax를 사용하지만 현재  Spring3.0에는 jakarta를 사용한다.
 import org.springframework.http.ResponseCookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -148,5 +147,4 @@ public class MasterLoginController {
         log.info("Error message = {}", ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
-
 }

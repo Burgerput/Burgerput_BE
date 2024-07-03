@@ -39,7 +39,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value="loading", method={RequestMethod.GET, RequestMethod.POST})
+@RequestMapping(value="/loading", method={RequestMethod.GET, RequestMethod.POST})
 public class LoadingController {
     private final AlertLoading2 alertLoading;
     private final MachineLoadingAndEnterZenput machineLoadingAndEnterZenput;
