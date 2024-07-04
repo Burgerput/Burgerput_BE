@@ -89,7 +89,11 @@ public class LoadingController {
         }
 
         //최종 로딩의 결과 파일에 저장되는 값의 결과
-        log.info(jsonArray.toString());
+        log.info("Loading json ArrayResult = {}", jsonArray.toString());
+        alertLoading.jsonMaker(jsonArray, Const.JSONPATH);
+        //로딩의 성공 여부
+        log.info("result Map = {}", resultMap);
+//        return resultMap;
 
         //로딩의 성공 여부
         return resultMap;
