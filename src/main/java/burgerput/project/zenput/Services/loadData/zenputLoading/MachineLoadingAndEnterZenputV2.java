@@ -173,6 +173,7 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
             WebElement button = driver.findElement(By.xpath("//*[@id=\"submit_form\"]"));
             button.click();
 
+            log.info("Machine button Clicked");
             log.info("quit the Driver ()");
             driver.quit();
 

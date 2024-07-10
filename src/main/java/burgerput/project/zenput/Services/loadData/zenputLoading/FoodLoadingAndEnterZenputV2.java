@@ -171,10 +171,13 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
             File file = new File("/home/ubuntu/burgerput/img/zenputFood"+ LocalDate.now()+ LocalTime.now() +".png");
             FileUtils.copyFile(screenshotAs, file);
 
-            log.info("button clicked in the SendValue()");
-            WebElement button = driver.findElement(By.xpath("/html/body/div[7]/div/div[2]/section/div/div[2]/div/div[2]/div/div/div[1]/div[5]"));
+
+
+            //  //*[@id="submit_form"]
+            WebElement button = driver.findElement(By.xpath("//*[@id=\"submit_form\"]"));
             button.click();
 
+            log.info("Food submit clicked in the SendValue()");
             log.info("quit the Driver ()");
             driver.quit();
 
