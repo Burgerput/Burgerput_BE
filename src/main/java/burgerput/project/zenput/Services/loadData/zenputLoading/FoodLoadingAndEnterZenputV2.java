@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 //Optimize version!
 @Slf4j
@@ -47,12 +48,13 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
             if (section.isEmpty()) {
-                Food food = new Food();
-                food.setId(-1);
-                food.setName("no");
-                food.setMin(0);
-                food.setMax(0);
-                result.put(food.getId(), food);
+                throw new NoSuchElementException("Can't enter the zenput Food list page");
+//                Food food = new Food();
+//                food.setId(-1);
+//                food.setName("no");
+//                food.setMin(0);
+//                food.setMax(0);
+//                result.put(food.getId(), food);
 
             } else {
 

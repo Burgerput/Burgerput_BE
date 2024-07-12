@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -53,12 +54,13 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
             if (section.size() == 0) {
-                Machine machine = new Machine();
-                machine.setId(-1);
-                machine.setName("no");
-                machine.setMin(0);
-                machine.setMax(0);
-                result.put(machine.getId(), machine);
+                throw new NoSuchElementException("Can't enter the zenput Machine list page");
+//                Machine machine = new Machine();
+//                machine.setId(-1);
+//                machine.setName("no");
+//                machine.setMin(0);
+//                machine.setMax(0);
+//                result.put(machine.getId(), machine);
             } else {
 
                 for (WebElement fields : section) {
