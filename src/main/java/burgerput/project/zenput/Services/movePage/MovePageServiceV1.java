@@ -209,30 +209,24 @@ public class MovePageServiceV1 implements MovePageService {
 //                    FileUtils.copyFile(screenshotAs, file);
 
                 // 명시적 대기 설정
+                Thread.sleep(2000);
 
-                boolean loading = true;
-                while (loading) {
-                    //input field - email 입력 필드
-//                        WebElement input = driver.findElement(By.xpath("//*[@id=\"login_form\"]/div[4]/div[1]/input[1]"));
+                logBrowserConsoleLogs(driver);
 
-                    WebElement loginSignupFields = driver.findElement(By.className("login_signup_fields"));
-                    WebElement input = loginSignupFields.findElement(By.tagName("input"));
-                    //zenput 회사 이메일 필요
+                WebElement loginSignupFields = driver.findElement(By.className("login_signup_fields"));
+                WebElement input = loginSignupFields.findElement(By.tagName("input"));
+                //zenput 회사 이메일 필요
 //                    input.sendKeys("rgm21490@rest.whopper.com");
-                    input.sendKeys(ZENPUTID);
+                input.sendKeys(ZENPUTID);
 
-                    if (!input.getAttribute("value").equals("")) {
-                        loading = false;
+                if (!input.getAttribute("value").equals("")) {
+                    log.info("button click start");
+                    //input 에서 enter
 
-                        log.info("button click start");
-                        //input 에서 enter
-
-                        //continue 버튼 클릭
-                        WebElement loginContinue = driver.findElement(By.id("login_continue"));
-                        loginContinue.click();
-                    }
+                    //continue 버튼 클릭
+                    WebElement loginContinue = driver.findElement(By.id("login_continue"));
+                    loginContinue.click();
                 }
-
             } catch (ElementNotInteractableException e) {
                 driver.quit();
                 log.info("error = {}", e);
@@ -244,6 +238,7 @@ public class MovePageServiceV1 implements MovePageService {
             //3초 휴식
             Thread.sleep(3000);
 
+            logBrowserConsoleLogs(driver);
             //rbi 계정 필요
             //rbi username
             log.info("okta- signin username ");
@@ -260,8 +255,8 @@ public class MovePageServiceV1 implements MovePageService {
 
             //sign-in button
             log.info("okta-signin click the button ");
-            WebElement buttonField = driver.findElement(By.className("o-form-button-bar"));
-            WebElement oktaButton = buttonField.findElement(By.id("okta-signin-submit"));
+//            WebElement buttonField = driver.findElement(By.className("o-form-button-bar"));
+            WebElement oktaButton = driver.findElement(By.id("okta-signin-submit"));
             oktaButton.click();
             //https://asdf:Axjalsjf123456@rbi.kerberos.okta.com/
             //http://%EB%8B%A4%EC%9D%B4%EA%B0%95000001:Axjalsjf123456%40rbi.kerberos.okta.com/login/sso_iwa
