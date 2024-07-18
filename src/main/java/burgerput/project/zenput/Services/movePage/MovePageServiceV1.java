@@ -162,7 +162,7 @@ public class MovePageServiceV1 implements MovePageService {
 //            System.setProperty("webdriver.chrome.driver", DRIVERLOCATION);
             //chrome driver use
 
-            driver.manage().window().setSize(new Dimension(1024, 6000));
+            driver.manage().window().setSize(new Dimension(1024, 4000));
 
 //            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
             //==============================Scrape LOGIC START============================
@@ -186,15 +186,15 @@ public class MovePageServiceV1 implements MovePageService {
 //            FileUtils.copyFile(screenshotAs, file);
 
             logBrowserConsoleLogs(driver);
-            
+
             //no thanks button click
             try {
 
                 log.info("Find no thankes button");
-                WebElement oiwBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='oiw_btn']")));
-                oiwBtn.click();
-//                WebElement oiwBtn = driver.findElement(By.xpath("//*[@id=\"oiw_btn\"]"));
+//                WebElement oiwBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='oiw_btn']")));
 //                oiwBtn.click();
+                WebElement oiwBtn = driver.findElement(By.xpath("//*[@id=\"oiw_btn\"]"));
+                oiwBtn.click();
 
             } catch (NoSuchElementException e) {
                 //then start 회사 이름 누르기
