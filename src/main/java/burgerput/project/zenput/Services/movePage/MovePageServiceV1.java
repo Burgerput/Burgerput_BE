@@ -173,8 +173,14 @@ public class MovePageServiceV1 implements MovePageService {
             driver.get(zenputPageStart);
 
             log.info("Zenput driver Start");
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-            Thread.sleep(1000);
+//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+            // JavaScript 로드 완료 대기
+            wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+            Thread.sleep(3000);
 //            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //            File file = new File("/home/ubuntu/burgerput/ref/zenput.png");
 //            FileUtils.copyFile(screenshotAs, file);
@@ -182,7 +188,7 @@ public class MovePageServiceV1 implements MovePageService {
             try {
 
                 log.info("Find no thankes button");
-                WebElement oiwBtn = driver.findElement(By.xpath("//*[@id=\"oiw_btn\"]"));
+                WebElement oiwBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"oiw_btn\"]")));
                 oiwBtn.click();
 
             } catch (NoSuchElementException e) {
@@ -230,11 +236,12 @@ public class MovePageServiceV1 implements MovePageService {
 
             log.info("continue button clicked time ={}", LocalDateTime.now());
             log.info("okta login page start");
+            //3초 휴식
+            Thread.sleep(3000);
 
             //rbi 계정 필요
             //rbi username
             log.info("okta- signin username ");
-            Thread.sleep(300);
             WebElement oktaLogin = driver.findElement(By.id("okta-signin-username"));
 //            oktaLogin.sendKeys("다이강000001");
 
@@ -242,14 +249,12 @@ public class MovePageServiceV1 implements MovePageService {
 
             //rbi password
             log.info("okta- signin password ");
-            Thread.sleep(300);
             WebElement oktaPassword = driver.findElement(By.id("okta-signin-password"));
 //            oktaPassword.sendKeys("Axjalsjf123456");
             oktaPassword.sendKeys(RBIPW);
 
             //sign-in button
             log.info("okta-signin click the button ");
-            Thread.sleep(500);
             WebElement buttonField = driver.findElement(By.className("o-form-button-bar"));
             WebElement oktaButton = buttonField.findElement(By.id("okta-signin-submit"));
             oktaButton.click();
