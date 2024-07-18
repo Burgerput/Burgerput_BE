@@ -17,7 +17,7 @@ import java.io.IOException;
 import static burgerput.project.zenput.Const.REFRESH_TOKEN_COOKIE_NAME;
 
 @Slf4j
-@Component// Spring bean 주입을
+//@Component// Spring bean 주입을
 public class TokenInterceptor implements HandlerInterceptor {
 
     //스프링 빈 수동 주입
