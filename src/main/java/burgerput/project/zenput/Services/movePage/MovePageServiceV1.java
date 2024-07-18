@@ -184,12 +184,17 @@ public class MovePageServiceV1 implements MovePageService {
 //            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //            File file = new File("/home/ubuntu/burgerput/ref/zenput.png");
 //            FileUtils.copyFile(screenshotAs, file);
+
+            logBrowserConsoleLogs(driver);
+            
             //no thanks button click
             try {
 
                 log.info("Find no thankes button");
-                WebElement oiwBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"oiw_btn\"]")));
+                WebElement oiwBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='oiw_btn']")));
                 oiwBtn.click();
+//                WebElement oiwBtn = driver.findElement(By.xpath("//*[@id=\"oiw_btn\"]"));
+//                oiwBtn.click();
 
             } catch (NoSuchElementException e) {
                 //then start 회사 이름 누르기
