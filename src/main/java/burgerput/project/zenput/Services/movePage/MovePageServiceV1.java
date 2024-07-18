@@ -209,7 +209,7 @@ public class MovePageServiceV1 implements MovePageService {
 
                     } else {
                         loading = false;
-                        Thread.sleep(1500); //1.5초 대기
+                        Thread.sleep(2500); //1.5초 대기
 
                         log.info("button click start");
                         //input 에서 enter
