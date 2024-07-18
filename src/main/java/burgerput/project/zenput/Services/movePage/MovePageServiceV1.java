@@ -244,7 +244,6 @@ public class MovePageServiceV1 implements MovePageService {
             log.info("okta- signin username ");
             WebElement oktaLogin = driver.findElement(By.id("okta-signin-username"));
 //            oktaLogin.sendKeys("다이강000001");
-
             oktaLogin.sendKeys(RBIID);
 
             //rbi password
@@ -260,6 +259,9 @@ public class MovePageServiceV1 implements MovePageService {
             oktaButton.click();
             //https://asdf:Axjalsjf123456@rbi.kerberos.okta.com/
             //http://%EB%8B%A4%EC%9D%B4%EA%B0%95000001:Axjalsjf123456%40rbi.kerberos.okta.com/login/sso_iwa
+
+            log.info("complete login!");
+
             return driver;
 
 
@@ -277,8 +279,8 @@ public class MovePageServiceV1 implements MovePageService {
     @Override
     public WebDriver clickAmFood() {
         // BK - 오전 AM 체크리스트를 작성합니다- (제품) - Product Quality Check (AM) - KO_APAC
-        String pmFood = "BK - 오전 AM 체크리스트를 작성합니다- (제품) - Product Quality Check (AM) - KO_APAC";
-        WebDriver driver = getListClick(pmFood);
+        String amFood = "BK - 오전 AM 체크리스트를 작성합니다- (제품) - Product Quality Check (AM) - KO_APAC";
+        WebDriver driver = getListClick(amFood);
 
         return driver;
     }
@@ -315,44 +317,49 @@ public class MovePageServiceV1 implements MovePageService {
     private WebDriver getListClick(String listText)  {
         WebDriver driver = gotoListWithLogin();
         try {
-            Thread.sleep(2000);
+            Thread.sleep(10000);
 
             List<WebElement> listTitles = driver.findElements(By.className("taskitem_title"));
-            try {
-                for (WebElement listTitle : listTitles) {
-                    String listName = listTitle.getAttribute("innerText");
-                    log.info(listName);
+            if(listTitles.isEmpty()){
+                log.info("is empty but why?...");
+            }else{
+                try {
+                    for (WebElement listTitle : listTitles) {
 
-                    if (listText.equals(listName)) {
-                        listTitle.click();
-                        log.info("list Title Clicked = {} and sleep 2000", listName);
+                        String listName = listTitle.getAttribute("innerText");
+                        log.info(listName);
+                        if (listText.equals(listName)) {
+                            listTitle.click();
+                            log.info("list Title Clicked = {} and sleep 2000", listName);
 
 //                        log.info("list clicked pictrue created");
 //                        File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //                        File file = new File("/home/ubuntu/burgerput/img/move/Dirverpic:"+listName+LocalDateTime.now()+".png");
 //                        FileUtils.copyFile(screenshotAs, file);
 
-                        Thread.sleep(1000);
+                            Thread.sleep(1000);
 
-                        //양식으로 이동
-                        WebElement submitForm = driver.findElement(By.id("submit_form"));
-                        submitForm.click();
+                            //양식으로 이동
+                            WebElement submitForm = driver.findElement(By.id("submit_form"));
+                            submitForm.click();
 
-                        Thread.sleep(1000);
+                            Thread.sleep(1000);
 
 //                        log.info("Clicked submitForm and take a screenshot");
 //                        screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //                        file = new File("/home/ubuntu/burgerput/img/move/form:"+listName+LocalDateTime.now()+".png");
 //                        FileUtils.copyFile(screenshotAs, file);
 
-                        return driver;
+                            return driver;
+                        }
                     }
+                } catch (Exception e) {
+                    driver.quit();
+                    log.info("Get List Click from MovePageServiceV1");
+                    log.info("Error message " +"\n" + "{}",e.toString());
                 }
-            } catch (Exception e) {
-                driver.quit();
-                log.info("Get List Click from MovePageServiceV1");
-                log.info("Error message " +"\n" + "{}",e.toString());
             }
+
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

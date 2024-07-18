@@ -131,7 +131,6 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput{
 
             //chrome driver use
             //for Debugger
-            WebDriverManager.chromedriver().config().setLogLevel(LogLevel.DEBUG);
             WebDriverManager.chromedriver().setup();
 //            WebDriverManager.chromedriver().setup();
 
