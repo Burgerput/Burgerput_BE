@@ -9,6 +9,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
@@ -171,7 +174,12 @@ public class MovePageServiceV1 implements MovePageService {
 
             log.info("Zenput driver Start");
             //명시적 대기 선언
+
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+            // JavaScript 로드 완료 대기
+            wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
 
 //            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //            File file = new File("/home/ubuntu/burgerput/ref/zenput.png");
@@ -190,6 +198,7 @@ public class MovePageServiceV1 implements MovePageService {
             try {
                 //then start 회사 이름 누르기
                 log.info("Enter company Id and click button page");
+
 //                    File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //                    File file = new File("/home/ubuntu/burgerput/ref/dirverpic.png");
 //                    FileUtils.copyFile(screenshotAs, file);
@@ -234,6 +243,9 @@ public class MovePageServiceV1 implements MovePageService {
             oktaButton.click();
             //https://asdf:Axjalsjf123456@rbi.kerberos.okta.com/
             //http://%EB%8B%A4%EC%9D%B4%EA%B0%95000001:Axjalsjf123456%40rbi.kerberos.okta.com/login/sso_iwa
+
+            logBrowserConsoleLogs(driver);
+            
             return driver;
 
 
@@ -334,6 +346,14 @@ public class MovePageServiceV1 implements MovePageService {
 
         return driver;
 
+    }
+
+
+    private void logBrowserConsoleLogs(WebDriver driver) {
+        LogEntries logEntries = driver.manage().logs().get(LogType.BROWSER);
+        for (LogEntry entry : logEntries) {
+            log.info("BROWSER LOG: " + entry.getLevel() + " " + entry.getMessage());
+        }
     }
 
 
