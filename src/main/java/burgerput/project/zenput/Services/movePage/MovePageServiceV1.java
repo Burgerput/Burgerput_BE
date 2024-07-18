@@ -249,8 +249,9 @@ public class MovePageServiceV1 implements MovePageService {
 
             //sign-in button
             log.info("okta-signin click the button ");
-            Thread.sleep(300);
-            WebElement oktaButton = driver.findElement(By.id("okta-signin-submit"));
+            Thread.sleep(500);
+            WebElement buttonField = driver.findElement(By.className("o-form-button-bar"));
+            WebElement oktaButton = buttonField.findElement(By.id("okta-signin-submit"));
             oktaButton.click();
             //https://asdf:Axjalsjf123456@rbi.kerberos.okta.com/
             //http://%EB%8B%A4%EC%9D%B4%EA%B0%95000001:Axjalsjf123456%40rbi.kerberos.okta.com/login/sso_iwa
