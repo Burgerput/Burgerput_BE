@@ -173,21 +173,16 @@ public class MovePageServiceV1 implements MovePageService {
             driver.get(zenputPageStart);
 
             log.info("Zenput driver Start");
-            //명시적 대기 선언
-
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-
-            // JavaScript 로드 완료 대기
-            wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
-
+            Thread.sleep(1000);
 //            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //            File file = new File("/home/ubuntu/burgerput/ref/zenput.png");
 //            FileUtils.copyFile(screenshotAs, file);
             //no thanks button click
             try {
+
                 log.info("Find no thankes button");
-                WebElement oiwBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"oiw_btn\"]")));
+                WebElement oiwBtn = driver.findElement(By.xpath("//*[@id=\"oiw_btn\"]"));
                 oiwBtn.click();
 
             } catch (NoSuchElementException e) {
@@ -198,23 +193,33 @@ public class MovePageServiceV1 implements MovePageService {
             try {
                 //then start 회사 이름 누르기
                 log.info("Enter company Id and click button page");
-
 //                    File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //                    File file = new File("/home/ubuntu/burgerput/ref/dirverpic.png");
 //                    FileUtils.copyFile(screenshotAs, file);
 
                 // 명시적 대기 설정
-                WebElement loginSignupFields = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("login_signup_fields")));
-                WebElement input = loginSignupFields.findElement(By.tagName("input"));
-                //zenput 회사 이메일 필요
-//                    input.sendKeys("rgm21490@rest.whopper.com");
-                input.sendKeys(ZENPUTID);
 
-                if (!input.getAttribute("value").equals("")) { //값이 적혀져 있는 경우
-                    log.info("button click start");
-                    //continue 버튼 클릭
-                    WebElement loginContinue = wait.until(ExpectedConditions.elementToBeClickable(By.id("login_continue")));
-                    loginContinue.click();
+                boolean loading = true;
+                while (loading) {
+                    //input field - email 입력 필드
+//                        WebElement input = driver.findElement(By.xpath("//*[@id=\"login_form\"]/div[4]/div[1]/input[1]"));
+
+                    WebElement loginSignupFields = driver.findElement(By.className("login_signup_fields"));
+                    WebElement input = loginSignupFields.findElement(By.tagName("input"));
+                    //zenput 회사 이메일 필요
+//                    input.sendKeys("rgm21490@rest.whopper.com");
+                    input.sendKeys(ZENPUTID);
+
+                    if (!input.getAttribute("value").equals("")) {
+                        loading = false;
+
+                        log.info("button click start");
+                        //input 에서 enter
+
+                        //continue 버튼 클릭
+                        WebElement loginContinue = driver.findElement(By.id("login_continue"));
+                        loginContinue.click();
+                    }
                 }
 
             } catch (ElementNotInteractableException e) {
@@ -228,24 +233,27 @@ public class MovePageServiceV1 implements MovePageService {
 
             //rbi 계정 필요
             //rbi username
-
-            WebElement oktaLogin = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("okta-signin-username")));
-            oktaLogin.sendKeys(RBIID);
+            log.info("okta- signin username ");
+            Thread.sleep(300);
+            WebElement oktaLogin = driver.findElement(By.id("okta-signin-username"));
 //            oktaLogin.sendKeys("다이강000001");
 
+            oktaLogin.sendKeys(RBIID);
+
             //rbi password
-            WebElement oktaPassword = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("okta-signin-password")));
+            log.info("okta- signin password ");
+            Thread.sleep(300);
+            WebElement oktaPassword = driver.findElement(By.id("okta-signin-password"));
+//            oktaPassword.sendKeys("Axjalsjf123456");
             oktaPassword.sendKeys(RBIPW);
 
-//            oktaPassword.sendKeys("Axjalsjf123456");
             //sign-in button
-            WebElement oktaButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("okta-signin-submit")));
+            log.info("okta-signin click the button ");
+            Thread.sleep(300);
+            WebElement oktaButton = driver.findElement(By.id("okta-signin-submit"));
             oktaButton.click();
             //https://asdf:Axjalsjf123456@rbi.kerberos.okta.com/
             //http://%EB%8B%A4%EC%9D%B4%EA%B0%95000001:Axjalsjf123456%40rbi.kerberos.okta.com/login/sso_iwa
-
-            logBrowserConsoleLogs(driver);
-            
             return driver;
 
 
