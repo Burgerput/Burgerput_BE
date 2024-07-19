@@ -209,7 +209,7 @@ public class MovePageServiceV1 implements MovePageService {
 //                    FileUtils.copyFile(screenshotAs, file);
 
                 // 명시적 대기 설정
-                Thread.sleep(2000);
+                Thread.sleep(3000);
 
                 logBrowserConsoleLogs(driver);
 
@@ -337,13 +337,13 @@ public class MovePageServiceV1 implements MovePageService {
 //                        File file = new File("/home/ubuntu/burgerput/img/move/Dirverpic:"+listName+LocalDateTime.now()+".png");
 //                        FileUtils.copyFile(screenshotAs, file);
 
-                            Thread.sleep(1000);
+                            Thread.sleep(3000);
 
                             //양식으로 이동
                             WebElement submitForm = driver.findElement(By.id("submit_form"));
                             submitForm.click();
 
-                            Thread.sleep(1000);
+                            Thread.sleep(2000);
 
 //                        log.info("Clicked submitForm and take a screenshot");
 //                        screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));

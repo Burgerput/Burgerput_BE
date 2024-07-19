@@ -70,8 +70,6 @@ class MovePageServiceV1Test {
         }
 
     }
-
-
     @Test
     @DisplayName("[PM] MachineList click")
     void pmMachinelistClick() {
