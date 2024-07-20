@@ -212,15 +212,15 @@ public class MovePageServiceV1 implements MovePageService {
 
         try {
 //            takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\loaded.png");
-            WebElement loginSignupFields = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("login_signup_fields")));
-            WebElement input = loginSignupFields.findElement(By.cssSelector("input[type='email']"));
+            WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("login_signup_fields")))
+                    .findElement(By.cssSelector("input[type='email']"));
+
             log.info("'login_signup_fields' element found");
             input.sendKeys(ZENPUTID);
 
 //            takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\sendKeys.png");
             log.info("'login_continue' element found");
             WebElement loginbtn = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login_continue")));
-
             loginbtn.click();
 //            takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\buttonclick.png");
             // 추가 작업 수행
@@ -228,8 +228,6 @@ public class MovePageServiceV1 implements MovePageService {
             log.warn("'login_signup_fields' element not found", e);
 //            takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\element_not_found.png");
         }
-
-
 
         log.info("continue button clicked time ={}", LocalDateTime.now());
         log.info("okta login page start");
@@ -239,6 +237,7 @@ public class MovePageServiceV1 implements MovePageService {
 
         //rbi 계정 필요
         //rbi username
+        takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\element_not_found.png");
         log.info("okta- signin username ");
         WebElement oktaLogin = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("okta-signin-username")));
         oktaLogin.sendKeys(RBIID);
@@ -335,7 +334,6 @@ public class MovePageServiceV1 implements MovePageService {
 
     }
 
-
     //web log확인을 위한 코드
 
     private void logBrowserConsoleLogs(WebDriver driver) {
@@ -346,13 +344,13 @@ public class MovePageServiceV1 implements MovePageService {
     }
 
     //for Test
-//    public static void takeScreenshot(WebDriver driver, String filePath) {
-//        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//        try {
-//            FileHandler.copy(screenshot, new File(filePath));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public static void takeScreenshot(WebDriver driver, String filePath) {
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileHandler.copy(screenshot, new File(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
