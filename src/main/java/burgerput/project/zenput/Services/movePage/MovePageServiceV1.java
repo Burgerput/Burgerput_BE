@@ -178,7 +178,7 @@ public class MovePageServiceV1 implements MovePageService {
         log.info("Zenput driver Start");
 //            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         // JavaScript 로드 완료 대기
@@ -189,25 +189,19 @@ public class MovePageServiceV1 implements MovePageService {
 //            FileUtils.copyFile(screenshotAs, file);
 
         logBrowserConsoleLogs(driver);
-
-        //no thanks button click
-        try {
-            //then start 회사 이름 누르기
-            WebElement oiwBtn = driver.findElement(By.xpath("//*[@id=\"oiw_btn\"]"));
-            oiwBtn.click();
-            log.info("no thankes button Clicked");
-
-        } catch (NoSuchElementException e) {
-            //회사 이름 누르기 없으면 그냥 넘어가기
-        }
-
+//        //no thanks button click
+//        try {
+//            //then start 회사 이름 누르기
+//            WebElement oiwBtn = driver.findElement(By.xpath("//*[@id=\"oiw_btn\"]"));
+//            oiwBtn.click();
+//            log.info("no thankes button Clicked");
+//
+//        } catch (NoSuchElementException e) {
+//            //회사 이름 누르기 없으면 그냥 넘어가기
+//        }
         //then start 회사 이름 누르기
         log.info("Enter company Id and click button page");
-        //대기
-        wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
-//                    File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
-//                    File file = new File("/home/ubuntu/burgerput/ref/dirverpic.png");
-//                    FileUtils.copyFile(screenshotAs, file);
+
         logBrowserConsoleLogs(driver);
 
         try {
@@ -237,7 +231,7 @@ public class MovePageServiceV1 implements MovePageService {
 
         //rbi 계정 필요
         //rbi username
-        takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\element_not_found.png");
+//        takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\element_not_found.png");
         log.info("okta- signin username ");
         WebElement oktaLogin = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("okta-signin-username")));
         oktaLogin.sendKeys(RBIID);
@@ -307,27 +301,26 @@ public class MovePageServiceV1 implements MovePageService {
         if (listTitles.isEmpty()) {
             log.info("is empty but why?...");
         } else {
-            try {
                 for (WebElement listTitle : listTitles) {
-
                     String listName = listTitle.getAttribute("innerText");
                     log.info(listName);
                     if (listText.equals(listName)) {
                         listTitle.click();
                         log.info("list Title Clicked = {} and sleep 2000", listName);
 
+                        //page 이동
+                        WebDriverWait waitEnter = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+                        JavascriptExecutor jsEnter = (JavascriptExecutor) driver;
+                        waitEnter.until(webDriver -> jsEnter.executeScript("return document.readyState").equals("complete"));
+
                         //양식으로 이동
-                        WebElement submitForm = driver.findElement(By.id("submit_form"));
+                        WebElement submitForm = waitEnter.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
                         submitForm.click();
 
                         return driver;
                     }
                 }
-            } catch (java.util.NoSuchElementException e) {
-                driver.quit();
-                log.info("Get List Click from MovePageServiceV1");
-                log.info("Error message " + "\n" + "{}", e.toString());
-            }
+
         }
 
         return driver;
@@ -344,13 +337,13 @@ public class MovePageServiceV1 implements MovePageService {
     }
 
     //for Test
-    public static void takeScreenshot(WebDriver driver, String filePath) {
-        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        try {
-            FileHandler.copy(screenshot, new File(filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void takeScreenshot(WebDriver driver, String filePath) {
+//        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+//        try {
+//            FileHandler.copy(screenshot, new File(filePath));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
