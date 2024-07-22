@@ -28,14 +28,17 @@ public class CORSFilter implements Filter {
             "http://localhost:3000",
             "https://burgerput-test.netlify.app"
     );
-
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
 
+
+
         log.info("CORS fILTER START =============================================");
         log.info(request.getRequestURI());
+        String userAgent = request.getHeader("User-Agent");
+        log.info("User-Agent : {}", userAgent);
 
         String origin = request.getHeader("Origin");
         if (allowedOrigins.contains(origin)) {
