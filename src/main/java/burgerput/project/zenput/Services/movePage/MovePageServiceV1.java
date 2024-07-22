@@ -24,9 +24,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -58,6 +62,9 @@ public class MovePageServiceV1 implements MovePageService {
     public WebDriver sampleMachine() {
 
         System.setProperty("java.awt.headless", "false");
+
+        // WebDriverManager 캐시 무효화
+
 
         try {
             System.setProperty("webdriver.chrome.driver", DRIVERLOCATION);
@@ -165,7 +172,7 @@ public class MovePageServiceV1 implements MovePageService {
 //            System.setProperty("webdriver.chrome.driver", DRIVERLOCATION);
         //chrome driver use
 
-        driver.manage().window().setSize(new Dimension(1024, 4000));
+        driver.manage().window().setSize(new Dimension(1024, 6000));
 
 //            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         //==============================Scrape LOGIC START============================
@@ -187,7 +194,12 @@ public class MovePageServiceV1 implements MovePageService {
 //            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //            File file = new File("/home/ubuntu/burgerput/ref/zenput.png");
 //            FileUtils.copyFile(screenshotAs, file);
-
+        try {
+            log.info("first page - 5000 rest");
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         logBrowserConsoleLogs(driver);
 //        //no thanks button click
 //        try {
@@ -203,6 +215,12 @@ public class MovePageServiceV1 implements MovePageService {
         log.info("Enter company Id and click button page");
 
         logBrowserConsoleLogs(driver);
+        try {
+            log.info("second page(okta login) - 3000 rest");
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
 //            takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\loaded.png");
