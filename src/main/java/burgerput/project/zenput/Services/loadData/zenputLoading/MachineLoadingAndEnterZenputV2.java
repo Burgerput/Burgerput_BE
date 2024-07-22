@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,8 +49,16 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
         System.setProperty("java.awt.headless", "false");
 
         WebDriver driver = movePageService.clickAmMachine();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        // JavaScript 로드 완료 대기
+        wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+
         try {
+            Thread.sleep(3000);
+            log.info("Machine site entered and rest 3000");
             //li class group
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
@@ -127,7 +136,14 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
                 log.info("ENTER PM Machine");
 
             }
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+            // JavaScript 로드 완료 대기
+            wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+
+            log.info("enver Machine and rest 3000");
+            Thread.sleep(3000);
 
             //b. Enter the manager textbox
             WebElement managerField = driver.findElement(By.id("field_1"));

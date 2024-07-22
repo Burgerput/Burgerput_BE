@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,15 +36,24 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
     private final FoodDriverRepository foodDriverRepository;
 
     @Override
-    public Map<Integer, Food> getInfo() throws Exception {//get from am info
+    public Map<Integer, Food> getInfo() {//get from am info
         log.info("Food Get Info Logic Start f rom FoodLoadingAndEnterZenputV2");
 
         Map<Integer, Food> result = new LinkedHashMap<>();
 
         System.setProperty("java.awt.headless", "false");
         WebDriver driver = movePageService.clickAmFood();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        // JavaScript 로드 완료 대기
+        wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+
         try {
+            Thread.sleep(3000);
+            log.info("food site entered and rest 3000");
             //li class groups
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
@@ -90,7 +100,6 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
             driver.quit();
             log.info("Food GetInfo Error occurred !");
             log.info(e.toString());
-            throw new Exception(e);
         }
 //         log.info("result = {}", result);
         return result;
@@ -126,7 +135,14 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
                 driver = movePageService.clickPmFood();
                 log.info("ENTER PM FOOD");
             }
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+            // JavaScript 로드 완료 대기
+            wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+            log.info("enver Food and rest 3000");
+            Thread.sleep(3000);
 
             //b. Enter the manager textbox
             WebElement managerField = driver.findElement(By.id("field_18"));
@@ -134,7 +150,6 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
 
             textarea.click();
             textarea.sendKeys(mgrName);
-            Thread.sleep(30);
 //
 //            //dummyStore setup start ===============================
             ArrayList<Map<String, String>> dummyStore = dummyStoreMaker();
@@ -172,8 +187,6 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
             File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
             File file = new File("/home/ubuntu/burgerput/img/zenputFood"+ LocalDate.now()+ LocalTime.now() +".png");
             FileUtils.copyFile(screenshotAs, file);
-
-
 
             //  //*[@id="submit_form"]
             WebElement button = driver.findElement(By.xpath("//*[@id=\"submit_form\"]"));

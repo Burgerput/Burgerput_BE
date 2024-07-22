@@ -57,6 +57,7 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput{
             //automatic web driver management through webdrivermanager
 
             driver.get(FOODURL_T);
+
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
             //==============================Scrape LOGIC START============================
 
@@ -64,12 +65,13 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput{
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
             if (section.isEmpty()) {
-                Food food = new Food();
-                food.setId(-1);
-                food.setName("no");
-                food.setMin(0);
-                food.setMax(0);
-                result.put(food.getId(), food);
+                throw new java.util.NoSuchElementException("Can't enter the zenput Food list page");
+//                Food food = new Food();
+//                food.setId(-1);
+//                food.setName("no");
+//                food.setMin(0);
+//                food.setMax(0);
+//                result.put(food.getId(), food);
 
             } else {
 
