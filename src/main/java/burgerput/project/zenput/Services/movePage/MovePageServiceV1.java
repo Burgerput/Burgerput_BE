@@ -194,12 +194,7 @@ public class MovePageServiceV1 implements MovePageService {
 //            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
 //            File file = new File("/home/ubuntu/burgerput/ref/zenput.png");
 //            FileUtils.copyFile(screenshotAs, file);
-        try {
-            log.info("first page - 5000 rest");
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+
         logBrowserConsoleLogs(driver);
 //        //no thanks button click
 //        try {
@@ -215,13 +210,13 @@ public class MovePageServiceV1 implements MovePageService {
         log.info("Enter company Id and click button page");
 
         logBrowserConsoleLogs(driver);
+
         try {
-            log.info("second page(okta login) - 3000 rest");
-            Thread.sleep(3000);
+            log.info("first page - 5000 rest");
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
         try {
 //            takeScreenshot(driver, "C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\loaded.png");
             WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("login_signup_fields")))
@@ -246,6 +241,13 @@ public class MovePageServiceV1 implements MovePageService {
         //wait
         wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
         logBrowserConsoleLogs(driver);
+
+        try {
+            log.info("second page(okta login) - 3000 rest");
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         //rbi 계정 필요
         //rbi username
@@ -314,6 +316,12 @@ public class MovePageServiceV1 implements MovePageService {
 
         // 페이지 로드 완료 대기
         wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+        try{
+            log.info("enter list page rest 2000");
+            Thread.sleep(2000);
+        }catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 //            Thread.sleep(10000);
         List<WebElement> listTitles = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.className("taskitem_title")));
         if (listTitles.isEmpty()) {
@@ -331,6 +339,12 @@ public class MovePageServiceV1 implements MovePageService {
                         JavascriptExecutor jsEnter = (JavascriptExecutor) driver;
                         waitEnter.until(webDriver -> jsEnter.executeScript("return document.readyState").equals("complete"));
 
+                        try{
+                            log.info("list button cliked page and rest 2000");
+                            Thread.sleep(2000);
+                        }catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                         //양식으로 이동
                         WebElement submitForm = waitEnter.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
                         submitForm.click();
@@ -338,9 +352,7 @@ public class MovePageServiceV1 implements MovePageService {
                         return driver;
                     }
                 }
-
         }
-
         return driver;
 
     }
@@ -353,7 +365,6 @@ public class MovePageServiceV1 implements MovePageService {
             log.info("BROWSER LOG: " + entry.getLevel() + " " + entry.getMessage());
         }
     }
-
     //for Test
 //    public static void takeScreenshot(WebDriver driver, String filePath) {
 //        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
