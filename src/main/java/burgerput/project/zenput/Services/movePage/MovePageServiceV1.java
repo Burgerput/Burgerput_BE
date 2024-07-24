@@ -243,8 +243,8 @@ public class MovePageServiceV1 implements MovePageService {
         logBrowserConsoleLogs(driver);
 
         try {
-            log.info("second page(okta login) - 3000 rest");
-            Thread.sleep(3000);
+            log.info("second page(okta login) - 5000 rest");
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
