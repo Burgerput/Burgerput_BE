@@ -317,8 +317,8 @@ public class MovePageServiceV1 implements MovePageService {
         // 페이지 로드 완료 대기
         wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
         try{
-            log.info("enter list page rest 2000");
-            Thread.sleep(2000);
+            log.info("enter list page rest 8000");
+            Thread.sleep(8000);
         }catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

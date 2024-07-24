@@ -1,6 +1,10 @@
 package burgerput.project.zenput.Services.movePage;
 
 import burgerput.project.zenput.Config;
+import burgerput.project.zenput.Services.loadData.zenputLoading.FoodLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.loadData.zenputLoading.MachineLoadingAndEnterZenput;
+import burgerput.project.zenput.domain.Food;
+import burgerput.project.zenput.domain.Machine;
 import burgerput.project.zenput.repository.zenputAccount.ZenputAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -12,6 +16,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
+import java.util.Map;
+
 @SpringBootTest
 @Import(Config.class)
 @Slf4j
@@ -19,6 +25,10 @@ class MovePageServiceV1Test {
 
     @Autowired
     private ZenputAccountRepository zenputAccountRepository;
+    @Autowired
+    private FoodLoadingAndEnterZenput foodLoadingAndEnterZenput;
+    @Autowired
+    private MachineLoadingAndEnterZenput machineLoadingAndZenput;
 
     @Autowired
     private MovePageServiceV1 move;
@@ -57,6 +67,26 @@ class MovePageServiceV1Test {
         long executionTime = endTime - startTime;
 
         log.info("Execution time in milliseconds: " + (executionTime / 1000000));
+
+    }
+    @Test
+    @DisplayName("food and machine loading")
+    void loadingTest(){
+        try {
+            Map<Integer, Food> info = foodLoadingAndEnterZenput.getInfo();
+            log.info("food info = {}", info.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            Map<Integer, Machine> info1 = machineLoadingAndZenput.getInfo();
+            log.info("machine info = {}", info1.toString());
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
+
+
 
     }
 
