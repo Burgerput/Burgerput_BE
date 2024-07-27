@@ -6,14 +6,22 @@ import burgerput.project.zenput.repository.driverRepository.MachineDriverReposit
 import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,7 +30,7 @@ import java.util.Map;
 import static burgerput.project.zenput.ConstT.MACHINEURL_T;
 
 @Slf4j
-@DataJpaTest
+@SpringBootTest
 public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZenput{
 
     //Using saved html file data
@@ -30,8 +38,7 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
     private MyJsonParser myJsonParser;
     @Autowired
     private MachineRepository machineRepository;
-    @Autowired
-    private MachineDriverRepository machineDriverRepository;
+
 
     //get info 는 무조건 AM 으로만 받아온다.
     // Only am list
@@ -124,17 +131,25 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
             //remove being controlled option information bar
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-            options.addArguments("--headless=new");
+
+//            options.addArguments("--headless=new");
 
             driver = new ChromeDriver(options);
-            driver.manage().window().setSize(new Dimension(1024, 9999));
+            driver.manage().window().setSize(new Dimension(1024, 6000));
 
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+
+            // JavaScript 로드 완료 대기
+            wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+            log.info("enver Food and rest 3000");
+            Thread.sleep(3000);
 
             //==============================Scrape LOGIC START============================
 
+
             //GO TO PAGE
             driver.get(MACHINEURL_T);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
 
             //b. Enter the manager textbox
             WebElement managerField = driver.findElement(By.id("field_1"));
@@ -179,10 +194,15 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
 
                 }
             }
+            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
+            File file = new File("C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\Machine"+ LocalDate.now()+ LocalTime.now() +".png");
+            FileUtils.copyFile(screenshotAs, file);
+
+            WebElement submitForm = wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
+            submitForm.click();
+
             //성공했을 시에 driver 값 같이 리턴
             result.put("result", "true");
-            //MachineDriverRepository에 저장
-            machineDriverRepository.setDriver(driver);
 
         } catch (ElementNotInteractableException e) {
             //에러나면 false 리턴
@@ -194,6 +214,8 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
             return result;
 
         } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return result;

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
@@ -136,7 +137,7 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
                 log.info("ENTER PM FOOD");
             }
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
             // JavaScript 로드 완료 대기
@@ -189,8 +190,9 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
             FileUtils.copyFile(screenshotAs, file);
 
             //  //*[@id="submit_form"]
-            WebElement button = driver.findElement(By.xpath("//*[@id=\"submit_form\"]"));
-            button.click();
+
+            WebElement submitForm = wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
+            submitForm.click();
 
             log.info("Food submit clicked in the SendValue()");
             log.info("quit the Driver ()");
