@@ -21,7 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -132,12 +134,12 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
 
-//            options.addArguments("--headless=new");
+            options.addArguments("--headless=new");
 
             driver = new ChromeDriver(options);
             driver.manage().window().setSize(new Dimension(1024, 6000));
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
             // JavaScript 로드 완료 대기
@@ -194,23 +196,34 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
 
                 }
             }
-            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
-            File file = new File("C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\Machine"+ LocalDate.now()+ LocalTime.now() +".png");
-            FileUtils.copyFile(screenshotAs, file);
 
+            log.info("clicked");
             WebElement submitForm = wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
             submitForm.click();
+
+            // 파일 경로 및 이름 포맷 지정
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+            String timestamp = LocalDateTime.now().format(formatter);
+            String filePath = "C:/Users/bbubb/Desktop/Burgerput/testssl/" + timestamp + ".png";
+
+            // 화면 캡처
+            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File file = new File(filePath);
+            FileUtils.copyFile(screenshotAs, file);
+
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
 
             //성공했을 시에 driver 값 같이 리턴
             result.put("result", "true");
 
         } catch (ElementNotInteractableException e) {
             //에러나면 false 리턴
-            log.info("errororrororororororrrorrerrorerrorerror error error error ");
+            log.info("Element not Interactable Exception");
             log.info(e.toString());
 
             //에러난 드라이버 종료
-            driver.quit();
+//            driver.quit();
             return result;
 
         } catch (InterruptedException e) {
@@ -400,7 +413,7 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                         log.info("enter Map info {}", customMap);
                         input.sendKeys(customMap.get("temp"));
                         input.sendKeys(Keys.TAB);
-                        Thread.sleep(1000);
+//                        Thread.sleep(1000);
                         machineMap.remove(i);
                         break;
                     }

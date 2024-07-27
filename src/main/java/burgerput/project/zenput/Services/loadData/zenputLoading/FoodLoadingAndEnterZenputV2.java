@@ -137,7 +137,7 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
                 log.info("ENTER PM FOOD");
             }
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
             // JavaScript 로드 완료 대기
@@ -195,7 +195,8 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
             submitForm.click();
 
             log.info("Food submit clicked in the SendValue()");
-            log.info("quit the Driver ()");
+            log.info("rest 5000 and quit the Driver ()");
+            Thread.sleep(5000);
             driver.quit();
 
 //          성공했을 시에 result에 true 값 저장
@@ -256,7 +257,7 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
                         input.sendKeys(customMap.get("temp"));
                         input.sendKeys(Keys.TAB);
 
-                        Thread.sleep(250);
+//                        Thread.sleep(250);
                         customMap.remove(id);
                         break;
                     }
