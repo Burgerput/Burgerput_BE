@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
@@ -188,8 +189,8 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
             File file = new File("/home/ubuntu/burgerput/img/zenputMachine"+ LocalDate.now()+ LocalTime.now()+".png");
             FileUtils.copyFile(screenshotAs, file);
 
-            WebElement button = driver.findElement(By.xpath("//*[@id=\"submit_form\"]"));
-            button.click();
+            WebElement submitForm = wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
+            submitForm.click();
 
             log.info("Machine button Clicked");
             log.info("quit the Driver ()");

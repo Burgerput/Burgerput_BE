@@ -185,7 +185,7 @@ public class MovePageServiceV1 implements MovePageService {
         log.info("Zenput driver Start");
 //            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         // JavaScript 로드 완료 대기
@@ -238,8 +238,11 @@ public class MovePageServiceV1 implements MovePageService {
 
         log.info("continue button clicked time ={}", LocalDateTime.now());
         log.info("okta login page start");
+
+        WebDriverWait waitOkta = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
+        JavascriptExecutor jsOkta = (JavascriptExecutor) driver;
         //wait
-        wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+        waitOkta.until(webDriver -> jsOkta.executeScript("return document.readyState").equals("complete"));
         logBrowserConsoleLogs(driver);
 
         try {
@@ -311,7 +314,7 @@ public class MovePageServiceV1 implements MovePageService {
     private WebDriver getListClick(String listText) {
         WebDriver driver = gotoListWithLogin();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         // 페이지 로드 완료 대기
@@ -335,7 +338,7 @@ public class MovePageServiceV1 implements MovePageService {
                         log.info("list Title Clicked = {} and sleep 2000", listName);
 
                         //page 이동
-                        WebDriverWait waitEnter = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+                        WebDriverWait waitEnter = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
                         JavascriptExecutor jsEnter = (JavascriptExecutor) driver;
                         waitEnter.until(webDriver -> jsEnter.executeScript("return document.readyState").equals("complete"));
 
