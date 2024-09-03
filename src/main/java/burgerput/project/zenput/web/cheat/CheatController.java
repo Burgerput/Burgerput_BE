@@ -30,6 +30,7 @@ public class CheatController {
 
         tempMap.put("customCheatFood", maps);
         tempMap.put("mgrList", mgrMap);
+
         return tempMap;
     }
     @PostMapping("back/cheatFood")
