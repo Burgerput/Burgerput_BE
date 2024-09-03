@@ -18,7 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Controller
 @Slf4j
-public class ZenputAccounts {
+public class ZenputAccountsController {
     private final ZenputAccountRepository zenputAccountRepository;
 
     @GetMapping("back/accounts") //관리자 목록 출력

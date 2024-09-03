@@ -15,6 +15,7 @@ public class Accounts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)//생성을 Db에 위임
     private int num;
 
+
     @Column(name="zenput_id")
     private  String zenputId;
 

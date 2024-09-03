@@ -1,7 +1,6 @@
-package burgerput.project.zenput.web.altPages;
+package burgerput.project.zenput.web.loading;
 
 import burgerput.project.zenput.ConstT;
-import com.github.dockerjava.core.MediaType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;

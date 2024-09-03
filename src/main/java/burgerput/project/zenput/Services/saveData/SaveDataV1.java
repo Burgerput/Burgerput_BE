@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Optional;
 //DB에 데이터를 저장할 때 사용하는 서비스 계층
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class SaveDataV1 implements SaveData {
     private final MachineRepository machineRepository;
     private final FoodRepository foodRepository;

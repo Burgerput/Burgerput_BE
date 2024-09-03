@@ -8,6 +8,7 @@ import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import burgerput.project.zenput.repository.mgrList.MgrListRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ import java.util.*;
 * */
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class PrintDataV2 implements PrintData{
     private final MachineRepository machineRepository;
     private final CustomMachineRepository customMachineRepository;

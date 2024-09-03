@@ -371,7 +371,7 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
                 }
             }
 
-        } catch (Exception e) {
+        } catch (org.openqa.selenium.NoSuchElementException e) {
             log.info("Error LoadMachine={}", e.toString());
 
             throw new Exception(e);

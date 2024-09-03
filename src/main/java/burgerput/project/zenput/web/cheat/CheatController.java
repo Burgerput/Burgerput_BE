@@ -33,13 +33,11 @@ public class CheatController {
 
         return tempMap;
     }
-
     @PostMapping("back/cheatFood")
     public void saveCheatFood(@RequestBody ArrayList<Map> param) {
         saveData.customCheatFoodDataSave(param);
 
     }
-
     @GetMapping("back/cheatMachine")
     public Map<String, ArrayList<Map>> showCheatMachine() {
 
@@ -53,7 +51,6 @@ public class CheatController {
 
         return tempMap;
     }
-
     @PostMapping("back/cheatMachine")
     public void saveCheatMachine(@RequestBody ArrayList<Map> param) {
         saveData.customCheatMachineDataSave(param);

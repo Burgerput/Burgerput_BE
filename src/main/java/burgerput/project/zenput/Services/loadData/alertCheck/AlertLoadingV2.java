@@ -11,6 +11,7 @@ import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.*;
 //bean으로 등록
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class AlertLoadingV2 implements AlertLoading2 {
 
     private final MachineRepository machineRepository;
