@@ -23,6 +23,7 @@ public class CheatController {
     @GetMapping("back/cheatFood")
     public Map<String, ArrayList<Map>> showCheatFood() {
 
+
         ArrayList<Map> maps = printData.customCheatFood();
         ArrayList<Map> mgrMap = printData.mgrList();
 
