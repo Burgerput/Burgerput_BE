@@ -20,6 +20,7 @@ public class CheatController {
     private final PrintData printData;
     private final SaveData saveData;
 
+
     @GetMapping("back/cheatFood")
     public Map<String, ArrayList<Map>> showCheatFood() {
 
