@@ -137,7 +137,7 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
                 log.info("ENTER PM Machine");
 
             }
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
             // JavaScript 로드 완료 대기
@@ -153,7 +153,6 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
 
             textarea.click();
             textarea.sendKeys(mgrName);
-            Thread.sleep(30);
 
             //dummyStore
             ArrayList<Map<String, String>> dummyStore = dummyStoreMaker();
@@ -192,8 +191,10 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
             WebElement submitForm = wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
             submitForm.click();
 
+
             log.info("Machine button Clicked");
-            log.info("quit the Driver ()");
+            log.info("rest 5000 and quit the Driver ()");
+            Thread.sleep(5000);
             driver.quit();
 
             //성공했을 시에 driver 값 같이 리턴
@@ -329,7 +330,7 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
 
                         input.sendKeys(customMap.get("temp"));
                         input.sendKeys(Keys.TAB);
-                        Thread.sleep(250);
+//                        Thread.sleep(250);
                         machineMap.remove(i);
 
                         break;
