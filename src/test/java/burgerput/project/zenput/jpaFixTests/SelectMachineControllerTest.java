@@ -1,6 +1,6 @@
 package burgerput.project.zenput.jpaFixTests;
 
-import burgerput.project.zenput.Services.printDatafromDB.PrintData;
+import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,23 +1,19 @@
 package burgerput.project.zenput.Services.loadData.zenputLoading;
 
 
-import burgerput.project.zenput.Config;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
 import burgerput.project.zenput.TestConfiguration;
-import burgerput.project.zenput.domain.Machine;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.json.Json;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 @SpringBootTest

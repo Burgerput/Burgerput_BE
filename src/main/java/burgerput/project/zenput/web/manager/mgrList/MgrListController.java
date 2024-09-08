@@ -1,6 +1,6 @@
 package burgerput.project.zenput.web.manager.mgrList;
 
-import burgerput.project.zenput.Services.printDatafromDB.PrintData;
+import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
 import burgerput.project.zenput.domain.MgrList;
 import burgerput.project.zenput.repository.mgrList.MgrListRepository;
 import lombok.RequiredArgsConstructor;

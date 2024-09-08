@@ -1,82 +1,75 @@
-package burgerput.project.zenput.Services.loadData.zenputLoading;
+package burgerput.project.zenput.Services.utils.loadData.zenputLoading;
 
 import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParser;
-import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.movePage.MovePageService;
 import burgerput.project.zenput.domain.Machine;
+import burgerput.project.zenput.repository.driverRepository.MachineDriverRepository;
 import burgerput.project.zenput.repository.machineRepository.MachineRepository;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import static burgerput.project.zenput.ConstT.MACHINEURL_T;
+import java.util.NoSuchElementException;
 
 @Slf4j
-@SpringBootTest
-public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZenput {
+@RequiredArgsConstructor
+//Service
+public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZenput {
 
+//Optimize version!
     //Using saved html file data
-    @Autowired
-    private MyJsonParser myJsonParser;
-    @Autowired
-    private MachineRepository machineRepository;
+
+    private final MovePageService movePageService;
+    private final MyJsonParser myJsonParser;
+    private final MachineRepository machineRepository;
+    private final MachineDriverRepository machineDriverRepository;
 
 
     //get info 는 무조건 AM 으로만 받아온다.
     // Only am list
     @Override
-    public Map<Integer, Machine> getInfo() {
+    public Map<Integer, Machine> getInfo() throws Exception {
+        log.info("Food Get Info Logic Start f rom MachineLoadingAndEnterZenputV2");
+
         Map<Integer, Machine> result = new LinkedHashMap<>();
 
         System.setProperty("java.awt.headless", "false");
 
+        WebDriver driver = movePageService.clickAmMachine();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        // JavaScript 로드 완료 대기
+        wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
+
         try {
-            WebDriverManager.chromedriver().setup();
-
-            //remove being controlled option information bar
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-
-            options.addArguments("--no-sandbox");
-            options.addArguments("--headless=new");
-
-
-            WebDriver driver = new ChromeDriver(options);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-
-
-            //GO TO PAGE
-            driver.get(MACHINEURL_T);
-
+            Thread.sleep(3000);
+            log.info("Machine site entered and rest 3000");
             //li class group
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
-
             if (section.size() == 0) {
-                Machine machine = new Machine();
-                machine.setId(-1);
-                machine.setName("no");
-                machine.setMin(0);
-                machine.setMax(0);
-                result.put(machine.getId(), machine);
+                throw new NoSuchElementException("Can't enter the zenput Machine list page");
+//                Machine machine = new Machine();
+//                machine.setId(-1);
+//                machine.setName("no");
+//                machine.setMin(0);
+//                machine.setMax(0);
+//                result.put(machine.getId(), machine);
             } else {
 
                 for (WebElement fields : section) {
@@ -99,12 +92,21 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                     }
                 }
             }
+
+            log.info("quit the Machine getInfo driver");
+
             //End process
             driver.close();
             driver.quit();
 
         } catch (Exception e) {
+
+            driver.close();
+            driver.quit();
+            log.info("Machine GetInfo Error occurred ! And the Driver quit() executed!");
             log.info(e.toString());
+
+            throw new Exception(e);
         }
         return result;
     }
@@ -118,38 +120,30 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
         //selenium enter logic start ========================================
         System.setProperty("java.awt.headless", "false");
         try {
-
             // Enter the value
-
             // 1. Enter Manager Name
             //a. getManager info from json
             JSONObject paramO = new JSONObject(param);
             String mgrName = paramO.get("mgrname").toString();
 
-            WebDriverManager.chromedriver().setup();
+            String time = paramO.get("time").toString();
 
-            //remove being controlled option information bar
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+            if (time.equals("AM")) {
+                driver = movePageService.clickAmMachine();
 
-            options.addArguments("--headless=new");
+            } else if (time.equals("PM")) {
+                driver = movePageService.clickPmMachine();
+                log.info("ENTER PM Machine");
 
-            driver = new ChromeDriver(options);
-            driver.manage().window().setSize(new Dimension(1024, 6000));
-
+            }
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
             // JavaScript 로드 완료 대기
             wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
-            log.info("enver Food and rest 3000");
+
+            log.info("enver Machine and rest 3000");
             Thread.sleep(3000);
-
-            //==============================Scrape LOGIC START============================
-
-
-            //GO TO PAGE
-            driver.get(MACHINEURL_T);
 
             //b. Enter the manager textbox
             WebElement managerField = driver.findElement(By.id("field_1"));
@@ -158,7 +152,6 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
 
             textarea.click();
             textarea.sendKeys(mgrName);
-            Thread.sleep(30);
 
             //dummyStore
             ArrayList<Map<String, String>> dummyStore = dummyStoreMaker();
@@ -187,46 +180,41 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                         enterValue(field, dummyStore,result);
                     }
 
-                    if (result.containsValue("false")) {
-                        ElementNotInteractableException e = new ElementNotInteractableException("ElementNot Interatable Excpetion");
-                        throw e;
-                    }
-
                 }
             }
 
-            log.info("clicked");
+            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
+            File file = new File("/home/ubuntu/burgerput/img/zenputMachine"+ LocalDate.now()+ LocalTime.now()+".png");
+            FileUtils.copyFile(screenshotAs, file);
+
             WebElement submitForm = wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
             submitForm.click();
 
-            // 파일 경로 및 이름 포맷 지정
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
-            String timestamp = LocalDateTime.now().format(formatter);
-            String filePath = "C:/Users/bbubb/Desktop/Burgerput/testssl/" + timestamp + ".png";
 
-            // 화면 캡처
-            File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            File file = new File(filePath);
-            FileUtils.copyFile(screenshotAs, file);
-
-            Alert alert = driver.switchTo().alert();
-            alert.accept();
+            log.info("Machine button Clicked");
+            log.info("rest 5000 and quit the Driver ()");
+            Thread.sleep(5000);
+            driver.quit();
 
             //성공했을 시에 driver 값 같이 리턴
             result.put("result", "true");
 
-        } catch (ElementNotInteractableException e) {
+            //MachineDriverRepository에 저장
+//            machineDriverRepository.setDriver(driver);
+
+        }  catch (ElementNotInteractableException e) {
             //에러나면 false 리턴
-            log.info("Element not Interactable Exception");
+            log.info("ElementNotInteractableExcpetion Occured form MachineLoadingAndEnterZenputV2");
             log.info(e.toString());
 
             //에러난 드라이버 종료
-//            driver.quit();
+            driver.quit();
             return result;
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            log.info("making img File exception from MachineLoadingAndEnterZenputV2");
             throw new RuntimeException(e);
         }
         return result;
@@ -234,76 +222,6 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
 
     @Override
     public void sendValue(String param) {
-
-        //choose am/pm list Start ==============================
-
-        //selenium enter logic start ========================================
-        System.setProperty("java.awt.headless", "false");
-        try {
-
-            // Enter the value
-
-            // 1. Enter Manager Name
-            //a. getManager info from json
-            JSONObject paramO = new JSONObject(param);
-            String mgrName = paramO.get("mgrname").toString();
-
-            String time = paramO.get("time").toString();
-            WebDriverManager.chromedriver().setup();
-
-            //remove being controlled option information bar
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-            WebDriver driver = new ChromeDriver(options);
-
-            //==============================Scrape LOGIC START============================
-
-            //GO TO PAGE
-            driver.get(MACHINEURL_T);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-
-            //b. Enter the manager textbox
-            WebElement managerField = driver.findElement(By.id("field_1"));
-
-            WebElement textarea = managerField.findElement(By.tagName("textarea"));
-
-            textarea.click();
-            textarea.sendKeys(mgrName);
-            Thread.sleep(30);
-
-            //dummyStore
-            ArrayList<Map<String, String>> dummyStore = dummyStoreMaker();
-            log.info("dummyStore result ={}", dummyStore);
-
-            //dummyMap changed
-            ArrayList<Map> customMachineMap = myJsonParser.jsonStringToArrayList(param);
-
-
-            ArrayList<Map<String, String>> maps = finalMapMaker(customMachineMap, dummyStore);
-
-            log.info("dummyMap final ={}", maps);
-            //li class group
-            //Enter customValueStart ===============================
-            List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
-
-            for (WebElement fields : section) {
-                List<WebElement> elements = fields.findElements(By.className("form-field"));
-
-                for (WebElement field : elements) {
-                    //extract vaild id list logic
-                    String id = field.getAttribute("id");
-                    if (id.equals("field_0") | id.equals("field_1") | id.equals("field_84")) {
-
-                    }else{
-//                        enterValue(field, dummyStore);
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-
-            log.info(e.toString());
-        }
     }
 
     private ArrayList<Map<String,String>> finalMapMaker(ArrayList<Map> customMachineMap, ArrayList<Map<String, String>> dummyStore) {
@@ -330,7 +248,6 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                     dummyMap.put("temp", customMap.get("temp"));
                 }
             }
-
 //delete object from dummystore with delete key map values
             for (Map map : deletekey) {
                 dummyStore.remove(map);
@@ -409,10 +326,12 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                     if (id.equals(customMap.get("id"))) {
 
                         log.info("enter Map info {}", customMap);
+
                         input.sendKeys(customMap.get("temp"));
                         input.sendKeys(Keys.TAB);
-//                        Thread.sleep(1000);
+//                        Thread.sleep(250);
                         machineMap.remove(i);
+
                         break;
                     }
                 } catch (NullPointerException e) {
@@ -426,15 +345,13 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
 
                 }
             }
-
-
         } catch (Exception e) {
             log.info("Error LoadFood={}", e.toString());
         }
     }
 
     @Override
-    public Machine extractIdTitle(WebElement field) {
+    public Machine extractIdTitle(WebElement field) throws Exception {
         Machine machine = new Machine();
         try {
             WebElement input = field.findElement(By.tagName("input"));
@@ -454,8 +371,10 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                 }
             }
 
-        } catch (Exception e) {
+        } catch (org.openqa.selenium.NoSuchElementException e) {
             log.info("Error LoadMachine={}", e.toString());
+
+            throw new Exception(e);
         }
         return machine;
     }
@@ -491,11 +410,10 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                         break;
 
                     default:
-                        machine.setMax(190);
+                        machine.setMax(185);
                         break;
                 }
 //                log.info("name ={}", machine);
-
 
             } else if (temps.length == 2) {
                 int i = 0;

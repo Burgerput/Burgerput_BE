@@ -1,7 +1,6 @@
 package burgerput.project.zenput.web.cheat;
 
-import burgerput.project.zenput.Services.printDatafromDB.PrintData;
-import burgerput.project.zenput.Services.saveData.SaveData;
+import burgerput.project.zenput.Services.cheatService.CheatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,49 +13,29 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@Transactional
 public class CheatController {
 
-    private final PrintData printData;
-    private final SaveData saveData;
-
+    private final CheatService cheatService;
 
     @GetMapping("back/cheatFood")
     public Map<String, ArrayList<Map>> showCheatFood() {
+        return cheatService.showCheatFood();
 
-        ArrayList<Map> maps = printData.customCheatFood();
-        ArrayList<Map> mgrMap = printData.mgrList();
-
-        Map<String, ArrayList<Map>> tempMap = new LinkedHashMap<>();
-
-        tempMap.put("customCheatFood", maps);
-        tempMap.put("mgrList", mgrMap);
-
-        return tempMap;
     }
+
     @PostMapping("back/cheatFood")
     public void saveCheatFood(@RequestBody ArrayList<Map> param) {
-        saveData.customCheatFoodDataSave(param);
-
+        cheatService.saveCheatFood(param);
     }
+
     @GetMapping("back/cheatMachine")
     public Map<String, ArrayList<Map>> showCheatMachine() {
-
-        ArrayList<Map> maps = printData.customCheatMachine();
-        ArrayList<Map> mgrMap = printData.mgrList();
-
-        Map<String, ArrayList<Map>> tempMap = new LinkedHashMap<>();
-
-        tempMap.put("customCheatMachine", maps);
-        tempMap.put("mgrList", mgrMap);
-
-        return tempMap;
+        return cheatService.showCheatMachine();
     }
+
     @PostMapping("back/cheatMachine")
     public void saveCheatMachine(@RequestBody ArrayList<Map> param) {
-        saveData.customCheatMachineDataSave(param);
-
+        cheatService.saveCheatMachine(param);
     }
-
 
 }

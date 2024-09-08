@@ -1,23 +1,17 @@
-package burgerput.project.zenput.Services.loadData.zenputLoading;
+package burgerput.project.zenput.Services.utils.loadData.zenputLoading;
 
 import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParser;
-import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenput;
 import burgerput.project.zenput.Services.utils.movePage.MovePageService;
 import burgerput.project.zenput.domain.Food;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepository;
 import burgerput.project.zenput.repository.foodRepository.FoodRepository;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,53 +22,44 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
-import static burgerput.project.zenput.ConstT.FOODURL_T;
-
+//Optimize version!
 @Slf4j
-@SpringBootTest
-public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
+@RequiredArgsConstructor
 
-    @Autowired
-    private MovePageService movePageService;
-    @Autowired
-    private MyJsonParser myJsonParser;
-    @Autowired
-    private FoodRepository foodRepository;
-    @Autowired
-    private FoodDriverRepository foodDriverRepository;
+public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
+
+
+    private final MovePageService movePageService;
+    private final MyJsonParser myJsonParser;
+    private final FoodRepository foodRepository;
+    private final FoodDriverRepository foodDriverRepository;
 
     @Override
     public Map<Integer, Food> getInfo() {//get from am info
+        log.info("Food Get Info Logic Start f rom FoodLoadingAndEnterZenputV2");
+
         Map<Integer, Food> result = new LinkedHashMap<>();
 
         System.setProperty("java.awt.headless", "false");
-        WebDriverManager.chromedriver().setup();
+        WebDriver driver = movePageService.clickAmFood();
 
-        //remove being controlled option information bar
-        ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
 
-        options.addArguments("--no-sandbox");
-//            options.addArguments("--headless=new");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20), Duration.ofMillis(500));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 
-        WebDriver driver = new ChromeDriver(options);
+        // JavaScript 로드 완료 대기
+        wait.until(webDriver -> js.executeScript("return document.readyState").equals("complete"));
 
         try {
-//            System.setProperty("webdriver.chrome.driver", DRIVERLOCATION);
-            //chrome driver use
-            //automatic web driver management through webdrivermanager
-
-            driver.get(FOODURL_T);
-
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-            //==============================Scrape LOGIC START============================
-
-            //li class group
+            Thread.sleep(3000);
+            log.info("food site entered and rest 3000");
+            //li class groups
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
             if (section.isEmpty()) {
-                throw new java.util.NoSuchElementException("Can't enter the zenput Food list page");
+                throw new NoSuchElementException("Can't enter the zenput Food list page");
 //                Food food = new Food();
 //                food.setId(-1);
 //                food.setName("no");
@@ -97,7 +82,6 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
                             Food contents = extractIdTitle(field);
                             if (!(contents.getName() == null)) {
                                 //if map is empty then not save the data
-
                                 log.info("contents ={}", contents);
                                 result.put(contents.getId(), contents);
 
@@ -106,7 +90,8 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
                     }
                 }
             }
-            log.info("dirver quit");
+
+            log.info("quit the Food getInfo driver");
             //End process
             driver.close();
             driver.quit();
@@ -114,6 +99,7 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
         } catch (Exception e) {
             driver.close();
             driver.quit();
+            log.info("Food GetInfo Error occurred !");
             log.info(e.toString());
         }
 //         log.info("result = {}", result);
@@ -129,38 +115,29 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
     @Override
     public Map<String,String> sendValueV2(String param) {
 
-        log.info("param = {}", param);
         Map<String, String> result = new LinkedHashMap<>();
         //choose am/pm list Start ==============================
         WebDriver driver= null;
 
         //selenium enter logic start ========================================
+        System.setProperty("java.awt.headless", "false");
 
         try {
-            //selenium enter logic start ========================================
-            System.setProperty("java.awt.headless", "false");
+            // 1. Enter Manager Name
+            //a. getManager info from jsonf
+            JSONObject paramO = new JSONObject(param);
+            String mgrName = paramO.get("mgrname").toString();
 
-            //chrome driver use
-            //for Debugger
-            WebDriverManager.chromedriver().setup();
-//            WebDriverManager.chromedriver().setup();
+            String time = paramO.get("time").toString();
+            if (time.equals("AM")) {
+                driver = movePageService.clickAmFood();
 
+            } else if (time.equals("PM")) {
+                driver = movePageService.clickPmFood();
+                log.info("ENTER PM FOOD");
+            }
 
-            //remove being controlled option information bar
-            ChromeOptions options = new ChromeOptions();
-            options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-//            options.addArguments("--headless=new");
-
-            driver = new ChromeDriver(options);
-            driver.manage().window().setSize(new Dimension(1024, 6000));
-
-
-            //==============================Scrape LOGIC START============================
-
-            //GO TO PAGE
-            driver.get(FOODURL_T);
-
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120), Duration.ofMillis(500));
             JavascriptExecutor js = (JavascriptExecutor) driver;
 
             // JavaScript 로드 완료 대기
@@ -168,22 +145,14 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
             log.info("enver Food and rest 3000");
             Thread.sleep(3000);
 
-
-            // 1. Enter Manager Name
-            //a. getManager info from jsonf
-            JSONObject paramO = new JSONObject(param);
-            String mgrName = paramO.get("mgrname").toString();
-
-
             //b. Enter the manager textbox
             WebElement managerField = driver.findElement(By.id("field_18"));
             WebElement textarea = managerField.findElement(By.tagName("textarea"));
 
             textarea.click();
             textarea.sendKeys(mgrName);
-            Thread.sleep(30);
-
-            //dummyStore setup start ===============================
+//
+//            //dummyStore setup start ===============================
             ArrayList<Map<String, String>> dummyStore = dummyStoreMaker();
 
             //dummyMap changed
@@ -199,10 +168,7 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
                     }
                 }
             }
-            //===================dummy setup END =======================
-
-            log.info("dummyMap final ={}", dummyStore);
-
+//            log.info("dummyMap final ={}", dummyStore);
             List<WebElement> section = driver.findElements(By.className("form_container_wrapper"));
 
             for (WebElement fields : section) {
@@ -210,49 +176,55 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
                 log.info("SECTION START");
                 for (WebElement field : elements) {
                     //Enter customValueStart ===============================
+
                     String id = field.getAttribute("id");
                     if(!(id.equals("field_295") | id.equals("field_19") | id.equals("field_18"))){
 //                        log.info("where's id?'{}", id);
-
                         enterValue(field, dummyStore, result);
                     }
-                    if (result.containsValue("false")) {
-                        ElementNotInteractableException e =  new ElementNotInteractableException("No such Element Exception Occured 에러에러에러에ㅓㄹ");
-                        throw e;
-                    }
-
                 }
-
             }
 
             File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
-            File file = new File("C:\\Users\\bbubb\\Desktop\\Burgerput\\testssl\\Machine"+ LocalDate.now()+ LocalTime.now() +".png");
+            File file = new File("/home/ubuntu/burgerput/img/zenputFood"+ LocalDate.now()+ LocalTime.now() +".png");
             FileUtils.copyFile(screenshotAs, file);
+
+            //  //*[@id="submit_form"]
 
             WebElement submitForm = wait.until(ExpectedConditions.visibilityOfElementLocated((By.id("submit_form"))));
             submitForm.click();
 
-            //성공했을 시에 result에 true 값 저장
-            result.put("result", "true");
+            log.info("Food submit clicked in the SendValue()");
+            log.info("rest 5000 and quit the Driver ()");
+            Thread.sleep(5000);
+            driver.quit();
 
+//          성공했을 시에 result에 true 값 저장
+            result.put("result", "true");
+            //FoodDriverREpository memeroy repository에 해당 값 저장
+//            foodDriverRepository.setDriver(driver);
 
         } catch (ElementNotInteractableException e) {
             //에러나면 false 리턴
-            log.info("errore errororororrorororororororororororororororororororororo");
+            log.info("Food sendValueV2 ElementNOtInteractableException");
             log.info(e.toString());
             //에러가 난 selenium driver 는 종료
             driver.quit();
             return result;
 
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
+
             log.info("runTime eXcpetion ");
             log.info(e.toString());
             throw new RuntimeException(e);
         } catch (IOException e) {
+            log.info("making img File exception");
             throw new RuntimeException(e);
         }
         return result;
     }
+
 
     private ArrayList<Map<String, String>> dummyStoreMaker() {
         ArrayList<Map<String, String>> result = new ArrayList<>();
@@ -280,11 +252,12 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
             for (Map<String, String> customMap : foodMap) {
                 try {
                     if (id.equals(customMap.get("id"))) {
-                        log.info("custom Map info put this result={}", customMap);
+                        log.info("enter Map info {}", customMap);
+
                         input.sendKeys(customMap.get("temp"));
+                        input.sendKeys(Keys.TAB);
 
-
-                        Thread.sleep(500);
+//                        Thread.sleep(250);
                         customMap.remove(id);
                         break;
                     }
@@ -296,16 +269,14 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
                     //do nothing
                 }
             }
-
         } catch (Exception e) {
-            log.info("Error LoadFood={}", e.toString());
+//            log.info("Error LoadFood={}", e.toString());
         }
 
     }
 
-    public Food extractIdTitle(WebElement field) {
+    public Food extractIdTitle(WebElement field) throws Exception {
         Food food = new Food();
-
         try {
             WebElement input = field.findElement(By.tagName("input"));
             WebElement fieldTitle = field.findElement(By.className("field_title"));
@@ -319,8 +290,9 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
                 food = extractTitle(title);
                 food.setId(Integer.parseInt(id));
             }
-        } catch (NoSuchElementException e) {
+        } catch (Exception e) {
             log.info("Error LoadFood={}", e.toString());
+            throw new Exception(e);
         }
         return food;
     }
@@ -341,6 +313,7 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
 
             //temp setup
             String s = split[split.length - 1].replaceAll("[a-zA-Z가-힣* ]", "");
+
             tempLogic(s, food);
 
 //            log.info(minS);
@@ -350,6 +323,7 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
             String sample = split[0];
             food.setName(sample);
             String s = split[1].replaceAll("[a-zA-Z가-힣* ]", "");
+
             tempLogic(s, food);
         }
 
@@ -365,7 +339,7 @@ public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
         }else{
             temp = temp.trim();
             food.setMin(Integer.parseInt(temp));
-            food.setMax(190);
+            food.setMax(185);
         }
 
 

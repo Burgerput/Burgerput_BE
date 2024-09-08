@@ -1,10 +1,9 @@
 package burgerput.project.zenput.Services.loadData.LoadingTest;
 
-import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoading;
+import burgerput.project.zenput.Services.utils.loadData.alertCheck.AlertLoading;
 import burgerput.project.zenput.Services.loadData.zenputLoading.FoodLoadingAndEnterZenputV2T;
 import burgerput.project.zenput.Services.loadData.zenputLoading.MachineLoadingAndEnterZenputV2T;
 import burgerput.project.zenput.domain.Food;
-import burgerput.project.zenput.domain.Machine;
 import burgerput.project.zenput.repository.foodRepository.CustomFoodRepository;
 import burgerput.project.zenput.repository.machineRepository.CustomMachineRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 @Slf4j

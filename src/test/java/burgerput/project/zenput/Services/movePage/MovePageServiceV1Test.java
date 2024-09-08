@@ -1,8 +1,9 @@
 package burgerput.project.zenput.Services.movePage;
 
 import burgerput.project.zenput.Config;
-import burgerput.project.zenput.Services.loadData.zenputLoading.FoodLoadingAndEnterZenput;
-import burgerput.project.zenput.Services.loadData.zenputLoading.MachineLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.movePage.MovePageServiceV1;
 import burgerput.project.zenput.domain.Food;
 import burgerput.project.zenput.domain.Machine;
 import burgerput.project.zenput.repository.zenputAccount.ZenputAccountRepository;

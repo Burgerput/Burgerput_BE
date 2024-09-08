@@ -1,7 +1,7 @@
 package burgerput.project.zenput.web.manager.machine;
 
-import burgerput.project.zenput.Services.printDatafromDB.PrintData;
-import burgerput.project.zenput.Services.saveData.SaveData;
+import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
+import burgerput.project.zenput.Services.utils.saveData.SaveData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
 package burgerput.project.zenput.web.manager.machine;
 
-import burgerput.project.zenput.Services.loadData.zenputLoading.MachineLoadingAndEnterZenput;
-import burgerput.project.zenput.Services.printDatafromDB.PrintData;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
