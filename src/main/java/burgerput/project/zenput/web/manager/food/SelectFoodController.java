@@ -14,8 +14,6 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class SelectFoodController {
-    private final FoodRepository foodRepository;
-    private final CustomFoodRepository customFoodRepository;
     private final SaveData saveData;
     private final PrintData printData;
 

@@ -1,5 +1,7 @@
 package burgerput.project.zenput.web.manager.food;
 
+import burgerput.project.zenput.Services.manager.food.EnterFoodService;
+import burgerput.project.zenput.Services.manager.food.EnterFoodServiceImpl;
 import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenput;
 import burgerput.project.zenput.Services.utils.movePage.MovePageService;
 import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
@@ -22,34 +24,17 @@ import java.util.Map;
 @RestController
 public class EnterFoodController {
 
-    private final FoodLoadingAndEnterZenput foodLoadingAndEnterZenput;
-    private final PrintData printData;
+    private final EnterFoodService enterFoodService;
 
     @GetMapping("/back/enter/foods")
     @ResponseBody
-    public Map<String, ArrayList<Map>> enterFood() {
-
-        Map<String, ArrayList<Map>> tempMap = new LinkedHashMap<>();
-
-        ArrayList<Map> customFood = printData.customFood();
-
-        tempMap.put("customFood", customFood);
-
-        ArrayList<Map> mgrMap = printData.mgrList();
-
-        tempMap.put("mgrList", mgrMap);
-
-        return tempMap;
+    public Map<String, ArrayList<Map>> showFood() {
+        return enterFoodService.showFood();
     }
 
     @PostMapping("/back/enter/foods")
     @ResponseBody
     public Map<String,String> submitZenputFood(@RequestBody String param) {
-log.info("Food SendValue logic Start");
-        Map<String, String> resultMap = foodLoadingAndEnterZenput.sendValueV2(param);
-
-        Map<String, String> result = new LinkedHashMap<>();
-        result.put("result", resultMap.get("result").toString());
-        return result;
+        return enterFoodService.submitZenputFood(param);
     }
 }
