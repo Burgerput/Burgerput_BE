@@ -30,7 +30,6 @@ import java.util.NoSuchElementException;
 
 public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
 
-
     private final MovePageService movePageService;
     private final MyJsonParser myJsonParser;
     private final FoodRepository foodRepository;

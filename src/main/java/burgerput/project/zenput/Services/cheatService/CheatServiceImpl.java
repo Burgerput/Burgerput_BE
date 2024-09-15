@@ -15,7 +15,7 @@ import java.util.Map;
 @Slf4j//로그확인
 @RequiredArgsConstructor
 @Transactional //DB사용하니까 트랜잭션 붙여줌
-public class CheatServiceV1 implements CheatService {
+public class CheatServiceImpl implements CheatService {
 
     //DB사용
     private final PrintData printData;

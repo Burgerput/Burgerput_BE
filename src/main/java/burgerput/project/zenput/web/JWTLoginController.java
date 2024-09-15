@@ -72,7 +72,7 @@ public class JWTLoginController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
-        //쿠키 목록에서 쿠키가져오기q:q
+        //쿠키 목록에서 쿠키가져오기
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {//쿠키에 값이 있는 경우 수행하기
             for (Cookie cookie : cookies) { //쿠키들의 값 꺼내기
@@ -118,5 +118,4 @@ public class JWTLoginController {
         log.info("Error message = {}", ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
-
 }

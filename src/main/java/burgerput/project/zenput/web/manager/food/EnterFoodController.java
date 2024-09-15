@@ -24,11 +24,11 @@ public class EnterFoodController {
 
     private final FoodLoadingAndEnterZenput foodLoadingAndEnterZenput;
     private final PrintData printData;
-    private final MovePageService movePageService;
 
     @GetMapping("/back/enter/foods")
     @ResponseBody
     public Map<String, ArrayList<Map>> enterFood() {
+
         Map<String, ArrayList<Map>> tempMap = new LinkedHashMap<>();
 
         ArrayList<Map> customFood = printData.customFood();
