@@ -5,6 +5,7 @@ import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class EnterMachineServiceImpl implements EnterMachineService{
 
     private final PrintData printData;
