@@ -25,8 +25,6 @@ import static burgerput.project.zenput.Const.REFRESH_TOKEN_COOKIE_NAME;
 @RequiredArgsConstructor
 @Slf4j
 public class JWTLoginController {
-
-
     private final MasterAccountRepository masterAccountRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
