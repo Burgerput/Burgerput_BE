@@ -1,4 +1,4 @@
-package burgerput.project.zenput.Services.LoadingController;
+package burgerput.project.zenput.Services.loadingController;
 
 import burgerput.project.zenput.Const;
 import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParser;

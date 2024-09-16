@@ -1,5 +1,6 @@
 package burgerput.project.zenput.web.manager.food;
 
+import burgerput.project.zenput.Services.manager.food.SelectFoodService;
 import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
 import burgerput.project.zenput.Services.utils.saveData.SaveData;
 import burgerput.project.zenput.repository.foodRepository.CustomFoodRepository;
@@ -14,23 +15,18 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class SelectFoodController {
-    private final SaveData saveData;
-    private final PrintData printData;
+    private final SelectFoodService selectFoodService;
 
     @GetMapping("/back/select/foods") //식품 목록 출력
     @ResponseBody
     public ArrayList<Map> showFoodList() {
-        ArrayList<Map> result = printData.zenputFood();
-        return result;
+        return selectFoodService.showFood();
     }
 
     @PostMapping("/back/select/foods")//선택한 식품의 값
     @ResponseBody
     public void selected(@RequestBody ArrayList<Map> param) {
-        //log.info("what is id={},", map.get("id"));
-        //table의 내용을 전부 지웠다가 다시 저장
-        log.info("Selected Food param ={}", param.toString());
-        saveData.customFoodDataSave(param);
+        selectFoodService.saveSelected(param);
     }
 
 }

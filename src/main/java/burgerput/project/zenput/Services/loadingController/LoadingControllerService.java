@@ -1,4 +1,4 @@
-package burgerput.project.zenput.Services.LoadingController;
+package burgerput.project.zenput.Services.loadingController;
 
 import java.util.List;
 import java.util.Map;

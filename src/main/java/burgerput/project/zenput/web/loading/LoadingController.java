@@ -1,22 +1,10 @@
 package burgerput.project.zenput.web.loading;
 
-import burgerput.project.zenput.Const;
-import burgerput.project.zenput.Services.LoadingController.LoadingControllerService;
-import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParser;
-import burgerput.project.zenput.Services.utils.loadData.alertCheck.AlertLoading2;
-import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenput;
-import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
-import burgerput.project.zenput.domain.Food;
-import burgerput.project.zenput.domain.Machine;
+import burgerput.project.zenput.Services.loadingController.LoadingControllerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
