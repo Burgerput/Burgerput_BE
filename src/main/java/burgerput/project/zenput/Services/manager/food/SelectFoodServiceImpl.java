@@ -14,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class SelectFoodSErviceImpl implements SelectFoodService{
+public class SelectFoodServiceImpl implements SelectFoodService{
 
     private final SaveData saveData;
     private final PrintData printData;
