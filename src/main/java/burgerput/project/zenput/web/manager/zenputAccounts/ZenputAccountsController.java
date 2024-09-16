@@ -24,17 +24,15 @@ public class ZenputAccountsController {
 
     @GetMapping("back/accounts") //관리자 목록 출력
     @ResponseBody
-    public Map<String, String>  showZenputAccounts() {
+    public Map<String, String> showZenputAccounts() {
 
         return zenputAccountsService.showZenputAccounts();
     }
 
     @PostMapping("/back/accounts")
     @ResponseBody
-    public void saveZenputAccounts(@RequestBody  Map<String,String>  param) {
+    public void saveZenputAccounts(@RequestBody Map<String, String> param) {
 
-            zenputAccountsService.saveZenputAccounts(param);
-        }
-
+        zenputAccountsService.saveZenputAccounts(param);
     }
 }
