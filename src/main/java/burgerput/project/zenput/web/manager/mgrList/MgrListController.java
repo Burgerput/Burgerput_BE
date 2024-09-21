@@ -1,6 +1,7 @@
 package burgerput.project.zenput.web.manager.mgrList;
 
-import burgerput.project.zenput.Services.printDatafromDB.PrintData;
+import burgerput.project.zenput.Services.manager.mgrList.MgrListService;
+import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
 import burgerput.project.zenput.domain.MgrList;
 import burgerput.project.zenput.repository.mgrList.MgrListRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,46 +19,26 @@ import java.util.Map;
 @Controller
 @Slf4j
 public class MgrListController {
-    private final PrintData printData;
-
-    private final MgrListRepository mgrListRepository;
+    private final MgrListService mgrListService;
 
     //mgrlist print
     @GetMapping("back/managers") //관리자 목록 출력
     @ResponseBody
     public ArrayList<Map> showMgrList() {
-        //show MachineList from the Machine DB
-        //[id, JSON(MAP)] 으로 리턴
-        ArrayList<Map> maps = printData.mgrList();
-        return maps;
+        return mgrListService.showMgrList();
     }
 
-
-    
     //delete mgr
-    @PostMapping("back/manager") //[{"mgrname":"김뚝딱"}] map in the ArrayList
+    @PostMapping("back/manager") //[{"mgrname":"김뚝딱"}] 으로 들어온 정보를 받아서 삭제함
     @ResponseBody
     public void deleteMgrlist(@RequestBody ArrayList<Map> param) {
-        for (Map<String, String> mgrMap : param) {
-            MgrList mgrList = new MgrList();
-            mgrList.setId(Integer.parseInt(mgrMap.get("id")));
-            mgrList.setMgrName(mgrMap.get("mgrname"));
-
-            mgrListRepository.delete(mgrList);
-        }
-
+        mgrListService.deleteMgrList(param);
     }
 
-    @PostMapping("back/managers") //[{"mgrname":"김뚝딱"}] map in the ArrayList
+    @PostMapping("back/managers") //[{"mgrname":"김뚝딱"}] 으로 들어온 정보를 저장함
     @ResponseBody
     public void addMgrList(@RequestBody ArrayList<Map> param) {
-        for (Map<String, String> mgrMap : param) {
-            MgrList mgrList = new MgrList();
-
-            mgrList.setMgrName(mgrMap.get("mgrname"));
-
-            mgrListRepository.save(mgrList);
-        }
+        mgrListService.addMgrList(param);
     }
 
 }

@@ -1,7 +1,8 @@
 package burgerput.project.zenput.Services.loadData.zenputLoading;
 
-import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
-import burgerput.project.zenput.Services.movePage.MovePageService;
+import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParser;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.movePage.MovePageService;
 import burgerput.project.zenput.domain.Food;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepository;
 import burgerput.project.zenput.repository.foodRepository.FoodRepository;
@@ -32,7 +33,7 @@ import static burgerput.project.zenput.ConstT.FOODURL_T;
 
 @Slf4j
 @SpringBootTest
-public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput{
+public class FoodLoadingAndEnterZenputV2T implements FoodLoadingAndEnterZenput {
 
     @Autowired
     private MovePageService movePageService;

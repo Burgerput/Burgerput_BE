@@ -1,12 +1,10 @@
 package burgerput.project.zenput.Services.jsonObject;
 
+import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParser;
+import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParserV1;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONArray;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

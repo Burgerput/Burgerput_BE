@@ -1,8 +1,8 @@
 package burgerput.project.zenput.Services.loadData.zenputLoading;
 
-import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
+import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParser;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
 import burgerput.project.zenput.domain.Machine;
-import burgerput.project.zenput.repository.driverRepository.MachineDriverRepository;
 import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -33,7 +31,7 @@ import static burgerput.project.zenput.ConstT.MACHINEURL_T;
 
 @Slf4j
 @SpringBootTest
-public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZenput{
+public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZenput {
 
     //Using saved html file data
     @Autowired

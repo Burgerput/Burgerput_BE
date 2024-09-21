@@ -1,17 +1,20 @@
 package burgerput.project.zenput;
 
-import burgerput.project.zenput.Services.jsonObject.MyJsonParser;
-import burgerput.project.zenput.Services.jsonObject.MyJsonParserV1;
-import burgerput.project.zenput.Services.jwtLogin.JwtTokenProvider;
-import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoading2;
-import burgerput.project.zenput.Services.loadData.alertCheck.AlertLoadingV2;
-import burgerput.project.zenput.Services.loadData.zenputLoading.*;
-import burgerput.project.zenput.Services.movePage.MovePageService;
-import burgerput.project.zenput.Services.movePage.MovePageServiceV1;
-import burgerput.project.zenput.Services.printDatafromDB.PrintData;
-import burgerput.project.zenput.Services.printDatafromDB.PrintDataV2;
-import burgerput.project.zenput.Services.saveData.SaveData;
-import burgerput.project.zenput.Services.saveData.SaveDataV1;
+import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParser;
+import burgerput.project.zenput.Services.utils.jsonObject.MyJsonParserV1;
+import burgerput.project.zenput.Services.utils.jwtLogin.JwtTokenProvider;
+import burgerput.project.zenput.Services.utils.loadData.alertCheck.AlertLoading2;
+import burgerput.project.zenput.Services.utils.loadData.alertCheck.AlertLoadingV2;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenputV2;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenputV2;
+import burgerput.project.zenput.Services.utils.movePage.MovePageService;
+import burgerput.project.zenput.Services.utils.movePage.MovePageServiceV1;
+import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
+import burgerput.project.zenput.Services.utils.printDatafromDB.PrintDataV2;
+import burgerput.project.zenput.Services.utils.saveData.SaveData;
+import burgerput.project.zenput.Services.utils.saveData.SaveDataV1;
 import burgerput.project.zenput.intercepter.TokenInterceptor;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepository;
 import burgerput.project.zenput.repository.driverRepository.FoodDriverRepositoryV1;
@@ -28,8 +31,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -37,43 +38,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Slf4j
 public class Config implements WebMvcConfigurer {
 
-//    private final EntityManager em;
-//
-//    public Config(EntityManager em) {
-//        this.em = em;
-//    }
-
-    //SSL cross-origin set-up ======================
-//
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        WebMvcConfigurer.super.addCorsMappings(registry);
-//        registry.addMapping("/**")
-//                .allowedOrigins("https://localhost:3000", "http://localhost:3000",
-//                        "https://burgerput-test.netlify.app/")
-//                .allowedMethods("GET", "POST")
-//                .allowedHeaders("Content-Type", "Accept", "X-Requested-With", "Authorization", "cache-control")
-//                .allowCredentials(true);
-//    }
-
-    //Interceptor Settions===========================================
-//    @Bean
-//    public CheckSessionInterceptor checkSessionInterceptor() {
-//        return new CheckSessionInterceptor();
-//    }
-
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(checkSessionInterceptor())
-//                .order(1)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/*.ico", "/error", "/loading","/manifest.json", "/delCookie"
-//                        , "/index.html", "/static/**", "/logo/*", "/logo192.png", "/*.json", "/data/*");
-//
-//    }
-
-
-    //JWT Token Interceptor Bean 설정
     private final JwtTokenProvider jwtTokenProvider;
 
     @Autowired

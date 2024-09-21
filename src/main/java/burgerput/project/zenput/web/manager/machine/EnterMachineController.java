@@ -1,7 +1,9 @@
 package burgerput.project.zenput.web.manager.machine;
 
-import burgerput.project.zenput.Services.loadData.zenputLoading.MachineLoadingAndEnterZenput;
-import burgerput.project.zenput.Services.printDatafromDB.PrintData;
+import burgerput.project.zenput.Services.manager.machine.EnterMachineService;
+import burgerput.project.zenput.Services.manager.machine.EnterMachineServiceImpl;
+import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
+import burgerput.project.zenput.Services.utils.printDatafromDB.PrintData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,36 +22,17 @@ import java.util.Map;
 @Slf4j
 @RestController
 public class EnterMachineController {
-
-    private final PrintData printData;
-    private final MachineLoadingAndEnterZenput machineLoadingAndEnterZenput;
+    private final EnterMachineService enterMachineService;
 
     @GetMapping("/back/enter/machines")
     @ResponseBody
     public Map<String, ArrayList<Map>> enterMachine() {
-
-        ArrayList<Map> customMachine = printData.customMachine();
-
-        ArrayList<Map> mgrMap = printData.mgrList();
-        Map<String, ArrayList<Map>> tempMap = new LinkedHashMap<>();
-
-        tempMap.put("customMachine", customMachine);
-        tempMap.put("mgrList", mgrMap);
-
-        return tempMap;
+        return enterMachineService.enterMachine();
     }
 
     @PostMapping("/back/enter/machines")
     public Map<String, String> submitZenputMachine(@RequestBody String param) {
-        log.info("Machine Param ={}", param);
-        Map<String, String> resultMap = machineLoadingAndEnterZenput.sendValueV2(param);
-
-        Map<String, String> result = new LinkedHashMap<>();
-
-        result.put("result", resultMap.get("result").toString());
-
-        return result;
-
+        return enterMachineService.submitZenputMachine(param);
     }
 
 }
