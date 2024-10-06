@@ -78,7 +78,7 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                 machine.setMax(0);
                 result.put(machine.getId(), machine);
             } else {
-
+                int idx=0;
                 for (WebElement fields : section) {
                     List<WebElement> elements = fields.findElements(By.className("form-field"));
                     log.info("SECTION START");
@@ -93,6 +93,8 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                             if (contents.getName() == null) {
                                 //if map is empty then not save the data
                             } else {
+                                idx++;
+                                contents.setIndexValue(idx);
                                 result.put(contents.getId(), contents);
                             }
                         }
@@ -100,8 +102,8 @@ public class MachineLoadingAndEnterZenputV2T implements MachineLoadingAndEnterZe
                 }
             }
             //End process
-            driver.close();
-            driver.quit();
+//            driver.close();
+//            driver.quit();
 
         } catch (Exception e) {
             log.info(e.toString());

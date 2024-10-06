@@ -64,13 +64,8 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
 
             if (section.size() == 0) {
                 throw new NoSuchElementException("Can't enter the zenput Machine list page");
-//                Machine machine = new Machine();
-//                machine.setId(-1);
-//                machine.setName("no");
-//                machine.setMin(0);
-//                machine.setMax(0);
-//                result.put(machine.getId(), machine);
             } else {
+                int idx=0;
 
                 for (WebElement fields : section) {
                     List<WebElement> elements = fields.findElements(By.className("form-field"));
@@ -80,12 +75,13 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
                         String id = field.getAttribute("id");
 
                         if (id.equals("field_0") | id.equals("field_1") | id.equals("field_84")) {
-//                        skip it
                         } else {
+
                             Machine contents = extractIdTitle(field);
                             if (contents.getName() == null) {
-                                //if map is empty then not save the data
                             } else {
+                                idx++;
+                                contents.setIndexValue(idx);
                                 result.put(contents.getId(), contents);
                             }
                         }

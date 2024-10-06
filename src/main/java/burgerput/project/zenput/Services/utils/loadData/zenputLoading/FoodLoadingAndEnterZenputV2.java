@@ -67,7 +67,7 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
 //                result.put(food.getId(), food);
 
             } else {
-
+                int idx=0;
                 for (WebElement fields : section) {
                     List<WebElement> elements = fields.findElements(By.className("form-field"));
                     log.info("SECTION START");
@@ -78,12 +78,12 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
                         if (id.equals("field_295")) {
                             break;
                         } else {
+
                             Food contents = extractIdTitle(field);
                             if (!(contents.getName() == null)) {
-                                //if map is empty then not save the data
-                                log.info("contents ={}", contents);
+                                idx++;
+                                contents.setIndexValue(idx);
                                 result.put(contents.getId(), contents);
-
                             }
                         }
                     }

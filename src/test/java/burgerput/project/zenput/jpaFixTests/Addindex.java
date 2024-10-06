@@ -56,10 +56,10 @@ public class Addindex {
 
         //index순으로 정렬해서 다시 가져와보기
 
-        List<Machine> foundMachines = machineRepository.findAllByOrderByIndexValueAsc();
-        for(Machine machine : foundMachines){
-            log.info(machine.getName());
-        }
+//        List<Machine> foundMachines = machineRepository.findAllByOrderByIndexValueAsc();
+//        for(Machine machine : foundMachines){
+//            log.info(machine.getName());
+//        }
 
 
     }
