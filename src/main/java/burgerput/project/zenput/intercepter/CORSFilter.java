@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-
 @Component
 @Slf4j
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -28,6 +27,7 @@ public class CORSFilter implements Filter {
             "http://localhost:3000",
             "https://burgerput-test.netlify.app"
     );
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;

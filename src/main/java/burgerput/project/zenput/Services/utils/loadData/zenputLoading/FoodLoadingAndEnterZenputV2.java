@@ -59,13 +59,6 @@ public class FoodLoadingAndEnterZenputV2 implements FoodLoadingAndEnterZenput {
 
             if (section.isEmpty()) {
                 throw new NoSuchElementException("Can't enter the zenput Food list page");
-//                Food food = new Food();
-//                food.setId(-1);
-//                food.setName("no");
-//                food.setMin(0);
-//                food.setMax(0);
-//                result.put(food.getId(), food);
-
             } else {
                 int idx=0;
                 for (WebElement fields : section) {

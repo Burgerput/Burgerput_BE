@@ -66,7 +66,6 @@ public class MachineLoadingAndEnterZenputV2 implements MachineLoadingAndEnterZen
                 throw new NoSuchElementException("Can't enter the zenput Machine list page");
             } else {
                 int idx=0;
-
                 for (WebElement fields : section) {
                     List<WebElement> elements = fields.findElements(By.className("form-field"));
                     log.info("SECTION START");

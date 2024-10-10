@@ -21,7 +21,7 @@ import java.util.Map;
 @SpringBootTest
 @Import(TestConfiguration.class)
 @Slf4j
-public class LoadingAndEnterMethodTest {
+public class LoadingAndEnterMethodTest {[]
 
     @Autowired
     MachineLoadingAndEnterZenput machineLoadingAndEnterZenput;
@@ -35,8 +35,6 @@ public class LoadingAndEnterMethodTest {
 //        Map<Integer, Food> info = foodLoadingAndEnterZenput.getInfo();
         Map<Integer, Machine> info = machineLoadingAndEnterZenput.getInfo();
         log.info("info data = {}",info.toString());
-
-
 
     }
     @Test
