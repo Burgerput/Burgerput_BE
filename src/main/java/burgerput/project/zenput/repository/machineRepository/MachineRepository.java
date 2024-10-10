@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface MachineRepository extends JpaRepository<Machine, Integer> {
     @Modifying(clearAutomatically = true)
     @Query(value = "truncate table Machine", nativeQuery = true)
@@ -17,4 +19,5 @@ public interface MachineRepository extends JpaRepository<Machine, Integer> {
 
     @Query(value = "select * from Machine where id = :id ", nativeQuery = true)
     public Machine findMachineById(@Param("id") String id);
+
 }

@@ -99,7 +99,6 @@ public class PrintDataV2 implements PrintData{
             result.add(foodMap);
         }
 
-
         return result;
     }
 
@@ -148,9 +147,7 @@ public class PrintDataV2 implements PrintData{
             customFoodMap.put("max", String.valueOf(foundFood.getMax()));
 
             result.add(customFoodMap);
-
         }
-
         return result;
     }
 
@@ -222,7 +219,6 @@ public class PrintDataV2 implements PrintData{
             customCheatFoodMap.put("initMax", Integer.toString(foundCheatFood.getMax()));
 
             result.add(customCheatFoodMap);
-
         }
 
         return result;

@@ -4,6 +4,8 @@ package burgerput.project.zenput.Services.loadData.zenputLoading;
 import burgerput.project.zenput.Services.utils.loadData.zenputLoading.FoodLoadingAndEnterZenput;
 import burgerput.project.zenput.Services.utils.loadData.zenputLoading.MachineLoadingAndEnterZenput;
 import burgerput.project.zenput.TestConfiguration;
+import burgerput.project.zenput.domain.Food;
+import burgerput.project.zenput.domain.Machine;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,7 +21,7 @@ import java.util.Map;
 @SpringBootTest
 @Import(TestConfiguration.class)
 @Slf4j
-public class LoadingAndEnterMethodTest {
+public class LoadingAndEnterMethodTest {[]
 
     @Autowired
     MachineLoadingAndEnterZenput machineLoadingAndEnterZenput;
@@ -27,7 +29,14 @@ public class LoadingAndEnterMethodTest {
     @Autowired
     FoodLoadingAndEnterZenput foodLoadingAndEnterZenput;
 
+    @Test
+    @DisplayName("loading")
+    public void loading() throws Exception {
+//        Map<Integer, Food> info = foodLoadingAndEnterZenput.getInfo();
+        Map<Integer, Machine> info = machineLoadingAndEnterZenput.getInfo();
+        log.info("info data = {}",info.toString());
 
+    }
     @Test
     @DisplayName("Machine Enter")
     public void machineLoading(){

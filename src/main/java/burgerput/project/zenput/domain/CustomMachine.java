@@ -6,7 +6,7 @@ import lombok.Data;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @Data
-@Entity(name="Custom_Machine")
+@Entity(name = "Custom_Machine")
 public class CustomMachine {
 
     @JsonIgnore
@@ -20,5 +20,6 @@ public class CustomMachine {
 
     private int max;
 
+    private int indexValue;
 
 }
