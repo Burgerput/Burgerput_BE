@@ -26,11 +26,8 @@ public class SaveDataV1 implements SaveData {
     private final CustomFoodRepository customFoodRepository;
     private final CustomMachineRepository customMachineRepository;
 
-    //Zenput Page Food Machine Loading and
-    //save data to Database
     @Override
     public Map<Integer, Machine> machinezenputdatasave(Map<Integer, Machine> machineInfo) {
-        //임시로 다지우고 시작 -> 변경해야하는 로직
         machineRepository.deleteAllMIne();
 
         for (Integer key : machineInfo.keySet()) {
@@ -99,16 +96,6 @@ public class SaveDataV1 implements SaveData {
                     Integer.parseInt(String.valueOf(map.get("min"))),
                     Integer.parseInt(String.valueOf(map.get("max"))));
         }
-
-        //새로운 인자를 만들어서 생성하는 코드 나는 수정을 원하는 건데 이러면 문제가 발생한다.
-//        for (Map<String, String> map : param) {
-//            CustomFood cheatFood = new CustomFood();
-//            cheatFood.setId(Integer.parseInt(map.get("id")));
-//            cheatFood.setMin(Integer.parseInt(map.get("min")));
-//            cheatFood.setMax(Integer.parseInt(map.get("max")));
-//
-//            customFoodRepository.save(cheatFood);
-//        }
     }
 
     @Override
