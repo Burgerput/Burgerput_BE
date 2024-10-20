@@ -10,6 +10,7 @@ import burgerput.project.zenput.repository.machineRepository.CustomMachineReposi
 import burgerput.project.zenput.repository.machineRepository.MachineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
+@Component
 public class SaveDataV1 implements SaveData {
     private final MachineRepository machineRepository;
     private final FoodRepository foodRepository;
