@@ -9,7 +9,5 @@ import java.util.Map;
 
 public interface MyJsonParser {
     public ArrayList<Map> jsonStringToArrayList(String param);
-
-    //added 2024/05/21
     public List<Map<String,Object>> stringToJSONArray(String param);
 }
