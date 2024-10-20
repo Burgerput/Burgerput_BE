@@ -20,6 +20,4 @@ public class CustomMachine {
 
     private int max;
 
-    private int indexValue;
-
 }

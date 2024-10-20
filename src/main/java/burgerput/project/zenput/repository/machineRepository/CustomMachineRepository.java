@@ -5,12 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-
-public interface CustomMachineRepository extends JpaRepository<CustomMachine,Integer> {
+public interface CustomMachineRepository extends JpaRepository<CustomMachine, Integer> {
 
     @Modifying(clearAutomatically = true)
     @Query(value = "truncate table custom_machine", nativeQuery = true)
@@ -18,6 +14,6 @@ public interface CustomMachineRepository extends JpaRepository<CustomMachine,Int
 
     @Modifying(clearAutomatically = true)
     @Query(value = "update custom_machine set min = :min, max = :max where id = :id", nativeQuery = true)
-    public void updateMy(@Param("id")int id, @Param("min") int min, @Param("max") int max);
+    public void updateMy(@Param("id") int id, @Param("min") int min, @Param("max") int max);
 
 }
