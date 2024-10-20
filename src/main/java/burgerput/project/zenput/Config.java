@@ -77,38 +77,6 @@ public class Config implements WebMvcConfigurer {
     public MovePageService movePage(ZenputAccountRepository zenputAccountRepository) {
         return new MovePageServiceV1(zenputAccountRepository);
     }
-    //for memory DB Test Setting
-//    @Bean
-//    MemoryMachineRepository saveMachine() {
-//        return new MemoryMachineRepositoryV1();
-//    }
-
-    //Save Data for the Saving data to DB
-    @Bean
-    SaveData saveData(
-            MachineRepository machineRepository,
-            FoodRepository foodRepository,
-            CustomFoodRepository customFoodRepository,
-            CustomMachineRepository customMachineRepository) {
-        return new SaveDataV1(
-                machineRepository,
-                foodRepository,
-                customFoodRepository,
-                customMachineRepository);
-    }
-
-    //PrintData for the Printing Json Data
-    @Bean
-    PrintData printData(MachineRepository machineRepository,
-                        CustomMachineRepository customMachineRepository,
-                        FoodRepository foodRepository,
-                        CustomFoodRepository customFoodRepository,
-                        MgrListRepository mgrListRepository) {
-        return new PrintDataV2(machineRepository,
-                customMachineRepository,
-                foodRepository,
-                customFoodRepository, mgrListRepository);
-    }
 
     @Bean
     MyJsonParser myJsonParser() {
