@@ -48,4 +48,4 @@ src/main/resources/static/zenput/zenput_machine/Zenput.html
 
 src/main/resources/application.properties
 
-test
+src/test
