@@ -46,6 +46,6 @@ resources/application.properties
 #zenput.html (machine)
 src/main/resources/static/zenput/zenput_machine/Zenput.html
 
-/src/main/resources/application.properties
+src/main/resources/application.properties
 
-/test
+test
